@@ -12,4 +12,19 @@
   padding-top: calc(var(--header-height) + var(--category-strip-height) + 2rem);
   padding-bottom: calc(var(--footer-height) + 2rem);
   flex: 1;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  font-size: 1.2rem;
+  margin-top: 2rem;
 } 

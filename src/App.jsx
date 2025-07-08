@@ -1,12 +1,12 @@
 import styles from './App.module.css';
-import { useState } from 'react'
+import Home from './pages/Home';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className={styles.app}></div>
-  )
+    <div className={styles.app}>
+      <Home />
+    </div>
+  );
 }
 
-export default App
+export default App;

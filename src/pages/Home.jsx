@@ -25,10 +25,18 @@ const CATEGORY_SLUGS = [
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState("a-z games");
 
-  // Filter games by active category (case-sensitive, kebab-case)
-  const filteredGames = games.filter(game =>
-    game.categories && game.categories.includes(activeCategory)
-  );
+  let filteredGames;
+  if (activeCategory === "a-z games") {
+    filteredGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (activeCategory === "see more") {
+    filteredGames = games.filter(game =>
+      game.categories && game.categories.includes("see more")
+    );
+  } else {
+    filteredGames = games.filter(game =>
+      game.categories && game.categories.includes(activeCategory)
+    );
+  }
 
   return (
     <div className={styles.layout}>
@@ -42,14 +50,20 @@ const Home = () => {
           {filteredGames.length === 0 ? (
             <div className={styles.empty}>No games found in this category.</div>
           ) : (
-            filteredGames.map((game) => (
-              <GameCard
-                key={game.slug}
-                title={game.name}
-                description={game.description}
-                slug={game.slug}
-              />
-            ))
+            filteredGames.map((game) => {
+              // For 'see more', link to /category/[primaryCategorySlug] instead of /game/[slug]
+              const isSeeMore = activeCategory === "see more";
+              const primaryCategory = game.categories && game.categories.length > 0 ? game.categories[0] : "";
+              return (
+                <GameCard
+                  key={game.slug}
+                  title={game.name}
+                  description={game.description}
+                  slug={game.slug}
+                  route={isSeeMore ? `/category/${primaryCategory}` : undefined}
+                />
+              );
+            })
           )}
         </div>
       </main>

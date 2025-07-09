@@ -4,17 +4,20 @@ import { Routes, Route } from "react-router-dom";
 import AllCategories from "./pages/AllCategories";
 import NotFound from "./pages/NotFound";
 import GameWrapper from "./components/GameWrapper";
+import { ToastProvider } from "./context/ToastProvider";
 
 function App() {
   return (
-    <div className={styles.app}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/categories" element={<AllCategories />} />
-        <Route path="/game/:gameId" element={<GameWrapper />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+    <ToastProvider>
+      <div className={styles.app}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/categories" element={<AllCategories />} />
+          <Route path="/game/:gameId" element={<GameWrapper />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </ToastProvider>
   );
 }
 

@@ -22,3 +22,80 @@
   font-weight: bold;
   color: inherit;
 }
+
+.desktopNav {
+  display: flex;
+}
+
+.mobileNav {
+  display: none;
+}
+
+/* Hamburger styles */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+.bar {
+  width: 26px;
+  height: 3px;
+  background: #fff;
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: var(--brand-blue);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  animation: slideDown 0.25s ease;
+  z-index: 1099;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobileTab {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.mobileTab.active {
+  background: var(--brand-yellow);
+  color: var(--brand-blue);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+  .mobileNav {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+}

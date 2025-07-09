@@ -61,6 +61,8 @@ const Home = () => {
                   description={game.description}
                   slug={game.slug}
                   route={isSeeMore ? `/category/${primaryCategory}` : undefined}
+                  new={game.new}
+                  featured={game.featured}
                 />
               );
             })

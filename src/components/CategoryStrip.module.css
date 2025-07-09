@@ -11,7 +11,7 @@
   justify-content: center;
   background: var(--brand-yellow);
   z-index: 900;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   border-bottom: none;
   padding: 0 1rem;
 }
@@ -87,4 +87,4 @@
 .tab.active:nth-child(5) {
   background-color: var(--brand-yellow);
   color: var(--text-dark);
-} 
+}

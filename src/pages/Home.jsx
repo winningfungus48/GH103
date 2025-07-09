@@ -1,27 +1,41 @@
-import styles from './Home.module.css';
-import Header from '../components/Header';
-import CategoryStrip from '../components/CategoryStrip';
-import Footer from '../components/Footer';
-import { games } from '../data/games';
-import GameCard from '../components/GameCard';
-import { useState } from 'react';
+import styles from "./Home.module.css";
+import Header from "../components/Header";
+import CategoryStrip from "../components/CategoryStrip";
+import Footer from "../components/Footer";
+import games from "../data/gamesData";
+import GameCard from "../components/GameCard";
+import { useState } from "react";
 
-const CATEGORY_TABS = ['A-Z Games', 'Favorites', '-le Games', 'Sports', 'See More'];
+const CATEGORY_TABS = [
+  "a-z games",
+  "favorites",
+  "-le games",
+  "sports",
+  "see more",
+];
+
+const CATEGORY_SLUGS = [
+  "a-z games",
+  "favorites",
+  "-le games",
+  "sports",
+  "see more",
+];
 
 const Home = () => {
-  const [activeCategory, setActiveCategory] = useState('A-Z Games');
+  const [activeCategory, setActiveCategory] = useState("a-z games");
 
-  const filteredGames =
-    activeCategory === 'See More'
-      ? []
-      : games.filter((game) => game.categories.includes(activeCategory));
+  // Filter games by active category (case-sensitive, kebab-case)
+  const filteredGames = games.filter(game =>
+    game.categories && game.categories.includes(activeCategory)
+  );
 
   return (
     <div className={styles.layout}>
       <Header />
       <CategoryStrip
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
+        activeCategory={CATEGORY_TABS.find(tab => tab.toLowerCase() === activeCategory) || CATEGORY_TABS[0]}
+        onCategoryChange={tab => setActiveCategory(tab.toLowerCase())}
       />
       <main className={styles.grid}>
         <div className={styles.cardsGrid}>
@@ -30,10 +44,10 @@ const Home = () => {
           ) : (
             filteredGames.map((game) => (
               <GameCard
-                key={game.id}
-                title={game.title}
+                key={game.slug}
+                title={game.name}
                 description={game.description}
-                route={game.route}
+                slug={game.slug}
               />
             ))
           )}
@@ -44,4 +58,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;

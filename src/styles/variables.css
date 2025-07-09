@@ -6,13 +6,13 @@
   --brand-yellow-light: #fef3c7;
   --brand-purple: #7c3aed;
   --brand-purple-light: #ede9fe;
-  
+
   /* Layout */
   --header-height: 64px;
   --category-strip-height: 56px;
   --footer-height: 56px;
-  
+
   /* Text Colors */
   --text-dark: #1f2937;
   --text-light: #ffffff;
-} 
+}

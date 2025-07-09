@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numberle</title>
+    <link rel="stylesheet" href="numberle-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="../../index.html" style="position:absolute;left:24px;top:24px;background:#fff;color:#22223b;padding:0.5rem 1.2rem;border-radius:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(34,34,59,0.08);font-size:1rem;z-index:1000;transition:background 0.2s;">← Back to Games</a>
+    <div id="welcome-overlay" class="welcome-overlay">
+      <div class="welcome-modal">
+        <button class="welcome-close" id="welcome-close" aria-label="Close">&times;</button>
+        <div class="welcome-content">
+          <img src="numberle-logo.svg" alt="Numberle logo" class="numberle-logo" style="margin-bottom:18px;">
+          <h2 class="welcome-title">Welcome to Numberle</h2>
+          <p class="welcome-desc">Get 6 chances to guess<br>a 5-digit number</p>
+          <button class="welcome-play" id="welcome-play">Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <header>
+            <div class="logo-title-row" style="justify-content: center;">
+                <img src="numberle-logo.svg" alt="Numberle logo" class="numberle-logo">
+                <h1>Numberle</h1>
+            </div>
+            <p class="subtitle">Guess the 5-digit number in 6 tries</p>
+        </header>
+        <div class="game-container">
+            <div id="board" class="board"></div>
+            <div class="message" id="message"></div>
+            <div class="number-pad-container">
+                <div class="number-pad" id="number-pad"></div>
+                <div class="action-buttons">
+                    <button id="delete-btn" class="action-btn">⌫</button>
+                    <button id="enter-btn" class="action-btn">Enter</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <h2 id="modal-title"></h2>
+                <p id="modal-message"></p>
+                <div id="stats" class="stats"></div>
+                <button id="play-again-btn" class="play-again-btn">Play Again</button>
+                <button id="close-modal" class="close-button">Close</button>
+            </div>
+        </div>
+        <div id="endgame-overlay" class="endgame-overlay">
+            <div class="endgame-modal">
+                <div class="endgame-content">
+                    <h2 class="endgame-title" id="endgame-title">Game Over</h2>
+                    <p class="endgame-message" id="endgame-message"></p>
+                    <div class="endgame-buttons">
+                        <button class="playagain-btn" id="playagain-btn">Play Again</button>
+                        <button class="backhome-btn" id="backhome-btn">Back to Games</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="numberle-script.js"></script>
+</body>
+</html> 

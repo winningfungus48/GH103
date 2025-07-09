@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import styles from './NotFound.module.css';
+import { Link } from "react-router-dom";
+import styles from "./NotFound.module.css";
 
 const NotFound = () => (
   <div className={styles.notFoundContainer}>
@@ -10,4 +10,4 @@ const NotFound = () => (
   </div>
 );
 
-export default NotFound; 
+export default NotFound;

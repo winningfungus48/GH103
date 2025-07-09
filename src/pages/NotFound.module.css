@@ -24,11 +24,12 @@
   font-weight: 600;
   text-decoration: none;
   transition: background 0.18s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
-.homeLink:hover, .homeLink:focus {
+.homeLink:hover,
+.homeLink:focus {
   background: var(--brand-purple);
   color: var(--text-light);
   outline: none;
-} 
+}

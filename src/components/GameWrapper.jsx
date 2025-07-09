@@ -1,0 +1,34 @@
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import games from "../data/gamesData";
+
+const GameWrapper = () => {
+  const { gameId } = useParams();
+  const game = games.find(g => g.slug === gameId);
+
+  if (!game) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "3rem" }}>
+        <h2>Game Not Found</h2>
+        <Link to="/">Back to Home</Link>
+      </div>
+    );
+  }
+
+  const GameComponent = game.component;
+
+  return (
+    <div style={{ maxWidth: 600, margin: "2rem auto", padding: 24, border: "1px solid #eee", borderRadius: 8, background: "#fff" }}>
+      <header style={{ marginBottom: 24 }}>
+        <h1 style={{ fontSize: "2rem", margin: 0 }}>{game.name}</h1>
+        <div style={{ fontWeight: 500, color: "#555", marginBottom: 12 }}>Now Playing: {game.name}</div>
+        <Link to="/" style={{ color: "#007bff", textDecoration: "none", fontSize: 16 }}>&larr; Back to Home</Link>
+      </header>
+      <section style={{ minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "#f9f9f9", borderRadius: 4 }}>
+        <GameComponent />
+      </section>
+    </div>
+  );
+};
+
+export default GameWrapper; 

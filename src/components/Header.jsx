@@ -1,4 +1,4 @@
-import styles from './Header.module.css';
+import styles from "./Header.module.css";
 
 const Header = () => {
   return (
@@ -8,4 +8,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;

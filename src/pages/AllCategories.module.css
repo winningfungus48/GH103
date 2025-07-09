@@ -41,22 +41,25 @@
   justify-content: center;
   background: var(--brand-yellow-light);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 2.5rem 1rem 1.5rem 1rem;
   text-decoration: none;
   color: var(--brand-blue);
   font-size: 1.2rem;
   font-weight: 600;
-  transition: background 0.18s, box-shadow 0.18s;
+  transition:
+    background 0.18s,
+    box-shadow 0.18s;
   cursor: pointer;
   min-height: 120px;
   outline: none;
 }
 
-.categoryCard:hover, .categoryCard:focus {
+.categoryCard:hover,
+.categoryCard:focus {
   background: var(--brand-yellow);
   color: var(--text-dark);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
 }
 
 .icon {
@@ -67,4 +70,4 @@
 .name {
   font-size: 1.1rem;
   font-weight: 700;
-} 
+}

@@ -8,11 +8,19 @@
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.18s;
+  transition: all 0.35s ease;
   align-self: flex-end;
+  transform: scale(1);
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
   background: var(--brand-purple);
   color: var(--text-light);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.button:active {
+  transform: scale(1.02);
 } 

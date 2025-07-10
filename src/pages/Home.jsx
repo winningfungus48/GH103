@@ -6,6 +6,7 @@ import games from "../data/gamesData";
 import GameCard from "../components/GameCard";
 import { useState, useEffect } from "react";
 import { getLastCategory } from "../utils/localStorage";
+import { useFavorites } from "../context/FavoritesProvider";
 
 const CATEGORY_TABS = [
   "a-z games",
@@ -25,6 +26,7 @@ const CATEGORY_SLUGS = [
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState("a-z games");
+  const { favorites } = useFavorites();
 
   // Load the last selected category from localStorage on component mount
   useEffect(() => {
@@ -35,6 +37,9 @@ const Home = () => {
   let filteredGames;
   if (activeCategory === "a-z games") {
     filteredGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (activeCategory === "favorites") {
+    // Filter games based on favorites array from context
+    filteredGames = games.filter(game => favorites.includes(game.slug));
   } else if (activeCategory === "see more") {
     filteredGames = games.filter(game =>
       game.categories && game.categories.includes("see more")

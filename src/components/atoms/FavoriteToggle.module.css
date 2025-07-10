@@ -5,21 +5,40 @@
   padding: 0.5rem;
   border-radius: 50%;
   color: #666;
-  transition: all 0.2s ease;
+  transition: all 0.35s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: scale(1);
 }
 
-.favoriteButton:hover {
+.favoriteButton:hover,
+.favoriteButton:focus {
   background: rgba(0, 0, 0, 0.05);
   color: #e53e3e;
+  transform: scale(1.1);
+  animation: pulse 0.6s ease-in-out;
 }
 
 .favoriteButton.favorited {
   color: #e53e3e;
 }
 
-.favoriteButton.favorited:hover {
+.favoriteButton.favorited:hover,
+.favoriteButton.favorited:focus {
   color: #c53030;
+  transform: scale(1.1);
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 } 

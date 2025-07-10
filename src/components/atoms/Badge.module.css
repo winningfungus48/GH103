@@ -1,0 +1,21 @@
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  padding: 0.18em 0.7em;
+  margin-right: 6px;
+  margin-top: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  letter-spacing: 0.03em;
+  position: relative;
+  z-index: 2;
+  transition: all 0.35s ease;
+  cursor: help;
+}
+
+.badge:hover,
+.badge:focus {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+} 

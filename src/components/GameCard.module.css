@@ -18,37 +18,11 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
 }
 
-.title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: var(--brand-blue);
-}
-
 .description {
   font-size: 1rem;
   color: #333;
   margin-bottom: 1.25rem;
   flex: 1;
-}
-
-.button {
-  background: var(--brand-blue);
-  color: var(--text-light);
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.18s;
-  align-self: flex-end;
-}
-
-.button:hover {
-  background: var(--brand-purple);
-  color: var(--text-light);
 }
 
 @media (max-width: 700px) {

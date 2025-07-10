@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import games from "../data/gamesData";
+import { addToRecentlyPlayed } from "../utils/localStorage";
 
 const GameWrapper = () => {
   const { gameId } = useParams();
   const game = games.find(g => g.slug === gameId);
+
+  // Track recently played games
+  useEffect(() => {
+    if (gameId) {
+      addToRecentlyPlayed(gameId);
+    }
+  }, [gameId]);
 
   if (!game) {
     return (

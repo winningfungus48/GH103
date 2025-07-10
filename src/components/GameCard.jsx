@@ -1,6 +1,7 @@
 import styles from "./GameCard.module.css";
-import { Link } from "react-router-dom";
 import Badge from "./atoms/Badge";
+import GameTitle from "./atoms/GameTitle";
+import GameCardFooter from "./molecules/GameCardFooter";
 
 const GameCard = ({ title, description, slug, route, new: isNew, featured }) => {
   return (
@@ -11,11 +12,9 @@ const GameCard = ({ title, description, slug, route, new: isNew, featured }) => 
           {featured && <Badge type="featured">Featured</Badge>}
         </div>
       )}
-      <h2 className={styles.title}>{title}</h2>
+      <GameTitle title={title} />
       <p className={styles.description}>{description}</p>
-      <Link to={route || `/game/${slug}`} className={styles.button}>
-        Play Now
-      </Link>
+      <GameCardFooter slug={slug} route={route} />
     </div>
   );
 };

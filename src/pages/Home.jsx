@@ -4,7 +4,8 @@ import CategoryStrip from "../components/CategoryStrip";
 import Footer from "../components/Footer";
 import games from "../data/gamesData";
 import GameCard from "../components/GameCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getLastCategory } from "../utils/localStorage";
 
 const CATEGORY_TABS = [
   "a-z games",
@@ -24,6 +25,12 @@ const CATEGORY_SLUGS = [
 
 const Home = () => {
   const [activeCategory, setActiveCategory] = useState("a-z games");
+
+  // Load the last selected category from localStorage on component mount
+  useEffect(() => {
+    const lastCategory = getLastCategory();
+    setActiveCategory(lastCategory);
+  }, []);
 
   let filteredGames;
   if (activeCategory === "a-z games") {

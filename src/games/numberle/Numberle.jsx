@@ -344,7 +344,7 @@ const Numberle = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container numberle-main-container">
       {/* Welcome Modal */}
       {showWelcomeModal && (
         <div className="welcome-overlay">
@@ -376,45 +376,45 @@ const Numberle = () => {
         <p className="subtitle">Guess the 5-digit number in 6 tries</p>
       </header>
 
-      <div className="game-container">
-        <div className="board">
-          {board.map((row, rowIndex) => (
-            <div key={rowIndex} className="row">
-              {row.map((tile, colIndex) => (
-                <div 
-                  key={colIndex} 
-                  className={`tile ${tile.status}`}
-                >
-                  {tile.value}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        
-        <div className="message">{message}</div>
-        
-        <div className="number-pad-container">
-          <div className="number-pad">
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-              <button
-                key={num}
-                className={`number-btn ${numberPadColors[num] || ''}`}
-                onClick={() => inputNumber(num)}
-              >
-                {num}
-              </button>
+      <div className="numberle-wrapper">
+        <div className="game-container">
+          <div className="board">
+            {board.map((row, rowIndex) => (
+              <div key={rowIndex} className="row">
+                {row.map((tile, colIndex) => (
+                  <div 
+                    key={colIndex} 
+                    className={`tile ${tile.status}`}
+                  >
+                    {tile.value}
+                  </div>
+                ))}
+              </div>
             ))}
           </div>
-          <div className="action-buttons">
-            <button className="action-btn" onClick={deleteNumber}>⌫</button>
-            <button 
-              className="action-btn" 
-              onClick={submitGuess}
-              disabled={gameState.currentCol !== 5}
-            >
-              Enter
-            </button>
+          <div className="message">{message}</div>
+          <div className="number-pad-container">
+            <div className="number-pad">
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                <button
+                  key={num}
+                  className={`number-btn ${numberPadColors[num] || ''}`}
+                  onClick={() => inputNumber(num)}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+            <div className="action-buttons">
+              <button className="action-btn" onClick={deleteNumber}>⌫</button>
+              <button 
+                className="action-btn" 
+                onClick={submitGuess}
+                disabled={gameState.currentCol !== 5}
+              >
+                Enter
+              </button>
+            </div>
           </div>
         </div>
       </div>

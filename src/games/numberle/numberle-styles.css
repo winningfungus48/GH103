@@ -791,3 +791,75 @@ h1 {
   gap: 16px;
   width: 100%;
 } 
+
+.numberle-main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: inherit;
+}
+
+.numberle-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--background, #fff);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  min-height: 60vh;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .numberle-wrapper {
+    max-width: 100%;
+    padding: 1.25rem 1rem;
+    border-radius: 10px;
+  }
+  .game-container {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .numberle-wrapper {
+    padding: 1rem 0.5rem;
+    min-height: 70vh;
+  }
+  .game-container {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+}
+
+/* Ensure the board and keypad stack vertically on small screens */
+@media (max-width: 700px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .board, .number-pad-container {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Allow vertical scroll if needed on short screens */
+@media (max-height: 600px) {
+  .numberle-main-container {
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  .numberle-wrapper {
+    min-height: 80vh;
+  }
+} 

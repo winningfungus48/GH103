@@ -2,6 +2,7 @@ import React from 'react';
 import { useFavorites } from '../../context/FavoritesProvider';
 import Tooltip from './Tooltip';
 import styles from './FavoriteToggle.module.css';
+import { trackEvent } from '../../utils/analytics';
 
 const FavoriteToggle = ({ slug }) => {
   const { favorites, toggleFavorite } = useFavorites();
@@ -11,6 +12,12 @@ const FavoriteToggle = ({ slug }) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(slug);
+    // Track analytics events safely with dev-only logging
+    try {
+      trackEvent("favorite_toggle", { slug, status: !isFavorite });
+    } catch (err) {
+      if (import.meta.env.DEV) console.warn("Tracking error:", err);
+    }
   };
 
   const tooltipText = isFavorite ? 'Remove from favorites' : 'Add to favorites';

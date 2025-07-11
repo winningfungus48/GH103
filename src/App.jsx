@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import GameWrapper from "./components/GameWrapper";
 import { ToastProvider } from "./context/ToastProvider";
 import { FavoritesProvider } from "./context/FavoritesProvider";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<AllCategories />} />
             <Route path="/game/:gameId" element={<GameWrapper />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

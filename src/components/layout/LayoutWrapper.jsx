@@ -4,48 +4,57 @@ import layoutUtils from '../../styles/layout.module.css';
 import Header from '../Header';
 import CategoryStrip from '../CategoryStrip';
 import Footer from './Footer';
-import useScrollAtBottom from '../../hooks/useScrollAtBottom';
 import BackToTop from '../ui/BackToTop';
+import { Helmet } from 'react-helmet-async';
 
 // LayoutWrapper provides a flexible global layout for all major pages.
 // Props:
 // - showHeader: controls whether the blue header is rendered (default: true)
 // - showCategoryStrip: controls whether the orange category strip is rendered (default: true)
-// - footerTheme: controls the footer color/theme (default: 'purple')
+// - pageTitle: sets the <title> tag for SEO (optional)
+// - metaDescription: sets the <meta name="description"> tag (optional)
+// - keywords: array of keywords for <meta name="keywords"> (optional)
 const LayoutWrapper = ({
   children,
   showHeader = true,
   showCategoryStrip = true,
-  footerTheme = 'purple',
+  pageTitle = 'Game Hub – Play Free Puzzle Games',
+  metaDescription = 'Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!',
+  keywords = ['games', 'puzzle', 'logic', 'free', 'browser', 'fun'],
 }) => {
-  // Use scroll detection to control footer visibility
-  const isAtBottom = useScrollAtBottom(100);
-
   return (
-    <div className={styles.layoutWrapper}>
-      {/* Render header if showHeader is true */}
-      {showHeader && (
-        <div className={styles.headerWrapper}>
-          <Header />
+    <>
+      {/* SEO metadata for the page */}
+      <Helmet>
+        {pageTitle && <title>{pageTitle}</title>}
+        {metaDescription && <meta name="description" content={metaDescription} />}
+        {keywords && <meta name="keywords" content={keywords.join(", ")} />}
+      </Helmet>
+      <div className={styles.layoutWrapper}>
+        {/* Render header if showHeader is true */}
+        {showHeader && (
+          <div className={styles.headerWrapper}>
+            <Header />
+          </div>
+        )}
+        {/* Render category strip if showCategoryStrip is true */}
+        {showCategoryStrip && (
+          <div className={styles.categoryStripWrapper}>
+            <CategoryStrip />
+          </div>
+        )}
+        {/* Main content always rendered, constrained by .container */}
+        <main className={layoutUtils.container}>
+          {children}
+        </main>
+        {/* Footer component handles its own visibility based on scroll position */}
+        <div className={styles.footerContainer}>
+          <Footer />
         </div>
-      )}
-      {/* Render category strip if showCategoryStrip is true */}
-      {showCategoryStrip && (
-        <div className={styles.categoryStripWrapper}>
-          <CategoryStrip />
-        </div>
-      )}
-      {/* Main content always rendered, constrained by .container */}
-      <main className={layoutUtils.container}>
-        {children}
-      </main>
-      {/* Footer always mounted, but animates in/out based on scroll */}
-      <footer className={styles.footerWrapper}>
-        <Footer theme={footerTheme} isVisible={isAtBottom} />
-      </footer>
-      {/* BackToTop button appears globally on all pages */}
-      <BackToTop />
-    </div>
+        {/* BackToTop button appears globally on all pages */}
+        <BackToTop />
+      </div>
+    </>
   );
 };
 

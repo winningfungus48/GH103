@@ -6,6 +6,9 @@ import { getLastCategory } from "../utils/localStorage";
 import { useFavorites } from "../context/FavoritesProvider";
 import LayoutWrapper from "../components/layout/LayoutWrapper";
 import CategoryStrip from "../components/CategoryStrip";
+import AdBanner from "../components/ads/AdBanner";
+import layoutUtils from "../styles/layout.module.css";
+import { trackEvent } from "../utils/analytics";
 
 const CATEGORY_SLUGS = [
   "a-z games",
@@ -25,6 +28,16 @@ const Home = () => {
     setActiveCategory(lastCategory);
   }, []);
 
+  // Track homepage view
+  useEffect(() => {
+    // Track analytics events safely with dev-only logging
+    try {
+      trackEvent("page_view", { page: "home" });
+    } catch (err) {
+      if (import.meta.env.DEV) console.warn("Tracking error:", err);
+    }
+  }, []);
+
   let filteredGames;
   if (activeCategory === "a-z games") {
     filteredGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
@@ -42,12 +55,17 @@ const Home = () => {
   }
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper
+      pageTitle="Game Hub – Free Browser Puzzle Games"
+      metaDescription="Game Hub is a collection of fun and free mini-games you can play in-browser. No downloads or sign-ups needed!"
+      keywords={["puzzle games", "free games", "browser games", "wordle", "numberle"]}
+    >
       <CategoryStrip
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-      <div className={styles.layout}>
+      <div className={layoutUtils.container}>
+        <AdBanner position="top" />
         <main className={styles.grid}>
           <div className={styles.cardsGrid}>
             {filteredGames.length === 0 ? (

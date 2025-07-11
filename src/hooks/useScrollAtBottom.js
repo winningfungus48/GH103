@@ -17,13 +17,18 @@ function useScrollAtBottom(threshold = 100) {
     function checkAtBottom() {
       const scrollY = window.scrollY || window.pageYOffset;
       const windowHeight = window.innerHeight;
-      const bodyHeight = document.body.offsetHeight;
-      // If the page is too short to scroll, treat as "at bottom"
-      if (windowHeight >= bodyHeight) {
+      const scrollableHeight = document.documentElement.scrollHeight - windowHeight;
+      
+      // Show footer even on short pages that don't require scrolling
+      // Ensures consistent footer visibility across all layouts
+      if (scrollableHeight <= 0) {
         setIsAtBottom(true);
         return;
       }
-      setIsAtBottom(windowHeight + scrollY >= bodyHeight - threshold);
+      
+      // Check if scrolled to bottom (within threshold)
+      const scrolledToBottom = scrollY >= scrollableHeight - threshold;
+      setIsAtBottom(scrolledToBottom);
     }
 
     // Initial check

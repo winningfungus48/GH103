@@ -7,7 +7,12 @@
  * TODO: Integrate with analytics provider (e.g., Plausible, Google Analytics) in Phase 10.
  */
 export function trackEvent(eventName, metadata) {
-  // Stub: log to console for now
-  // eslint-disable-next-line no-console
-  console.log('[Analytics] Event:', eventName, metadata || '');
-} 
+  // Log events to the console only during development
+  // Prevents clutter in production and avoids accidental data leakage
+  if (import.meta.env.DEV) {
+    console.log(`[trackEvent] ${eventName}`, metadata || '');
+  }
+
+  // Future: integrate real analytics provider (GA4, Plausible, etc.)
+}
+// Wrap trackEvent in try/catch to prevent app crashes in case of analytics errors 

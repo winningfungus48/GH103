@@ -1,0 +1,16 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  background: inherit;
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    padding: 1rem;
+  }
+} 

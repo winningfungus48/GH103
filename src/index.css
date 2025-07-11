@@ -1,5 +1,10 @@
 @import "./styles/variables.css";
 
+html, body, #root {
+  min-height: 100vh;
+  height: 100%;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

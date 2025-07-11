@@ -1,0 +1,12 @@
+/*
+  .container utility class for page-wide horizontal layout normalization.
+  Use this to constrain content width and apply consistent horizontal padding.
+*/
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+} 

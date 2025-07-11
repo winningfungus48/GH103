@@ -1,31 +1,30 @@
 import styles from "./CategoryStrip.module.css";
 import { setLastCategory } from "../utils/localStorage";
 
-const tabs = ["A-Z Games", "Favorites", "-le Games", "Sports"];
+const tabs = [
+  { label: "A-Z Games", slug: "a-z games" },
+  { label: "Favorites", slug: "favorites" },
+  { label: "-le Games", slug: "-le games" },
+  { label: "Sports", slug: "sports" }
+];
 
 const CategoryStrip = ({ activeCategory, onCategoryChange }) => {
-  const handleCategoryChange = (tab) => {
-    // Convert the display name to the lowercase slug format used in Home component
-    const categorySlug = tab.toLowerCase();
-    
-    // Save to localStorage
-    setLastCategory(categorySlug);
-    
-    // Call the original onCategoryChange function
-    onCategoryChange(tab);
+  const handleCategoryChange = (slug) => {
+    setLastCategory(slug);
+    onCategoryChange(slug);
   };
 
   return (
     <div className={styles.categoryStrip}>
       {tabs.map((tab) => (
         <button
-          key={tab}
-          className={`${styles.tab} ${activeCategory === tab ? styles.active : ""}`}
-          onClick={() => handleCategoryChange(tab)}
+          key={tab.slug}
+          className={`${styles.tab} ${activeCategory === tab.slug ? styles.active : ""}`}
+          onClick={() => handleCategoryChange(tab.slug)}
           tabIndex={0}
-          aria-current={activeCategory === tab ? "page" : undefined}
+          aria-current={activeCategory === tab.slug ? "page" : undefined}
         >
-          {tab}
+          {tab.label}
         </button>
       ))}
     </div>

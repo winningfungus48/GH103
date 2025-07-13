@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import games from "../data/gamesData";
+import { useParams, Link, useSearchParams } from "react-router-dom";
+import games from "../data/gamesData.jsx";
 import { addToRecentlyPlayed } from "../utils/localStorage";
 import styles from "./GameWrapper.module.css";
 import LayoutWrapper from "./layout/LayoutWrapper";
@@ -9,11 +9,17 @@ import NowPlayingBar from "./game/NowPlayingBar";
 import AdBanner from "./ads/AdBanner";
 import layoutUtils from "../styles/layout.module.css";
 
-const showAds = true; // Hardcoded flag for now
+console.log("[GameWrapper.jsx] Loaded games:", games);
+
+const showAds = false; // Hide ad placeholder for now
 
 const GameWrapper = () => {
+  console.log("[GameWrapper.jsx] Rendering GameWrapper");
   const { gameId } = useParams();
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get('mode');
   const game = games.find(g => g.slug === gameId);
+  console.log("[GameWrapper.jsx] game:", game);
 
   // Track recently played games and analytics
   useEffect(() => {
@@ -21,13 +27,13 @@ const GameWrapper = () => {
       addToRecentlyPlayed(gameId);
       // Track analytics events safely with dev-only logging
       try {
-        trackEvent("page_view", { page: `game/${game.slug}` });
-        trackEvent("game_view", { name: game.name });
+        trackEvent("page_view", { page: `game/${game.slug}`, mode });
+        trackEvent("game_view", { name: game.name, mode });
       } catch (err) {
         if (import.meta.env.DEV) console.warn("Tracking error:", err);
       }
     }
-  }, [game, gameId]);
+  }, [game, gameId, mode]);
 
   // Game pages override layout defaults to maximize immersion:
   // - Hide header and category strip
@@ -52,13 +58,39 @@ const GameWrapper = () => {
     );
   }
 
+  // Handle daily mode for non-daily games
+  if (mode === "daily" && !game.supportsDaily) {
+    return (
+      <LayoutWrapper 
+        showHeader={false} 
+        showCategoryStrip={false}
+        pageTitle={`${game.name} – Daily Mode Not Available`}
+        metaDescription="Daily mode is not available for this game."
+        keywords={["game hub", "daily mode", game.name]}
+      >
+        <div className={styles.wrapper}>
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <h2>Daily Mode Not Available</h2>
+            <p style={{ color: "#666", marginBottom: "1rem" }}>
+              This game doesn't support daily mode yet.
+            </p>
+            <Link to={`/game/${game.slug}`} style={{ color: "#007bff", textDecoration: "none", fontSize: 16 }}>
+              Play Regular Game
+            </Link>
+          </div>
+        </div>
+      </LayoutWrapper>
+    );
+  }
+
   const GameComponent = game.component;
+  console.log("[GameWrapper.jsx] GameComponent:", GameComponent);
 
   return (
     <LayoutWrapper 
       showHeader={false} 
       showCategoryStrip={false}
-      pageTitle={`${game.name} – Play Now on Game Hub`}
+      pageTitle={`${game.name}${mode === "daily" ? " – Daily Challenge" : ""} – Play Now on Game Hub`}
       metaDescription={game.metaDescription || "Play free puzzle games in your browser. No sign-up needed."}
       keywords={game.keywords || ["game hub", "browser games", "puzzle games"]}
     >
@@ -66,7 +98,10 @@ const GameWrapper = () => {
       <NowPlayingBar gameTitle={game.name} visible={false} />
       <div className={styles.wrapper}>
         <header style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: "2rem", margin: 0 }}>{game.name}</h1>
+          <h1 style={{ fontSize: "2rem", margin: 0 }}>
+            {game.name}
+            {mode === "daily" && <span style={{ fontSize: "1rem", color: "#007bff", marginLeft: "0.5rem" }}>Daily Challenge</span>}
+          </h1>
           <div style={{ fontWeight: 500, color: "#555", marginBottom: 12 }}>Now Playing: {game.name}</div>
           <Link to="/" style={{ color: "#007bff", textDecoration: "none", fontSize: 16 }}>&larr; Back to Home</Link>
         </header>
@@ -76,7 +111,7 @@ const GameWrapper = () => {
           </div>
         )}
         <section style={{ minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "#f9f9f9", borderRadius: 4 }}>
-          <GameComponent />
+          <GameComponent mode={mode} />
         </section>
       </div>
     </LayoutWrapper>

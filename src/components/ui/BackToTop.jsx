@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import styles from './BackToTop.module.css';
 
 // Custom hook to detect if scrollY > threshold
@@ -23,24 +23,29 @@ function useScrollThreshold(threshold = 500) {
  * BackToTop button appears after scrolling down, and scrolls smoothly to top.
  * Accessible, animated, and reusable.
  */
-const BackToTop = () => {
-  const show = useScrollThreshold(500);
+// const BackToTop = () => {
+//   const show = useScrollThreshold(500);
 
-  const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+//   const handleClick = () => {
+//     window.scrollTo({ top: 0, behavior: 'smooth' });
+//   };
 
-  return (
-    <button
-      className={`${styles.backToTop} ${show ? styles.visible : styles.hidden}`}
-      onClick={handleClick}
-      aria-label="Back to top"
-      tabIndex={0}
-      type="button"
-    >
-      <span className={styles.icon} aria-hidden="true">↑</span> Back to Top
-    </button>
-  );
-};
+//   console.log('[BackToTop] rendered');
 
-export default BackToTop; 
+//   return (
+//     <button
+//       className={`${styles.backToTop} ${show ? styles.visible : styles.hidden}`}
+//       onClick={handleClick}
+//       aria-label="Back to top"
+//       tabIndex={0}
+//       type="button"
+//     >
+//       <span className={styles.icon} aria-hidden="true">↑</span> Back to Top
+//     </button>
+//   );
+// };
+
+// Temporarily hide BackToTop button for layout debugging
+export default function BackToTop() {
+  return null;
+} 

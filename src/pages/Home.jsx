@@ -1,5 +1,5 @@
 import styles from "./Home.module.css";
-import games from "../data/gamesData";
+import games from "../data/gamesData.jsx";
 import GameCard from "../components/GameCard";
 import { useState, useEffect } from "react";
 import { getLastCategory } from "../utils/localStorage";
@@ -10,6 +10,8 @@ import AdBanner from "../components/ads/AdBanner";
 import layoutUtils from "../styles/layout.module.css";
 import { trackEvent } from "../utils/analytics";
 
+console.log("[Home.jsx] Loaded games:", games);
+
 const CATEGORY_SLUGS = [
   "a-z games",
   "favorites",
@@ -19,6 +21,7 @@ const CATEGORY_SLUGS = [
 ];
 
 const Home = () => {
+  console.log("[Home.jsx] Rendering Home");
   const [activeCategory, setActiveCategory] = useState("a-z games");
   const { favorites } = useFavorites();
 

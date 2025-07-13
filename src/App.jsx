@@ -1,6 +1,6 @@
 import styles from "./App.module.css";
 import Home from "./pages/Home";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import AllCategories from "./pages/AllCategories";
 import NotFound from "./pages/NotFound";
 import GameWrapper from "./components/GameWrapper";
@@ -17,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<AllCategories />} />
             <Route path="/game/:gameId" element={<GameWrapper />} />
+            <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -25,5 +26,11 @@ function App() {
     </ToastProvider>
   );
 }
+
+// Daily route alias that redirects to game route with mode=daily
+const DailyGameRedirect = () => {
+  const { gameId } = useParams();
+  return <Navigate to={`/game/${gameId}?mode=daily`} replace />;
+};
 
 export default App;

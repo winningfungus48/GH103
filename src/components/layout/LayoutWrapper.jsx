@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './LayoutWrapper.module.css';
 import layoutUtils from '../../styles/layout.module.css';
 import Header from '../Header';
@@ -22,6 +22,9 @@ const LayoutWrapper = ({
   metaDescription = 'Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!',
   keywords = ['games', 'puzzle', 'logic', 'free', 'browser', 'fun'],
 }) => {
+  useEffect(() => {
+    console.log("[LayoutWrapper] rendered", { width: window.innerWidth });
+  }, []);
   return (
     <>
       {/* SEO metadata for the page */}
@@ -43,9 +46,11 @@ const LayoutWrapper = ({
             <CategoryStrip />
           </div>
         )}
-        {/* Main content always rendered, constrained by .container */}
-        <main className={layoutUtils.container}>
-          {children}
+        {/* Main content always rendered, full width with white background */}
+        <main className={styles.mainBg}>
+          <div className={layoutUtils.container}>
+            {children}
+          </div>
         </main>
         {/* Footer component handles its own visibility based on scroll position */}
         <div className={styles.footerContainer}>

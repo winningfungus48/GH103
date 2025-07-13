@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useScrollAtBottom } from '../../hooks/useScrollAtBottom';
+import useScrollAtBottom from '../../hooks/useScrollAtBottom';
 import styles from './Footer.module.css';
+import layoutUtils from '../../styles/layout.module.css';
+
+console.log('[Footer] rendered');
 
 const Footer = () => {
   const isAtBottom = useScrollAtBottom();
@@ -12,17 +15,19 @@ const Footer = () => {
 
   return (
     <footer className={styles.footer} role="contentinfo">
-      <nav className={styles.nav}>
-        <Link to="/privacy-policy" className={styles.link}>
-          Privacy Policy
-        </Link>
-        <Link to="#" className={styles.link}>
-          About
-        </Link>
-        <Link to="#" className={styles.link}>
-          Contact
-        </Link>
-      </nav>
+      <div className={layoutUtils.container}>
+        <nav className={styles.nav} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Link to="/privacy-policy" className={styles.link}>
+            Privacy Policy
+          </Link>
+          <Link to="#" className={styles.link}>
+            About
+          </Link>
+          <Link to="#" className={styles.link}>
+            Contact
+          </Link>
+        </nav>
+      </div>
     </footer>
   );
 };

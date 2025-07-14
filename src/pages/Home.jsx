@@ -57,6 +57,9 @@ const Home = () => {
     );
   }
 
+  // Always sort filteredGames alphabetically by name
+  filteredGames = filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <LayoutWrapper
       pageTitle="Game Hub – Free Browser Puzzle Games"

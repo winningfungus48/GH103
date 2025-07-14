@@ -1,12 +1,35 @@
-# React + Vite
+# Game Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive web app for playing and discovering puzzle and logic games.
 
-Currently, two official plugins are available:
+## Features
+- Full-bleed header, category strip, and footer for a unified look
+- Centered, max-width main content for readability
+- Responsive design for desktop and mobile
+- Modular React components and CSS modules
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Layout & Styling
+- The layout is designed for visual consistency and easy maintenance.
+- **Header, category strip, and footer backgrounds** stretch edge-to-edge (100vw).
+- **Main content and footer content** are centered using the `.container` class (max-width: 1200px).
+- All layout variables are in `src/styles/variables.css`.
 
-## Expanding the ESLint configuration
+See [`docs/architecture.md`](docs/architecture.md) for full details and best practices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Key Files
+- `src/components/layout/LayoutWrapper.jsx` – Main layout logic
+- `src/styles/layout.module.css` – Layout utility classes
+- `src/styles/variables.css` – Color and layout variables
+- `src/components/layout/Footer.jsx` – Footer with centered links
+
+## Best Practices
+- Use the `.container` class for centering and max-width only.
+- Keep layout logic in layout components, not in individual pages.
+- Update the architecture doc and take a screenshot after major layout changes.
+
+## Contributing
+- Please read the architecture doc before making layout changes.
+- Tag stable layout releases in git (e.g., `v1.0-layout-stable`).
+
+---
+_Last updated: 2024-06-09_

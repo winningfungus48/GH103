@@ -1,6 +1,5 @@
 import Header from "../components/Header";
 import CategoryStrip from "../components/CategoryStrip";
-import Footer from "../components/Footer";
 import styles from "./AllCategories.module.css";
 import { Link } from "react-router-dom";
 
@@ -30,7 +29,6 @@ const AllCategories = () => (
         ))}
       </div>
     </main>
-    <Footer />
   </div>
 );
 

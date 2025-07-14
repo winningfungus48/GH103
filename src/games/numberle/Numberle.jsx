@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GamePageLayout from '../../components/game/GamePageLayout';
+import GameHeader from '../../components/game/GameHeader';
 import './numberle-styles.css';
 import numberleLogo from './numberle-logo.svg';
 
@@ -344,7 +346,8 @@ const Numberle = () => {
   };
 
   return (
-    <div className="container numberle-main-container">
+    <GamePageLayout>
+      <GameHeader title="Numberle" />
       {/* Welcome Modal */}
       {showWelcomeModal && (
         <div className="welcome-overlay">
@@ -367,15 +370,6 @@ const Numberle = () => {
           </div>
         </div>
       )}
-
-      <header>
-        <div className="logo-title-row" style={{justifyContent: 'center'}}>
-          <img src={numberleLogo} alt="Numberle logo" className="numberle-logo" />
-          <h1>Numberle</h1>
-        </div>
-        <p className="subtitle">Guess the 5-digit number in 6 tries</p>
-      </header>
-
       <div className="numberle-wrapper">
         <div className="game-container">
           <div className="board">
@@ -418,7 +412,6 @@ const Numberle = () => {
           </div>
         </div>
       </div>
-
       {/* Endgame Modal */}
       {showEndgameModal && (
         <div className="endgame-overlay show">
@@ -444,7 +437,7 @@ const Numberle = () => {
           </div>
         </div>
       )}
-    </div>
+    </GamePageLayout>
   );
 };
 

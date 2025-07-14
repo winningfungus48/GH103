@@ -1,0 +1,70 @@
+.header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  margin-bottom: 1.5rem;
+}
+
+.backLink {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #2563eb;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+  z-index: 2;
+}
+
+.backLink:hover, .backLink:focus {
+  background: #f3f4f6;
+  text-decoration: underline;
+}
+
+.icon {
+  font-size: 1.2em;
+  margin-right: 0.5em;
+}
+
+.title {
+  margin: 0 auto;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.rightActions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .header {
+    min-height: 48px;
+    margin-bottom: 1rem;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .backLink {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+  }
+} 

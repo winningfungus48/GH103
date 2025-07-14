@@ -97,14 +97,7 @@ const GameWrapper = () => {
       {/* NowPlayingBar is scaffolded for future use; set visible to true to enable */}
       <NowPlayingBar gameTitle={game.name} visible={false} />
       <div className={styles.wrapper}>
-        <header style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: "2rem", margin: 0 }}>
-            {game.name}
-            {mode === "daily" && <span style={{ fontSize: "1rem", color: "#007bff", marginLeft: "0.5rem" }}>Daily Challenge</span>}
-          </h1>
-          <div style={{ fontWeight: 500, color: "#555", marginBottom: 12 }}>Now Playing: {game.name}</div>
-          <Link to="/" style={{ color: "#007bff", textDecoration: "none", fontSize: 16 }}>&larr; Back to Home</Link>
-        </header>
+        {/* Removed header section with game title, Now Playing, and Back to Home */}
         {showAds && (
           <div className={layoutUtils.container} style={{ marginBottom: '1.5rem' }}>
             <AdBanner position="top" />

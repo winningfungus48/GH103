@@ -4,6 +4,7 @@
 - **Full-bleed backgrounds:** Header, category strip, and footer backgrounds stretch edge-to-edge (100vw).
 - **Centered content:** Main content and footer content are centered using the `.container` class (max-width: 1200px, margin: 0 auto).
 - **Consistent alignment:** All major sections (header, category strip, main content, footer) are visually aligned for a unified look.
+- **No top section on game pages:** Game pages do not display a title, 'Now Playing', or back link for a cleaner experience.
 
 ## Key CSS Classes
 - `.container`: Constrains content to max-width, centers horizontally, and adds responsive padding.
@@ -26,10 +27,20 @@
 ## CSS Variables
 - All layout variables (colors, max-width, breakpoints) are in `src/styles/variables.css`.
 
+## Formatting & Linting
+- ESLint and Prettier are set up with standard recommended settings (no custom rules, no enforced semicolon or quote style).
+- Use format-on-save in Cursor/VSCode for consistent code style.
+- See `.eslintrc`, `.prettierrc`, and `.editorconfig` for details.
+
+## Daily Mode & Game Scaffolding
+- Daily mode is supported for select games with deterministic seeding and localStorage streak tracking.
+- Use `scripts/scaffold-game.cjs` to scaffold new games with the correct folder structure and template.
+
 ## Best Practices
 - Only use `.container` for centering and max-width. Do not duplicate these rules elsewhere.
 - Keep layout logic in `LayoutWrapper`, `Header`, `Footer`, and `CategoryStrip` components.
 - Document any layout changes in this file and update screenshots as needed.
+- Use the scaffolding script for new games to ensure consistency.
 
 ## Visual Reference
 - See `/docs/screenshots/layout-stable.png` for the correct layout appearance.

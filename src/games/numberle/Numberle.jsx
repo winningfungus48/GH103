@@ -1,13 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GamePageLayout from '../../components/game/GamePageLayout';
 import GameHeader from '../../components/game/GameHeader';
 import './numberle-styles.css';
 import numberleLogo from './numberle-logo.svg';
+import { getDailyProgress, setDailyProgress, getDailyStreak } from '../../utils/localStorage';
 
 const Numberle = () => {
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
+  // Detect daily mode from URL query
+  const searchParams = new URLSearchParams(location.search);
+  const isDailyMode = searchParams.get('mode') === 'daily';
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Daily mode state
+  const [dailyCompleted, setDailyCompleted] = useState(false);
+  const [dailyStreak, setDailyStreak] = useState(0);
+
   // Game state
   const [gameState, setGameState] = useState({
     secretNumber: '',
@@ -108,13 +119,37 @@ const Numberle = () => {
     return newBoard;
   }, []);
 
-  // Initialize game
+  // Deterministic daily secret number (for daily mode)
+  const getDailySecretNumber = useCallback(() => {
+    // Simple deterministic seed: use today's date as seed
+    // (Replace with useDailySeed if available)
+    function seededRandom(seed) {
+      let x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    }
+    const seed = parseInt(today.replace(/-/g, ''), 10);
+    let number = '';
+    const digitCounts = {};
+    for (let i = 0; i < 5; i++) {
+      let d;
+      let tries = 0;
+      do {
+        d = Math.floor(seededRandom(seed + i * 100 + tries) * 10);
+        tries++;
+      } while (digitCounts[d] >= 2 && tries < 10);
+      number += d;
+      digitCounts[d] = (digitCounts[d] || 0) + 1;
+    }
+    return number;
+  }, [today]);
+
+  // Initialize game (override secret number in daily mode)
   useEffect(() => {
     const newBoard = createBoard();
     setBoard(newBoard);
     setGameState(prev => ({
       ...prev,
-      secretNumber: generateSecretNumber(),
+      secretNumber: isDailyMode ? getDailySecretNumber() : generateSecretNumber(),
       currentRow: 0,
       currentCol: 0,
       gameOver: false,
@@ -122,7 +157,49 @@ const Numberle = () => {
     }));
     setNumberPadColors({});
     setMessage('');
-  }, [createBoard, generateSecretNumber]);
+    if (isDailyMode) {
+      // Check daily progress
+      const progress = getDailyProgress('numberle');
+      setDailyCompleted(progress.history && progress.history[today]?.completed);
+      setDailyStreak(progress.streak || 0);
+    }
+  }, [createBoard, generateSecretNumber, getDailySecretNumber, isDailyMode, today]);
+
+  // On win, update daily progress in daily mode
+  const handleGameWon = () => {
+    setGameState(prev => ({ ...prev, gameOver: true, gameWon: true }));
+    setEndgameData({
+      won: true,
+      message: winPrompts[winPromptIndex]
+    });
+    setWinPromptIndex(prev => (prev + 1) % winPrompts.length);
+    setShowEndgameModal(true);
+    // Update stats
+    const newStats = {
+      ...stats,
+      gamesPlayed: stats.gamesPlayed + 1,
+      gamesWon: stats.gamesWon + 1,
+      currentStreak: stats.currentStreak + 1,
+      bestStreak: Math.max(stats.bestStreak, stats.currentStreak + 1)
+    };
+    setStats(newStats);
+    saveStats(newStats);
+    // Daily mode: update localStorage streak
+    if (isDailyMode) {
+      setDailyProgress('numberle', { date: today, completed: true, result: {} });
+      setDailyCompleted(true);
+      setDailyStreak(getDailyStreak('numberle'));
+    }
+  };
+
+  // On load, also check if today's puzzle is already completed (for disabling input, etc.)
+  useEffect(() => {
+    if (isDailyMode) {
+      const progress = getDailyProgress('numberle');
+      setDailyCompleted(progress.history && progress.history[today]?.completed);
+      setDailyStreak(progress.streak || 0);
+    }
+  }, [isDailyMode, today]);
 
   // Handle keyboard input
   useEffect(() => {
@@ -280,28 +357,6 @@ const Numberle = () => {
       }
       return newColors;
     });
-  };
-
-  // Handle game won
-  const handleGameWon = () => {
-    setGameState(prev => ({ ...prev, gameOver: true, gameWon: true }));
-    setEndgameData({
-      won: true,
-      message: winPrompts[winPromptIndex]
-    });
-    setWinPromptIndex(prev => (prev + 1) % winPrompts.length);
-    setShowEndgameModal(true);
-    
-    // Update stats
-    const newStats = {
-      ...stats,
-      gamesPlayed: stats.gamesPlayed + 1,
-      gamesWon: stats.gamesWon + 1,
-      currentStreak: stats.currentStreak + 1,
-      bestStreak: Math.max(stats.bestStreak, stats.currentStreak + 1)
-    };
-    setStats(newStats);
-    saveStats(newStats);
   };
 
   // Handle game lost

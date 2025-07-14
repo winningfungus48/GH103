@@ -68,7 +68,7 @@ const Home = () => {
         onCategoryChange={setActiveCategory}
       />
       <div className={layoutUtils.container}>
-        <AdBanner position="top" />
+        {/* <AdBanner position="top" /> */}
         <main className={styles.grid}>
           <div className={styles.cardsGrid}>
             {filteredGames.length === 0 ? (

@@ -97,12 +97,12 @@ const GameWrapper = () => {
       {/* NowPlayingBar is scaffolded for future use; set visible to true to enable */}
       <NowPlayingBar gameTitle={game.name} visible={false} />
       <div className={styles.wrapper}>
-        {/* Removed header section with game title, Now Playing, and Back to Home */}
-        {showAds && (
+        {/* AdBanner is hidden for now */}
+        {/* {showAds && (
           <div className={layoutUtils.container} style={{ marginBottom: '1.5rem' }}>
             <AdBanner position="top" />
           </div>
-        )}
+        )} */}
         <section style={{ minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "#f9f9f9", borderRadius: 4 }}>
           <GameComponent mode={mode} />
         </section>

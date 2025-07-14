@@ -17,17 +17,22 @@
 }
 
 .tab {
-  background: none;
+  background: #e3f0ff;
+  color: #1857c9;
   border: none;
+  border-radius: 8px;
   padding: 0.75rem 1.5rem;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   font-weight: 500;
+  font-size: 1rem;
+  transition: none;
+  white-space: nowrap;
   position: relative;
+  outline: none;
+  box-shadow: none;
 }
 
+/*
 .tab:nth-child(1) {
   background-color: var(--brand-blue-light);
   color: var(--brand-blue);
@@ -52,6 +57,7 @@
   background-color: var(--brand-yellow-light);
   color: var(--brand-yellow);
 }
+*/
 
 .tab:hover {
   transform: translateY(-1px);
@@ -59,11 +65,16 @@
 }
 
 .tab.active {
+  background: #e3f0ff;
+  color: #1857c9;
+  border: 3px solid var(--brand-blue);
   font-weight: bold;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration: none;
+  box-shadow: none;
+  outline: none;
 }
 
+/*
 .tab.active:nth-child(1) {
   background-color: var(--brand-blue);
   color: var(--text-light);
@@ -78,6 +89,7 @@
   background-color: var(--brand-purple);
   color: var(--text-light);
 }
+*/
 
 .tab.active:nth-child(4) {
   background-color: var(--brand-blue);
@@ -87,6 +99,11 @@
 .tab.active:nth-child(5) {
   background-color: var(--brand-yellow);
   color: var(--text-dark);
+}
+
+.tab:focus {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
 }
 
 .dailyTab {

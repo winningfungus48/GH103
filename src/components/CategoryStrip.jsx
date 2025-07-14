@@ -26,9 +26,7 @@ const CategoryStrip = ({ activeCategory, onCategoryChange }) => {
         <button
           key={tab.slug}
           className={
-            tab.slug === 'daily games'
-              ? `${styles.tab} ${styles.dailyTab} ${activeCategory === tab.slug ? styles.active : ''}`
-              : `${styles.tab} ${activeCategory === tab.slug ? styles.active : ''}`
+            `${styles.tab} ${activeCategory === tab.slug ? styles.active : ''}`
           }
           onClick={() => handleCategoryChange(tab.slug)}
           tabIndex={0}

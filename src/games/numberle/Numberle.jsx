@@ -5,6 +5,7 @@ import GameHeader from '../../components/game/GameHeader';
 import './numberle-styles.css';
 import numberleLogo from './numberle-logo.svg';
 import { getDailyProgress, setDailyProgress, getDailyStreak } from '../../utils/localStorage';
+import useDailySeed from '../../hooks/useDailySeed';
 
 const Numberle = () => {
   const navigate = useNavigate();
@@ -119,29 +120,40 @@ const Numberle = () => {
     return newBoard;
   }, []);
 
+  // Add useDailySeed hook for daily mode
+  const dailySeed = useDailySeed({ date: today, slug: 'numberle' });
+
   // Deterministic daily secret number (for daily mode)
   const getDailySecretNumber = useCallback(() => {
-    // Simple deterministic seed: use today's date as seed
-    // (Replace with useDailySeed if available)
-    function seededRandom(seed) {
-      let x = Math.sin(seed) * 10000;
-      return x - Math.floor(x);
+    // Use the dailySeed string to generate a deterministic number
+    // Simple seeded PRNG based on hash string
+    function seededRandom(seedStr) {
+      let hash = 0;
+      for (let i = 0; i < seedStr.length; i++) {
+        hash = ((hash << 5) - hash) + seedStr.charCodeAt(i);
+        hash |= 0;
+      }
+      let x = Math.abs(hash) / 2147483647;
+      return () => {
+        x = Math.sin(x * 10000) * 10000;
+        return x - Math.floor(x);
+      };
     }
-    const seed = parseInt(today.replace(/-/g, ''), 10);
+    const rand = seededRandom(dailySeed);
     let number = '';
     const digitCounts = {};
     for (let i = 0; i < 5; i++) {
       let d;
       let tries = 0;
       do {
-        d = Math.floor(seededRandom(seed + i * 100 + tries) * 10);
+        d = Math.floor(rand() * 10);
         tries++;
       } while (digitCounts[d] >= 2 && tries < 10);
       number += d;
       digitCounts[d] = (digitCounts[d] || 0) + 1;
     }
     return number;
-  }, [today]);
+  }, [dailySeed]);
 
   // Initialize game (override secret number in daily mode)
   useEffect(() => {

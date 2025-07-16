@@ -9,6 +9,7 @@ import CategoryStrip from "../components/CategoryStrip";
 import AdBanner from "../components/ads/AdBanner";
 import layoutUtils from "../styles/layout.module.css";
 import { trackEvent } from "../utils/analytics";
+import { isFavorite } from "../utils/localStorage";
 
 console.log("[Home.jsx] Loaded games:", games);
 
@@ -45,8 +46,8 @@ const Home = () => {
   if (activeCategory === "a-z games") {
     filteredGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
   } else if (activeCategory === "favorites") {
-    // Filter games based on favorites array from context
-    filteredGames = games.filter(game => favorites.includes(game.slug));
+    // Filter games based on isFavorite helper
+    filteredGames = games.filter(game => isFavorite(game.slug));
   } else if (activeCategory === "see more") {
     filteredGames = games.filter(game =>
       game.categories && game.categories.includes("see more")

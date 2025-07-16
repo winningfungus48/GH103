@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import games from "../data/gamesData.jsx";
-import { addToRecentlyPlayed } from "../utils/localStorage";
+import { addRecentlyPlayed } from "../utils/localStorage";
 import styles from "./GameWrapper.module.css";
 import LayoutWrapper from "./layout/LayoutWrapper";
 import { trackEvent } from "../utils/analytics";
@@ -24,7 +24,7 @@ const GameWrapper = () => {
   // Track recently played games and analytics
   useEffect(() => {
     if (game) {
-      addToRecentlyPlayed(gameId);
+      addRecentlyPlayed(gameId);
       // Track analytics events safely with dev-only logging
       try {
         trackEvent("page_view", { page: `game/${game.slug}`, mode });

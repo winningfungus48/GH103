@@ -1,20 +1,128 @@
-// Utility for managing favorite game slugs in localStorage
+// Utility for managing favorite game slugs and recently played in localStorage
 
-const FAVORITES_KEY = 'favorites';
-const RECENTLY_PLAYED_KEY = 'recentlyPlayed';
-const LAST_CATEGORY_KEY = 'lastCategory';
-const DAILY_PROGRESS_KEY = 'dailyProgress';
+const FAVORITES_KEY = 'gh_favorites';
+const RECENTLY_PLAYED_KEY = 'gh_recentlyPlayed';
+const SCHEMA_VERSION_KEY = 'gh_schemaVersion';
+const SCHEMA_VERSION = '1.0.0';
 
-export function getFavorites() {
+// Old keys for migration
+const OLD_FAVORITES_KEY = 'favorites';
+const OLD_RECENTLY_PLAYED_KEY = 'recentlyPlayed';
+
+// --- Migration Logic ---
+function migrateLocalStorageSchema() {
   try {
-    const data = localStorage.getItem(FAVORITES_KEY);
-    return data ? JSON.parse(data) : [];
+    const hasNewFavorites = localStorage.getItem(FAVORITES_KEY) !== null;
+    const hasNewRecentlyPlayed = localStorage.getItem(RECENTLY_PLAYED_KEY) !== null;
+    const hasSchemaVersion = localStorage.getItem(SCHEMA_VERSION_KEY) !== null;
+
+    // Only run migration if any new keys are missing
+    if (!hasNewFavorites || !hasNewRecentlyPlayed || !hasSchemaVersion) {
+      // Try to migrate old favorites
+      let migratedFavorites = [];
+      let migratedRecentlyPlayed = [];
+      let migrationFailed = false;
+      // Migrate favorites
+      try {
+        const oldFav = localStorage.getItem(OLD_FAVORITES_KEY);
+        migratedFavorites = oldFav ? JSON.parse(oldFav) : [];
+        if (!Array.isArray(migratedFavorites)) migratedFavorites = [];
+      } catch (e) {
+        migrationFailed = true;
+      }
+      // Migrate recently played
+      try {
+        const oldRecent = localStorage.getItem(OLD_RECENTLY_PLAYED_KEY);
+        migratedRecentlyPlayed = oldRecent ? JSON.parse(oldRecent) : [];
+        if (!Array.isArray(migratedRecentlyPlayed)) migratedRecentlyPlayed = [];
+      } catch (e) {
+        migrationFailed = true;
+      }
+      // If migration failed, clear and initialize
+      if (migrationFailed) {
+        localStorage.removeItem(OLD_FAVORITES_KEY);
+        localStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
+        localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
+      } else {
+        // Set migrated data to new keys
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(migratedFavorites));
+        localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(migratedRecentlyPlayed));
+        // Remove old keys
+        localStorage.removeItem(OLD_FAVORITES_KEY);
+        localStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
+      }
+      // Set schema version
+      localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
+    }
   } catch (e) {
-    return [];
+    // If migration throws, clear and initialize new keys
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
+    localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
+    localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
   }
 }
 
+// Run migration on module load
+migrateLocalStorageSchema();
+
+export function getSchemaVersion() {
+  try {
+    return localStorage.getItem(SCHEMA_VERSION_KEY) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// --- Timestamp-based concurrency guard helpers ---
+const FAVORITES_TIMESTAMP_KEY = 'gh_favorites_ts';
+const RECENTLY_PLAYED_TIMESTAMP_KEY = 'gh_recentlyPlayed_ts';
+
+function getTimestamp(key) {
+  const ts = localStorage.getItem(key);
+  return ts ? parseInt(ts, 10) : 0;
+}
+
+function setTimestamp(key) {
+  localStorage.setItem(key, Date.now().toString());
+}
+
+// --- Helper: isFavorite(slug) ---
+export function isFavorite(slug) {
+  return getFavorites().includes(slug);
+}
+
+// --- Helper: addRecentlyPlayed(slug) ---
+export function addRecentlyPlayed(slug) {
+  // Use concurrency guard
+  const lastWrite = getTimestamp(RECENTLY_PLAYED_TIMESTAMP_KEY);
+  const now = Date.now();
+  if (now - lastWrite < 100) {
+    // Prevent rapid overwrites (debounce window: 100ms)
+    return getRecentlyPlayed();
+  }
+  const recentlyPlayed = getRecentlyPlayed();
+  const filtered = recentlyPlayed.filter(gameSlug => gameSlug !== slug);
+  const updated = [slug, ...filtered].slice(0, 5);
+  localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(updated));
+  setTimestamp(RECENTLY_PLAYED_TIMESTAMP_KEY);
+  return updated;
+}
+
+// --- Helper: isRecentlyPlayed(slug) ---
+export function isRecentlyPlayed(slug) {
+  return getRecentlyPlayed().includes(slug);
+}
+
+// --- Override toggleFavorite to use concurrency guard ---
 export function toggleFavorite(slug) {
+  // Use concurrency guard
+  const lastWrite = getTimestamp(FAVORITES_TIMESTAMP_KEY);
+  const now = Date.now();
+  if (now - lastWrite < 100) {
+    // Prevent rapid overwrites (debounce window: 100ms)
+    return getFavorites();
+  }
   const favorites = getFavorites();
   const index = favorites.indexOf(slug);
   let updated;
@@ -24,32 +132,33 @@ export function toggleFavorite(slug) {
     updated = favorites.filter(fav => fav !== slug);
   }
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+  setTimestamp(FAVORITES_TIMESTAMP_KEY);
   return updated;
 }
 
-export function getRecentlyPlayed() {
+// --- Fallback logic for old keys in helpers ---
+// (If migration hasn't run, helpers will transparently read old keys)
+function getWithFallback(newKey, oldKey) {
+  const data = localStorage.getItem(newKey);
+  if (data !== null) return JSON.parse(data);
+  const oldData = localStorage.getItem(oldKey);
+  return oldData ? JSON.parse(oldData) : [];
+}
+
+export function getFavorites() {
   try {
-    const data = localStorage.getItem(RECENTLY_PLAYED_KEY);
-    return data ? JSON.parse(data) : [];
+    return getWithFallback(FAVORITES_KEY, OLD_FAVORITES_KEY);
   } catch (e) {
     return [];
   }
 }
 
-export function addToRecentlyPlayed(slug) {
-  const recentlyPlayed = getRecentlyPlayed();
-  
-  // Remove the slug if it already exists
-  const filtered = recentlyPlayed.filter(gameSlug => gameSlug !== slug);
-  
-  // Add the slug to the beginning of the array
-  const updated = [slug, ...filtered];
-  
-  // Keep only the last 5 items
-  const limited = updated.slice(0, 5);
-  
-  localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(limited));
-  return limited;
+export function getRecentlyPlayed() {
+  try {
+    return getWithFallback(RECENTLY_PLAYED_KEY, OLD_RECENTLY_PLAYED_KEY);
+  } catch (e) {
+    return [];
+  }
 }
 
 export function getLastCategory() {

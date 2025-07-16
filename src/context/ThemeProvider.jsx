@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getThemeMode, setThemeMode } from '../utils/localStorage';
 
 // Theme mode options:
 // - 'light': always use light theme
@@ -15,7 +16,7 @@ export const ThemeProvider = ({ children }) => {
 
   // On mount, initialize theme from localStorage or system preference
   useEffect(() => {
-    let initialTheme = localStorage.getItem(THEME_KEY);
+    let initialTheme = getThemeMode();
     if (!VALID_THEMES.includes(initialTheme)) {
       initialTheme = 'system';
     }
@@ -32,7 +33,7 @@ export const ThemeProvider = ({ children }) => {
   // When theme changes, persist to localStorage and update <html> attribute
   useEffect(() => {
     if (!theme) return;
-    localStorage.setItem(THEME_KEY, theme);
+    setThemeMode(theme);
     // If system, resolve to current system preference
     let appliedTheme = theme;
     if (theme === 'system') {

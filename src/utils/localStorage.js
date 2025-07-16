@@ -133,3 +133,53 @@ export function resetDailyStreak(gameSlug) {
     // Silently fail
   }
 } 
+
+// --- Numberle Stats ---
+const NUMBERLE_STATS_KEY = 'numberle-stats';
+
+export function getNumberleStats() {
+  try {
+    const data = localStorage.getItem(NUMBERLE_STATS_KEY);
+    return data ? JSON.parse(data) : {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      bestStreak: 0
+    };
+  } catch (e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      bestStreak: 0
+    };
+  }
+}
+
+export function setNumberleStats(newStats) {
+  try {
+    localStorage.setItem(NUMBERLE_STATS_KEY, JSON.stringify(newStats));
+  } catch (e) {
+    // Silently fail
+  }
+} 
+
+// --- Theme Mode ---
+const THEME_KEY = 'theme-mode';
+
+export function getThemeMode() {
+  try {
+    return localStorage.getItem(THEME_KEY) || 'system';
+  } catch (e) {
+    return 'system';
+  }
+}
+
+export function setThemeMode(mode) {
+  try {
+    localStorage.setItem(THEME_KEY, mode);
+  } catch (e) {
+    // Silently fail
+  }
+} 

@@ -5,13 +5,15 @@ This document logs all findings from the Phase 10 audit, including direct localS
 ---
 
 ## 1. Direct localStorage Usage (Outside Utility)
-- `src/games/numberle/Numberle.jsx`: Uses `localStorage.getItem('numberle-stats')` and `localStorage.setItem('numberle-stats', ...)` directly.
-- `src/games/numberle/numberle-script.js`: Uses `localStorage.getItem('numbler-stats')` and `localStorage.setItem('numbler-stats', ...)` directly.
-- `src/context/ThemeProvider.jsx`: Uses `localStorage.getItem(THEME_KEY)` and `localStorage.setItem(THEME_KEY, ...)` directly.
+- [x] `src/games/numberle/Numberle.jsx`: Refactored to use `getNumberleStats` and `setNumberleStats` utility functions.
+- [x] `src/games/numberle/numberle-script.js`: Refactored to use `getNumberleStats` and `setNumberleStats` utility functions.
+- [x] `src/context/ThemeProvider.jsx`: Refactored to use `getThemeMode` and `setThemeMode` utility functions.
+- All direct localStorage usages for Numberle stats and theme mode are now centralized through the utility module, with robust error handling and silent failover.
 
 ## 2. Atomic Design & Folder Structure
-- Most components are organized under `atoms/`, `molecules/`, and other folders.
-- Shared UI elements (e.g., Toast, Modal) may need to be moved into the atomic structure.
+- [x] `Toast` and `BackToTop` have been moved to the `atoms/` directory. All imports have been updated accordingly.
+- The atomic folder structure is now consistent for these shared UI elements.
+- Most other components are organized under `atoms/`, `molecules/`, and other folders.
 - All exported components will be cross-checked for correct folder placement during refactor.
 
 ## 3. CSS Modules & Naming

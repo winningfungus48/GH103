@@ -4,7 +4,7 @@ import GamePageLayout from '../../components/game/GamePageLayout';
 import GameHeader from '../../components/game/GameHeader';
 import './numberle-styles.css';
 import numberleLogo from './numberle-logo.svg';
-import { getDailyProgress, setDailyProgress, getDailyStreak } from '../../utils/localStorage';
+import { getDailyProgress, setDailyProgress, getDailyStreak, getNumberleStats, setNumberleStats } from '../../utils/localStorage';
 import useDailySeed from '../../hooks/useDailySeed';
 
 const Numberle = () => {
@@ -53,17 +53,15 @@ const Numberle = () => {
   ];
   const [winPromptIndex, setWinPromptIndex] = useState(0);
 
-  // Load stats from localStorage
+  // Load stats from localStorage (now using utility)
   useEffect(() => {
-    const savedStats = localStorage.getItem('numberle-stats');
-    if (savedStats) {
-      setStats(JSON.parse(savedStats));
-    }
+    const savedStats = getNumberleStats();
+    setStats(savedStats);
   }, []);
 
-  // Save stats to localStorage
+  // Save stats to localStorage (now using utility)
   const saveStats = useCallback((newStats) => {
-    localStorage.setItem('numberle-stats', JSON.stringify(newStats));
+    setNumberleStats(newStats);
   }, []);
 
   // Generate secret number

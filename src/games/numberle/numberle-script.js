@@ -410,17 +410,14 @@ function updateStats(won) {
     saveStats();
 }
 
-// Load statistics from localStorage
+// Load statistics from localStorage (now using utility)
 function loadStats() {
-    const saved = localStorage.getItem('numbler-stats');
-    if (saved) {
-        stats = { ...stats, ...JSON.parse(saved) };
-    }
+    stats = { ...stats, ...getNumberleStats() };
 }
 
-// Save statistics to localStorage
+// Save statistics to localStorage (now using utility)
 function saveStats() {
-    localStorage.setItem('numbler-stats', JSON.stringify(stats));
+    setNumberleStats(stats);
 }
 
 // Reset number pad key colors

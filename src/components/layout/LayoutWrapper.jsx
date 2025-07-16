@@ -4,7 +4,7 @@ import layoutUtils from '../../styles/layout.module.css';
 import Header from '../Header';
 import CategoryStrip from '../CategoryStrip';
 import Footer from './Footer';
-import BackToTop from '../atoms/BackToTop';
+// import BackToTop from '../atoms/BackToTop';
 import { Helmet } from 'react-helmet-async';
 
 // LayoutWrapper provides a flexible global layout for all major pages.
@@ -57,7 +57,7 @@ const LayoutWrapper = ({
           <Footer />
         </div>
         {/* BackToTop button appears globally on all pages */}
-        <BackToTop />
+        {/* <BackToTop /> */}
       </div>
     </>
   );

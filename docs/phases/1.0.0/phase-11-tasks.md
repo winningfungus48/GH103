@@ -21,5 +21,10 @@
 ---
 
 ## 📝 Notes
-- Ensure backward compatibility with existing favorites/recently played data
-- Test persistence thoroughly after schema changes
+- Use a flat array of slugs for favorites and recently played; no extra metadata required for 1.0.0.
+- Run migration logic only if new keys are missing. On failure (corrupted data), clear old keys and initialize new keys cleanly.
+- Use `gh_schemaVersion` as a simple string (e.g., "1.0.0") for versioning.
+- Add empty provider scaffolds (with default values and comments) for future use in `src/context/`, clearly labeled.
+- Keep fallback logic for old keys until Release 2.0.0; plan to remove in the expansion track.
+- Manual validation: test on latest Chrome desktop + one mobile browser; document results in `phase-11-validation-results.md`.
+- Edge cases to test: rapid toggling of favorites, multiple tabs open (no duplicate migration or crashes), clearing localStorage mid-session should not crash the app.

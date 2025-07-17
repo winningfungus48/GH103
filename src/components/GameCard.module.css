@@ -1,18 +1,20 @@
 .card {
-  background: #fff;
+  background: rgba(0,255,0,0.08); /* DEBUG: green background for card */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 1.5rem 1.25rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-width: 220px;
+  width: clamp(260px, 30%, 340px);
+  min-width: 140px;
   max-width: 340px;
-  width: 100%;
+  /* Remove aspect-ratio */
   min-height: 180px;
+  max-height: 340px;
   transition: all 0.35s ease;
   transform: scale(1);
-  background: rgba(0,255,0,0.08); /* DEBUG: green background for card */
+  overflow: hidden;
 }
 
 .card:hover,
@@ -21,17 +23,51 @@
   transform: scale(1.02);
 }
 
+.title {
+  /* Truncate if needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .description {
   font-size: 1rem;
   color: #333;
   margin-bottom: 1.25rem;
   flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1100px) {
   .card {
-    min-width: 160px;
+    width: clamp(140px, 32vw, 220px);
+    min-width: 100px;
+    max-width: 220px;
+    min-height: 140px;
+    max-height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: clamp(100px, 45vw, 180px);
+    min-width: 80px;
+    max-width: 180px;
+    min-height: 120px;
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+    min-width: 80px;
     max-width: 100%;
-    padding: 1rem;
+    min-height: 100px;
+    max-height: none;
   }
 }

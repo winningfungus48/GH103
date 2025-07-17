@@ -12,8 +12,9 @@
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  padding-top: calc(var(--header-height) + var(--category-strip-height) + 2rem);
-  padding-bottom: calc(var(--footer-height) + 2rem);
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,19 +23,25 @@
 
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   width: 100%;
-  max-width: 1100px;
+  /*max-width: 1100px;
   margin: 0 auto;
   justify-items: center;
-  background: rgba(255,0,0,0.08); /* DEBUG: red background for grid */
+  background: rgba(245, 228, 228, 0.773); /* DEBUG: red background for grid */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @media (max-width: 1100px) {
   .cardsGrid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 
@@ -42,14 +49,16 @@
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
   .cardsGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0.7rem;
-    padding: 0 0.2rem;
+    padding: 0.7rem 0.2rem;
   }
 }
 

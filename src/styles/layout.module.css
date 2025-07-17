@@ -4,9 +4,9 @@
 */
 
 .container {
-  max-width: 1200px;
+  max-width: 98vw;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   width: 100%;
   box-sizing: border-box;
 } 

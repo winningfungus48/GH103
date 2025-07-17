@@ -1,7 +1,12 @@
-import Numberle from '../games/numberle';
-import Shapele from '../games/shapele';
-import Wordle from '../games/wordle';
-import Simonle from '../games/simonle';
+// Dynamic import pattern for game components (lazy loading)
+// Usage: import games from './gamesData';
+// Each game's component is a React.lazy import, loaded only when needed.
+import React from 'react';
+
+const Numberle = React.lazy(() => import('../games/numberle'));
+const Wordle = React.lazy(() => import('../games/wordle'));
+const Shapele = React.lazy(() => import('../games/shapele'));
+const Simonle = React.lazy(() => import('../games/simonle'));
 
 const games = [
   {

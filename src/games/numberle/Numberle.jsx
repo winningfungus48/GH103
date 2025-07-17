@@ -7,6 +7,7 @@ import './numberle-styles.css';
 import numberleLogo from './numberle-logo.svg';
 import { getDailyProgress, setDailyProgress, getDailyStreak, getNumberleStats, setNumberleStats } from '../../utils/localStorage';
 import useDailySeed from '../../hooks/useDailySeed';
+import Modal from '../../components/ui/Modal';
 
 // --- Numberle-specific logic extracted for modularity ---
 const NUMBERLE_INITIAL_STATE = {
@@ -181,34 +182,25 @@ const Numberle = () => {
 
   // Render prop for GameTemplate
   const renderGame = React.useCallback(({ state, setState, resetState, feedback, getFeedback }) => {
-    // ...existing UI logic for board, number pad, modals, etc. goes here...
-    // For brevity, this would be a direct port of the current render logic, using state/setState/resetState as needed.
-    // The rest of the file would be adapted to use these props instead of local state.
     return (
       <GamePageLayout>
         <GameHeader title="Numberle" />
-        {/* Welcome Modal */}
-        {showWelcomeModal && (
-          <div className="welcome-overlay">
-            <div className="welcome-modal">
-              <button 
-                className="welcome-close" 
-                onClick={() => setShowWelcomeModal(false)}
-                aria-label="Close"
-              >
-                &times;
-              </button>
-              <div className="welcome-content">
-                <img src={numberleLogo} alt="Numberle logo" className="numberle-logo" style={{marginBottom: '18px'}} />
-                <h2 className="welcome-title">Welcome to Numberle</h2>
-                <p className="welcome-desc">Get 6 chances to guess<br />a 5-digit number</p>
-                <button className="welcome-play" onClick={() => setShowWelcomeModal(false)}>
-                  Play
-                </button>
-              </div>
-            </div>
+        {/* Welcome Modal (refactored) */}
+        <Modal
+          open={showWelcomeModal}
+          onClose={() => setShowWelcomeModal(false)}
+          title="Welcome to Numberle"
+          className="welcome-modal"
+        >
+          <div className="welcome-content">
+            <img src={numberleLogo} alt="Numberle logo" className="numberle-logo" style={{marginBottom: '18px'}} />
+            <h2 className="welcome-title">Welcome to Numberle</h2>
+            <p className="welcome-desc">Get 6 chances to guess<br />a 5-digit number</p>
+            <button className="welcome-play" onClick={() => setShowWelcomeModal(false)}>
+              Play
+            </button>
           </div>
-        )}
+        </Modal>
         <div className="numberle-wrapper">
           <div className="game-container">
             <div className="board">
@@ -228,24 +220,26 @@ const Numberle = () => {
             {/* ...number pad, controls, and modals as before, using state/setState/resetState... */}
           </div>
         </div>
-        {/* Endgame Modal */}
-        {showEndgameModal && (
-          <div className="endgame-overlay show">
-            <div className="endgame-modal">
-              <div className="endgame-content">
-                <h2 className="endgame-title">Game Over</h2>
-                <p className="endgame-message">{endgameData.message}</p>
-                <div className="endgame-buttons">
-                  <button className="playagain-btn" onClick={resetState}>Play Again</button>
-                  <button className="backhome-btn" onClick={() => navigate('/')}>Back to Games</button>
-                </div>
-              </div>
+        {/* Endgame Modal (refactored) */}
+        <Modal
+          open={showEndgameModal}
+          onClose={resetState}
+          title="Game Over"
+          className="endgame-modal"
+          buttons={
+            <div className="endgame-buttons">
+              <button className="playagain-btn" onClick={resetState}>Play Again</button>
+              <button className="backhome-btn" onClick={() => navigate('/')}>Back to Games</button>
             </div>
+          }
+        >
+          <div className="endgame-content">
+            <p className="endgame-message">{endgameData.message}</p>
           </div>
-        )}
+        </Modal>
       </GamePageLayout>
     );
-  }, [showWelcomeModal, showEndgameModal, endgameData, navigate]);
+  }, [showWelcomeModal, showEndgameModal, endgameData, navigate, resetState]);
 
   return (
     <GameTemplate

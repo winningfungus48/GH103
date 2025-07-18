@@ -19,14 +19,14 @@ function App() {
       <FavoritesProvider>
         <div className={styles.app}>
           <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/categories" element={<AllCategories />} />
-              <Route path="/game/:gameId" element={<GameWrapper />} />
-              <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/categories" element={<AllCategories />} />
+            <Route path="/game/:gameId" element={<GameWrapper />} />
+            <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
           </Suspense>
         </div>
       </FavoritesProvider>

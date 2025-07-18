@@ -1,9 +1,10 @@
+import React from "react";
 import styles from "./GameCard.module.css";
 import Badge from "./atoms/Badge";
 import GameTitle from "./atoms/GameTitle";
 import GameCardFooter from "./molecules/GameCardFooter";
 
-const GameCard = ({ title, description, slug, route, new: isNew, featured }) => {
+const GameCard = React.memo(({ title, description, slug, route, new: isNew, featured }) => {
   return (
     <div className={styles.card} style={{ position: 'relative' }}>
       {(isNew || featured) && (
@@ -17,6 +18,8 @@ const GameCard = ({ title, description, slug, route, new: isNew, featured }) => 
       <GameCardFooter slug={slug} route={route} />
     </div>
   );
-};
+});
+
+GameCard.displayName = 'GameCard';
 
 export default GameCard;

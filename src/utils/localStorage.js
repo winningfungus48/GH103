@@ -4,6 +4,8 @@ const FAVORITES_KEY = 'gh_favorites';
 const RECENTLY_PLAYED_KEY = 'gh_recentlyPlayed';
 const SCHEMA_VERSION_KEY = 'gh_schemaVersion';
 const SCHEMA_VERSION = '1.0.0';
+const LAST_CATEGORY_KEY = 'gh_lastCategory';
+const DAILY_PROGRESS_KEY = 'gh_dailyProgress';
 
 // Old keys for migration
 const OLD_FAVORITES_KEY = 'favorites';

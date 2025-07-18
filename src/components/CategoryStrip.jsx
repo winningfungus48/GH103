@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import styles from "./CategoryStrip.module.css";
 import { setLastCategory } from "../utils/localStorage";
 
@@ -9,16 +10,18 @@ const tabs = [
   { label: "Daily Games", slug: "daily games" },
 ];
 
-const CategoryStrip = ({ activeCategory, onCategoryChange }) => {
-  const handleCategoryChange = (slug) => {
+const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
+  const handleCategoryChange = useCallback((slug) => {
     setLastCategory(slug);
     onCategoryChange(slug);
-  };
+  }, [onCategoryChange]);
 
   // Ensure 'A-Z Games' is always first, rest sorted alphabetically
-  const azTab = tabs.find(tab => tab.slug === 'a-z games');
-  const otherTabs = tabs.filter(tab => tab.slug !== 'a-z games').sort((a, b) => a.label.localeCompare(b.label));
-  const sortedTabs = azTab ? [azTab, ...otherTabs] : otherTabs;
+  const sortedTabs = useMemo(() => {
+    const azTab = tabs.find(tab => tab.slug === 'a-z games');
+    const otherTabs = tabs.filter(tab => tab.slug !== 'a-z games').sort((a, b) => a.label.localeCompare(b.label));
+    return azTab ? [azTab, ...otherTabs] : otherTabs;
+  }, []);
 
   return (
     <div className={styles.categoryStrip}>
@@ -40,6 +43,8 @@ const CategoryStrip = ({ activeCategory, onCategoryChange }) => {
       ))}
     </div>
   );
-};
+});
+
+CategoryStrip.displayName = 'CategoryStrip';
 
 export default CategoryStrip;

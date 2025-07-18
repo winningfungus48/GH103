@@ -1,7 +1,7 @@
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styles from "./Home.module.css";
 import games from "../data/gamesData.jsx";
 import GameCard from "../components/GameCard";
-import { useState, useEffect } from "react";
 import { getLastCategory } from "../utils/localStorage";
 import { useFavorites } from "../context/FavoritesProvider";
 import LayoutWrapper from "../components/layout/LayoutWrapper";
@@ -42,24 +42,32 @@ const Home = () => {
     }
   }, []);
 
-  let filteredGames;
-  if (activeCategory === "a-z games") {
-    filteredGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
-  } else if (activeCategory === "favorites") {
-    // Filter games based on isFavorite helper
-    filteredGames = games.filter(game => isFavorite(game.slug));
-  } else if (activeCategory === "see more") {
-    filteredGames = games.filter(game =>
-      game.categories && game.categories.includes("see more")
-    );
-  } else {
-    filteredGames = games.filter(game =>
-      game.categories && game.categories.includes(activeCategory)
-    );
-  }
+  // Memoize the category change handler
+  const handleCategoryChange = useCallback((category) => {
+    setActiveCategory(category);
+  }, []);
 
-  // Always sort filteredGames alphabetically by name
-  filteredGames = filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+  // Memoize filtered games to prevent unnecessary re-computation
+  const filteredGames = useMemo(() => {
+    let gamesToFilter;
+    if (activeCategory === "a-z games") {
+      gamesToFilter = [...games].sort((a, b) => a.name.localeCompare(b.name));
+    } else if (activeCategory === "favorites") {
+      // Filter games based on isFavorite helper
+      gamesToFilter = games.filter(game => isFavorite(game.slug));
+    } else if (activeCategory === "see more") {
+      gamesToFilter = games.filter(game =>
+        game.categories && game.categories.includes("see more")
+      );
+    } else {
+      gamesToFilter = games.filter(game =>
+        game.categories && game.categories.includes(activeCategory)
+      );
+    }
+
+    // Always sort filteredGames alphabetically by name
+    return gamesToFilter.sort((a, b) => a.name.localeCompare(b.name));
+  }, [activeCategory]);
 
   return (
     <LayoutWrapper
@@ -69,7 +77,7 @@ const Home = () => {
     >
       <CategoryStrip
         activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
+        onCategoryChange={handleCategoryChange}
       />
       <div className={layoutUtils.container}>
         {/* <AdBanner position="top" /> */}

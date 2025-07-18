@@ -32,78 +32,24 @@
   box-shadow: none;
 }
 
-/*
-.tab:nth-child(1) {
-  background-color: var(--brand-blue-light);
-  color: var(--brand-blue);
-}
-
-.tab:nth-child(2) {
-  background-color: var(--brand-yellow-light);
-  color: var(--brand-yellow);
-}
-
-.tab:nth-child(3) {
-  background-color: var(--brand-purple-light);
-  color: var(--brand-purple);
-}
-
-.tab:nth-child(4) {
-  background-color: var(--brand-blue-light);
-  color: var(--brand-blue);
-}
-
-.tab:nth-child(5) {
-  background-color: var(--brand-yellow-light);
-  color: var(--brand-yellow);
-}
-*/
-
 .tab:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tab.active {
-  background: #e3f0ff;
-  color: #1857c9;
-  border: 3px solid var(--brand-blue);
+  background: var(--brand-blue);
+  color: var(--text-light);
+  border: none;
   font-weight: bold;
   text-decoration: none;
   box-shadow: none;
   outline: none;
 }
 
-/*
-.tab.active:nth-child(1) {
-  background-color: var(--brand-blue);
-  color: var(--text-light);
-}
-
-.tab.active:nth-child(2) {
-  background-color: var(--brand-yellow);
-  color: var(--text-dark);
-}
-
-.tab.active:nth-child(3) {
-  background-color: var(--brand-purple);
-  color: var(--text-light);
-}
-*/
-
-.tab.active:nth-child(4) {
-  background-color: var(--brand-blue);
-  color: var(--text-light);
-}
-
-.tab.active:nth-child(5) {
-  background-color: var(--brand-yellow);
-  color: var(--text-dark);
-}
-
-.tab:focus {
-  outline: 2px solid var(--brand-blue);
-  outline-offset: 2px;
+.tab:active {
+  border: none;
+  outline: none;
 }
 
 .dailyTab {

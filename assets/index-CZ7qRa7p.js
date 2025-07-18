@@ -1,1 +1,0 @@
-import{j as e}from"./index-Lhlsskyf.js";import{G as t,a as s}from"./GameHeader-CkUEzstN.js";const a="_gameContent_1sj3y_1",o={gameContent:a},i=()=>e.jsxs(t,{children:[e.jsx(s,{title:"Simonle"}),e.jsx("div",{className:o.gameContent})]});export{i as default};

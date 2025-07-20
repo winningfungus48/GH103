@@ -6,7 +6,7 @@ const AllCategories = React.lazy(() => import("./pages/AllCategories"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const GameWrapper = React.lazy(() => import("./components/GameWrapper"));
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastProvider } from "./context/ToastProvider";
 import { FavoritesProvider } from "./context/FavoritesProvider";
 
@@ -20,14 +20,19 @@ function App() {
     <ToastProvider>
       <FavoritesProvider>
         <div className={styles.app}>
+          {/* Skip link for accessibility */}
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
+          
           <Suspense fallback={<Loader />}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/categories" element={<AllCategories />} />
-              <Route path="/game/:gameId" element={<GameWrapper />} />
-              <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/game/:slug" element={<GameWrapper />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
           </Suspense>
         </div>
@@ -35,11 +40,5 @@ function App() {
     </ToastProvider>
   );
 }
-
-// Daily route alias that redirects to game route with mode=daily
-const DailyGameRedirect = () => {
-  const { gameId } = useParams();
-  return <Navigate to={`/game/${gameId}?mode=daily`} replace />;
-};
 
 export default App;

@@ -6,29 +6,57 @@ const tabs = ["A-Z Games", "Favorites", "-le Games", "Sports"];
 const Header = ({ activeCategory, onCategoryChange }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const handleMenuToggle = () => {
+    setMenuOpen((open) => !open);
+  };
+
+  const handleMenuKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleMenuToggle();
+    }
+  };
+
+  const handleTabKeyDown = (e, tab) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onCategoryChange(tab);
+      setMenuOpen(false);
+    }
+  };
+
   // Hamburger icon SVG
   const Hamburger = (
     <button
       className={styles.hamburger}
       aria-label="Open menu"
-      onClick={() => setMenuOpen((open) => !open)}
+      aria-expanded={menuOpen}
+      aria-controls="mobile-menu"
+      onClick={handleMenuToggle}
+      onKeyDown={handleMenuKeyDown}
+      tabIndex={0}
     >
-      <span className={styles.bar}></span>
-      <span className={styles.bar}></span>
-      <span className={styles.bar}></span>
+      <span className={styles.bar} aria-hidden="true"></span>
+      <span className={styles.bar} aria-hidden="true"></span>
+      <span className={styles.bar} aria-hidden="true"></span>
     </button>
   );
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} role="banner">
       <h1>Game Hub</h1>
-      <nav className={styles.desktopNav}>
+      <nav className={styles.desktopNav} aria-label="Desktop navigation">
         {/* Desktop category strip placeholder, will be hidden on mobile */}
       </nav>
       <div className={styles.mobileNav}>
         {Hamburger}
         {menuOpen && (
-          <div className={styles.mobileMenu}>
+          <nav 
+            className={styles.mobileMenu} 
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Mobile navigation"
+          >
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -37,13 +65,15 @@ const Header = ({ activeCategory, onCategoryChange }) => {
                   onCategoryChange(tab);
                   setMenuOpen(false);
                 }}
+                onKeyDown={(e) => handleTabKeyDown(e, tab)}
                 tabIndex={0}
                 aria-current={activeCategory === tab ? "page" : undefined}
+                aria-label={`${tab} games`}
               >
                 {tab}
               </button>
             ))}
-          </div>
+          </nav>
         )}
       </div>
     </header>

@@ -75,48 +75,38 @@ const Home = () => {
         "puzzle games",
         "free games",
         "browser games",
-        "wordle",
-        "numberle",
+        "mini games",
+        "word games",
+        "number games",
+        "brain games",
+        "casual games",
       ]}
     >
       <CategoryStrip
         activeCategory={activeCategory}
         onCategoryChange={handleCategoryChange}
       />
-      <div className={layoutUtils.container}>
-        {/* <AdBanner position="top" /> */}
-        <main className={styles.grid}>
-          <div className={styles.cardsGrid}>
-            {filteredGames.length === 0 ? (
-              <div className={styles.empty}>
-                No games found in this category.
-              </div>
-            ) : (
-              filteredGames.map((game) => {
-                // For 'see more', link to /category/[primaryCategorySlug] instead of /game/[slug]
-                const isSeeMore = activeCategory === "see more";
-                const primaryCategory =
-                  game.categories && game.categories.length > 0
-                    ? game.categories[0]
-                    : "";
-                return (
-                  <GameCard
-                    key={game.slug}
-                    title={game.name}
-                    description={game.description}
-                    slug={game.slug}
-                    route={
-                      isSeeMore ? `/category/${primaryCategory}` : undefined
-                    }
-                    new={game.new}
-                    featured={game.featured}
-                  />
-                );
-              })
-            )}
+      <main id="main-content" className={layoutUtils.mainContent}>
+        <div className={styles.gamesGrid}>
+          {filteredGames.map((game) => (
+            <GameCard
+              key={game.slug}
+              title={game.name}
+              description={game.description}
+              slug={game.slug}
+              route={game.route}
+              new={game.new}
+              featured={game.featured}
+            />
+          ))}
+        </div>
+        {filteredGames.length === 0 && (
+          <div className={styles.noGames}>
+            <p>No games found in this category.</p>
           </div>
-        </main>
-      </div>
+        )}
+        <AdBanner />
+      </main>
     </LayoutWrapper>
   );
 };

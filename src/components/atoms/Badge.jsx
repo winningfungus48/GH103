@@ -25,6 +25,8 @@ const Badge = ({ type, children }) => {
           background: color,
           color: "#fff",
         }}
+        role="status"
+        aria-label={getTooltipContent()}
         tabIndex={0}
       >
         {children}

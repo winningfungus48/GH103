@@ -21,30 +21,45 @@ const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
 
   // Ensure 'A-Z Games' is always first, rest sorted alphabetically
   const sortedTabs = useMemo(() => {
-    const azTab = tabs.find((tab) => tab.slug === "a-z games");
-    const otherTabs = tabs
-      .filter((tab) => tab.slug !== "a-z games")
-      .sort((a, b) => a.label.localeCompare(b.label));
-    return azTab ? [azTab, ...otherTabs] : otherTabs;
+    const aToZ = tabs.find((tab) => tab.slug === "a-z games");
+    const rest = tabs.filter((tab) => tab.slug !== "a-z games");
+    return [aToZ, ...rest.sort((a, b) => a.label.localeCompare(b.label))];
   }, []);
 
+  const handleKeyDown = useCallback((e, slug) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCategoryChange(slug);
+    }
+  }, [handleCategoryChange]);
+
   return (
-    <div className={styles.categoryStrip}>
+    <nav 
+      className={styles.categoryStrip} 
+      role="navigation" 
+      aria-label="Game categories"
+    >
       {sortedTabs.map((tab) => (
         <button
           key={tab.slug}
-          className={`${styles.tab} ${activeCategory === tab.slug ? styles.active : ""}`}
+          className={`${styles.tab} ${
+            activeCategory === tab.slug ? styles.active : ""
+          } ${tab.slug === "daily games" ? styles.dailyTab : ""}`}
           onClick={() => handleCategoryChange(tab.slug)}
-          tabIndex={0}
+          onKeyDown={(e) => handleKeyDown(e, tab.slug)}
           aria-current={activeCategory === tab.slug ? "page" : undefined}
+          aria-label={`${tab.label} games`}
+          tabIndex={0}
         >
-          {/* {tab.slug === 'daily games' && (
-            <span className={styles.sunEmoji} role="img" aria-label="Sun">☀️</span>
-          )} */}
+          {tab.slug === "daily games" && (
+            <span className={styles.sunEmoji} aria-hidden="true">
+              ☀️
+            </span>
+          )}
           {tab.label}
         </button>
       ))}
-    </div>
+    </nav>
   );
 });
 

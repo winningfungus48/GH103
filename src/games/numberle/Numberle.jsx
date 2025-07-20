@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
 import GameHeader from "../../components/game/GameHeader";
@@ -106,33 +106,7 @@ function getDailySecretNumber(dailySeed) {
   return number;
 }
 
-function getFeedback(state, guess) {
-  const feedback = [];
-  const secret = state.secretNumber;
-  const secretCounts = {};
-  const guessCounts = {};
-  for (let digit of secret) {
-    secretCounts[digit] = (secretCounts[digit] || 0) + 1;
-  }
-  for (let i = 0; i < 5; i++) {
-    if (guess[i] === secret[i]) {
-      feedback[i] = "correct";
-      secretCounts[guess[i]]--;
-      guessCounts[guess[i]] = (guessCounts[guess[i]] || 0) + 1;
-    }
-  }
-  for (let i = 0; i < 5; i++) {
-    if (feedback[i] === "correct") continue;
-    if (secretCounts[guess[i]] > 0) {
-      feedback[i] = "present";
-      secretCounts[guess[i]]--;
-      guessCounts[guess[i]] = (guessCounts[guess[i]] || 0) + 1;
-    } else {
-      feedback[i] = "absent";
-    }
-  }
-  return feedback;
-}
+
 
 const Numberle = () => {
   const navigate = useNavigate();
@@ -153,7 +127,6 @@ const Numberle = () => {
 
   // Stats and daily state
   const [stats, setStats] = useState(() => getNumberleStats());
-  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [showEndgameModal, setShowEndgameModal] = useState(false);
   const [endgameData, setEndgameData] = useState({ won: false, message: "" });
   const [message, setMessage] = useState("");
@@ -198,25 +171,26 @@ const Numberle = () => {
     const guess = state.board[state.currentRow]
       .map((tile) => tile.value)
       .join("");
-    if (guess.length !== 5) {
+
+    if (!isValidGuess(guess)) {
       setMessage("Please enter exactly 5 digits");
       return;
     }
 
-    const feedback = getFeedback(state, guess);
+    const feedback = evaluateGuess(guess, state.secretNumber);
     const newBoard = [...state.board];
 
     // Update board with feedback
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < state.numberLength; i++) {
       newBoard[state.currentRow][i] = {
-        value: guess[i],
+        ...newBoard[state.currentRow][i],
         status: feedback[i],
       };
     }
 
     // Update number pad colors
     const newNumberPadColors = { ...state.numberPadColors };
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < state.numberLength; i++) {
       const digit = guess[i];
       const status = feedback[i];
       if (!newNumberPadColors[digit] || status === "correct") {
@@ -274,124 +248,178 @@ const Numberle = () => {
         completed: true,
         result: {},
       });
-      // setDailyCompleted(true); // Removed as per edit hint
-      // setDailyStreak(getDailyStreak('numberle')); // Removed as per edit hint
     }
   };
 
   const resetGame = () => {
-    const newSecretNumber = isDailyMode
-      ? getDailySecretNumber(dailySeed)
-      : generateSecretNumber();
     setState({
       ...NUMBERLE_INITIAL_STATE,
-      secretNumber: newSecretNumber,
+      secretNumber: isDailyMode
+        ? getDailySecretNumber(dailySeed)
+        : generateSecretNumber(),
       board: createBoard(),
     });
     setShowEndgameModal(false);
     setMessage("");
   };
 
-  // Keyboard event handler
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (state.gameOver) return;
+  const handleKeyDown = (e) => {
+    if (state.gameOver) return;
 
-      if (e.key >= "0" && e.key <= "9") {
-        inputNumber(parseInt(e.key));
-      } else if (e.key === "Enter") {
-        submitGuess();
-      } else if (e.key === "Backspace") {
-        deleteNumber();
+    if (e.key >= "0" && e.key <= "9") {
+      inputNumber(parseInt(e.key));
+    } else if (e.key === "Enter") {
+      submitGuess();
+    } else if (e.key === "Backspace") {
+      deleteNumber();
+    }
+  };
+
+  // Validation function
+  const isValidGuess = (guess) => {
+    return guess.length === 5 && /^\d{5}$/.test(guess);
+  };
+
+  // Evaluation function
+  const evaluateGuess = (guess, secretNumber) => {
+    const feedback = Array(5).fill("absent");
+    const secretCounts = {};
+
+    // Count digits in secret number
+    for (let i = 0; i < 5; i++) {
+      secretCounts[secretNumber[i]] = (secretCounts[secretNumber[i]] || 0) + 1;
+    }
+
+    // First pass: mark correct digits
+    for (let i = 0; i < 5; i++) {
+      if (guess[i] === secretNumber[i]) {
+        feedback[i] = "correct";
+        secretCounts[guess[i]]--;
       }
-    },
-    [state.gameOver, inputNumber, submitGuess, deleteNumber],
-  );
+    }
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+    // Second pass: mark present digits
+    for (let i = 0; i < 5; i++) {
+      if (feedback[i] === "correct") continue;
+      if (secretCounts[guess[i]] > 0) {
+        feedback[i] = "present";
+        secretCounts[guess[i]]--;
+      }
+    }
+
+    return feedback;
+  };
+
+  // Get current game status for screen readers
+  const getGameStatus = () => {
+    if (state.gameOver) {
+      return state.gameWon 
+        ? "Congratulations! You won the game!" 
+        : `Game over. The number was ${state.secretNumber}`;
+    }
+    return `Attempt ${state.currentRow + 1} of ${state.maxAttempts}, ${state.currentCol} digits entered`;
+  };
 
   return (
     <GamePageLayout>
-      <GameHeader title="Numberle" />
+      <GameHeader
+        title="Numberle"
+        subtitle="Guess the 5-digit number in 6 tries"
+        logo={numberleLogo}
+        onBack={() => navigate("/")}
+      />
 
-      {/* Welcome Modal */}
-      <Modal
-        open={showWelcomeModal}
-        onClose={() => setShowWelcomeModal(false)}
-        title="Welcome to Numberle"
-        className="welcome-modal"
+      <div 
+        className="game-container" 
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="application"
+        aria-label="Numberle game"
+        aria-live="polite"
+        aria-atomic="true"
       >
-        <div className="welcome-content">
-          <img
-            src={numberleLogo}
-            alt="Numberle logo"
-            className="numberle-logo"
-            style={{ marginBottom: "18px" }}
-          />
-          <h2 className="welcome-title">Welcome to Numberle</h2>
-          <p className="welcome-desc">
-            Get 6 chances to guess
-            <br />a 5-digit number
-          </p>
-          <button
-            className="welcome-play"
-            onClick={() => setShowWelcomeModal(false)}
-          >
-            Play
-          </button>
+        {/* Screen reader status */}
+        <div className="sr-only" aria-live="polite">
+          {getGameStatus()}
         </div>
-      </Modal>
 
-      <div className="numberle-wrapper">
-        <div className="game-container">
-          <div className="board">
-            {state.board.map((row, rowIndex) => (
-              <div key={rowIndex} className="row">
-                {row.map((tile, colIndex) => (
-                  <div key={colIndex} className={`tile ${tile.status}`}>
-                    {tile.value}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {message && <div className="message">{message}</div>}
-
-          <div className="number-pad-container">
-            <div className="number-pad">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((num) => (
-                <button
-                  key={num}
-                  className={`number-btn ${state.numberPadColors[num] || ""}`}
-                  onClick={() => inputNumber(num)}
-                  disabled={state.gameOver}
+        <div className="board" role="grid" aria-label="Numberle game board">
+          {state.board.map((row, rowIndex) => (
+            <div
+              key={rowIndex}
+              className={`row ${rowIndex === state.currentRow ? "current" : ""}`}
+              role="row"
+              aria-label={`Row ${rowIndex + 1}`}
+            >
+              {row.map((tile, colIndex) => (
+                <div
+                  key={colIndex}
+                  className={`tile ${tile.status} ${
+                    rowIndex === state.currentRow && colIndex === state.currentCol
+                      ? "current"
+                      : ""
+                  }`}
+                  role="gridcell"
+                  aria-label={`Position ${colIndex + 1}, ${tile.value || "empty"}`}
+                  tabIndex={0}
                 >
-                  {num}
-                </button>
+                  {tile.value}
+                </div>
               ))}
             </div>
-            <div className="action-buttons">
+          ))}
+        </div>
+
+        {message && (
+          <div className="message" role="alert" aria-live="assertive">
+            {message}
+          </div>
+        )}
+
+        <div className="number-pad-container">
+          <div 
+            className="number-pad" 
+            role="group" 
+            aria-label="Number pad"
+          >
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
               <button
-                className="action-btn"
-                onClick={deleteNumber}
+                key={num}
+                className={`number-btn ${state.numberPadColors[num] || ""}`}
+                onClick={() => inputNumber(num)}
                 disabled={state.gameOver}
+                aria-label={`Enter digit ${num}`}
+                tabIndex={0}
               >
-                ⌫
+                {num}
               </button>
-              <button
-                className={`action-btn ${state.currentCol === state.numberLength ? "active" : ""}`}
-                onClick={submitGuess}
-                disabled={
-                  state.gameOver || state.currentCol !== state.numberLength
-                }
-              >
-                Enter
-              </button>
-            </div>
+            ))}
+          </div>
+          <div 
+            className="action-buttons" 
+            role="group" 
+            aria-label="Action buttons"
+          >
+            <button
+              className="action-btn"
+              onClick={deleteNumber}
+              disabled={state.gameOver}
+              aria-label="Delete last digit"
+              tabIndex={0}
+            >
+              ⌫
+            </button>
+            <button
+              className={`action-btn ${state.currentCol === state.numberLength ? "active" : ""}`}
+              onClick={submitGuess}
+              disabled={
+                state.gameOver || state.currentCol !== state.numberLength
+              }
+              aria-label="Submit guess"
+              tabIndex={0}
+            >
+              Enter
+            </button>
           </div>
         </div>
       </div>
@@ -400,14 +428,22 @@ const Numberle = () => {
       <Modal
         open={showEndgameModal}
         onClose={resetGame}
-        title="Game Over"
+        title={state.gameWon ? "Congratulations!" : "Game Over"}
         className="endgame-modal"
         buttons={
           <div className="endgame-buttons">
-            <button className="playagain-btn" onClick={resetGame}>
+            <button 
+              className="playagain-btn" 
+              onClick={resetGame}
+              aria-label="Play again"
+            >
               Play Again
             </button>
-            <button className="backhome-btn" onClick={() => navigate("/")}>
+            <button 
+              className="backhome-btn" 
+              onClick={() => navigate("/")}
+              aria-label="Back to games"
+            >
               Back to Games
             </button>
           </div>

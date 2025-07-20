@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styles from './Tooltip.module.css';
+import React, { useState } from "react";
+import styles from "./Tooltip.module.css";
 
-const Tooltip = ({ children, content, position = 'top' }) => {
+const Tooltip = ({ children, content, position = "top" }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseEnter = () => setIsVisible(true);
@@ -10,7 +10,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
   const handleBlur = () => setIsVisible(false);
 
   return (
-    <div 
+    <div
       className={styles.tooltipContainer}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -28,4 +28,4 @@ const Tooltip = ({ children, content, position = 'top' }) => {
   );
 };
 
-export default Tooltip; 
+export default Tooltip;

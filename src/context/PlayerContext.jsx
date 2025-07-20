@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext } from "react";
 
 // PlayerContext scaffold for future multiplayer/user state
 // TODO: Implement actual player state logic in future releases (2.0.0+)
@@ -19,4 +19,4 @@ export const PlayerProvider = ({ children }) => {
 
 export const usePlayer = () => {
   return useContext(PlayerContext);
-}; 
+};

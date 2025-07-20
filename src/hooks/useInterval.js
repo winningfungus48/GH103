@@ -1,19 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 /**
  * useInterval - A safe replacement for setInterval with automatic cleanup.
- * 
+ *
  * @param {function} callback - The function to call on each interval
  * @param {number|null} delay - Delay in milliseconds, or null to pause the interval
- * 
+ *
  * @example
  * const [count, setCount] = useState(0);
- * 
+ *
  * // Start interval
  * useInterval(() => {
  *   setCount(c => c + 1);
  * }, 1000);
- * 
+ *
  * // Pause interval
  * useInterval(() => {
  *   setCount(c => c + 1);
@@ -40,4 +40,4 @@ export default function useInterval(callback, delay) {
 
     return () => clearInterval(id);
   }, [delay]);
-} 
+}

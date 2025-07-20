@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext } from "react";
 
 // DailyContext scaffold for future daily challenge state
 // TODO: Implement actual daily state logic in future releases (2.0.0+)
@@ -19,4 +19,4 @@ export const DailyProvider = ({ children }) => {
 
 export const useDaily = () => {
   return useContext(DailyContext);
-}; 
+};

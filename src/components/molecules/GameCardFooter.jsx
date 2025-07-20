@@ -1,7 +1,7 @@
-import React from 'react';
-import PlayNowButton from '../atoms/PlayNowButton';
-import FavoriteToggle from '../atoms/FavoriteToggle';
-import styles from './GameCardFooter.module.css';
+import React from "react";
+import PlayNowButton from "../atoms/PlayNowButton";
+import FavoriteToggle from "../atoms/FavoriteToggle";
+import styles from "./GameCardFooter.module.css";
 
 const GameCardFooter = ({ slug, route }) => {
   return (
@@ -12,4 +12,4 @@ const GameCardFooter = ({ slug, route }) => {
   );
 };
 
-export default GameCardFooter; 
+export default GameCardFooter;

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 /**
  * Generic hook for managing game state.
@@ -17,4 +17,4 @@ export default function useGameState(initialState) {
   }, [initialState]);
 
   return { state, setState, resetState };
-} 
+}

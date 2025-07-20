@@ -41,7 +41,7 @@
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .link {
     font-size: 1rem;
     padding: 0.75rem 0;
@@ -52,8 +52,8 @@
   .footer {
     padding: 1.5rem 1rem;
   }
-  
+
   .nav {
     gap: 0.75rem;
   }
-} 
+}

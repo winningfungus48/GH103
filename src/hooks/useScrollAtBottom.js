@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 /**
  * useScrollAtBottom - React hook to detect if the user has scrolled to the bottom of the page.
@@ -17,15 +17,16 @@ function useScrollAtBottom(threshold = 100) {
     function checkAtBottom() {
       const scrollY = window.scrollY || window.pageYOffset;
       const windowHeight = window.innerHeight;
-      const scrollableHeight = document.documentElement.scrollHeight - windowHeight;
-      
+      const scrollableHeight =
+        document.documentElement.scrollHeight - windowHeight;
+
       // Show footer even on short pages that don't require scrolling
       // Ensures consistent footer visibility across all layouts
       if (scrollableHeight <= 0) {
         setIsAtBottom(true);
         return;
       }
-      
+
       // Check if scrolled to bottom (within threshold)
       const scrolledToBottom = scrollY >= scrollableHeight - threshold;
       setIsAtBottom(scrolledToBottom);
@@ -34,16 +35,16 @@ function useScrollAtBottom(threshold = 100) {
     // Initial check
     checkAtBottom();
     // Listen for scroll events
-    window.addEventListener('scroll', checkAtBottom);
-    window.addEventListener('resize', checkAtBottom);
+    window.addEventListener("scroll", checkAtBottom);
+    window.addEventListener("resize", checkAtBottom);
     // Cleanup on unmount
     return () => {
-      window.removeEventListener('scroll', checkAtBottom);
-      window.removeEventListener('resize', checkAtBottom);
+      window.removeEventListener("scroll", checkAtBottom);
+      window.removeEventListener("resize", checkAtBottom);
     };
   }, [threshold]);
 
   return isAtBottom;
 }
 
-export default useScrollAtBottom; 
+export default useScrollAtBottom;

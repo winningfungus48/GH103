@@ -1,6 +1,6 @@
-import React from 'react';
-import useGameState from '../../hooks/useGameState';
-import useGameCompletion from '../../hooks/useGameCompletion';
+import React from "react";
+import useGameState from "../../hooks/useGameState";
+import useGameCompletion from "../../hooks/useGameCompletion";
 
 /**
  * GameTemplate - Flexible template for puzzle/logic games.
@@ -31,7 +31,7 @@ export default function GameTemplate({
   getFeedback,
   onReset,
   onComplete,
-  render
+  render,
 }) {
   const { state, setState, resetState } = useGameState(initialState);
   const [feedback, setFeedback] = React.useState(null);
@@ -58,6 +58,6 @@ export default function GameTemplate({
     setState,
     resetState: handleReset,
     feedback,
-    getFeedback: handleFeedback
+    getFeedback: handleFeedback,
   });
-} 
+}

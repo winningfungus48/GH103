@@ -2,8 +2,8 @@
 // const { showToast } = useToast();
 // showToast({ message: 'Game saved!', type: 'success' });
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import Toast from '../components/atoms/Toast';
+import React, { createContext, useContext, useState, useCallback } from "react";
+import Toast from "../components/atoms/Toast";
 
 const ToastContext = createContext();
 
@@ -16,15 +16,15 @@ export const ToastProvider = ({ children }) => {
   const [current, setCurrent] = useState(null);
 
   // Show a new toast (adds to queue)
-  const showToast = useCallback(({ message, type = 'info' }) => {
-    setQueue(q => [...q, { message, type, key: Date.now() + Math.random() }]);
+  const showToast = useCallback(({ message, type = "info" }) => {
+    setQueue((q) => [...q, { message, type, key: Date.now() + Math.random() }]);
   }, []);
 
   // When current toast closes, show next in queue
   const handleClose = useCallback(() => {
     setCurrent(null);
     setTimeout(() => {
-      setQueue(q => q.slice(1));
+      setQueue((q) => q.slice(1));
     }, 200); // allow fade-out
   }, []);
 
@@ -53,7 +53,7 @@ export const ToastProvider = ({ children }) => {
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
-}; 
+};

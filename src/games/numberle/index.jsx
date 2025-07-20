@@ -1,2 +1,2 @@
-import Numberle from './Numberle.jsx';
-export default Numberle; 
+import Numberle from "./Numberle.jsx";
+export default Numberle;

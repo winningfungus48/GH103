@@ -1,11 +1,11 @@
-import React from 'react';
-import styles from './AdBanner.module.css';
+import React from "react";
+import styles from "./AdBanner.module.css";
 
 /**
  * AdBanner - Modular placeholder for future ads.
  * @param {string} position - e.g., 'top', 'inline', 'bottom'
  */
-const AdBanner = ({ position = 'inline' }) => (
+const AdBanner = ({ position = "inline" }) => (
   <div
     className={styles.adBanner}
     role="complementary"
@@ -15,4 +15,4 @@ const AdBanner = ({ position = 'inline' }) => (
   </div>
 );
 
-export default AdBanner; 
+export default AdBanner;

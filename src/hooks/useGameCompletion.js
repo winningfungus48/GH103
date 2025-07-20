@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 /**
  * Generic hook for detecting game completion and triggering a callback.
@@ -21,4 +21,4 @@ export default function useGameCompletion(state, isComplete, onComplete) {
       completedRef.current = false;
     }
   }, [state, isComplete, onComplete]);
-} 
+}

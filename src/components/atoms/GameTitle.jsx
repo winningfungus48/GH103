@@ -1,10 +1,8 @@
-import React from 'react';
-import styles from './GameTitle.module.css';
+import React from "react";
+import styles from "./GameTitle.module.css";
 
 const GameTitle = ({ title }) => {
-  return (
-    <h2 className={styles.title}>{title}</h2>
-  );
+  return <h2 className={styles.title}>{title}</h2>;
 };
 
-export default GameTitle; 
+export default GameTitle;

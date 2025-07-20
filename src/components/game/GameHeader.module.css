@@ -26,7 +26,8 @@
   z-index: 2;
 }
 
-.backLink:hover, .backLink:focus {
+.backLink:hover,
+.backLink:focus {
   background: #f3f4f6;
   text-decoration: underline;
 }
@@ -67,4 +68,4 @@
     font-size: 0.95rem;
     padding: 0.25rem 0.5rem;
   }
-} 
+}

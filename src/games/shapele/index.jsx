@@ -1,2 +1,2 @@
-import Shapele from './Shapele.jsx';
+import Shapele from "./Shapele.jsx";
 export default Shapele;

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
 /**
  * useDailySeed - Returns a deterministic seed for daily games based on date and optional slug.
@@ -12,7 +12,7 @@ export default function useDailySeed({ date, slug } = {}) {
     let d;
     if (!date) {
       d = new Date();
-    } else if (typeof date === 'string') {
+    } else if (typeof date === "string") {
       d = new Date(date);
     } else {
       d = date;
@@ -24,7 +24,7 @@ export default function useDailySeed({ date, slug } = {}) {
     // Simple hash function for deterministic seed
     let hash = 0;
     for (let i = 0; i < base.length; i++) {
-      hash = ((hash << 5) - hash) + base.charCodeAt(i);
+      hash = (hash << 5) - hash + base.charCodeAt(i);
       hash |= 0; // Convert to 32bit int
     }
     // Return as string for flexibility
@@ -41,8 +41,8 @@ export const stringToSeed = (seedString) => {
   let hash = 0;
   for (let i = 0; i < seedString.length; i++) {
     const char = seedString.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
   return Math.abs(hash);
-}; 
+};

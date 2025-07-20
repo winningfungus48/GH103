@@ -11,7 +11,9 @@ import { ToastProvider } from "./context/ToastProvider";
 import { FavoritesProvider } from "./context/FavoritesProvider";
 
 // Fallback UI for lazy loading
-const Loader = () => <div style={{ textAlign: 'center', marginTop: '3rem' }}>Loading...</div>;
+const Loader = () => (
+  <div style={{ textAlign: "center", marginTop: "3rem" }}>Loading...</div>
+);
 
 function App() {
   return (
@@ -19,14 +21,14 @@ function App() {
       <FavoritesProvider>
         <div className={styles.app}>
           <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<AllCategories />} />
-            <Route path="/game/:gameId" element={<GameWrapper />} />
-            <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<AllCategories />} />
+              <Route path="/game/:gameId" element={<GameWrapper />} />
+              <Route path="/daily/:gameId" element={<DailyGameRedirect />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </Suspense>
         </div>
       </FavoritesProvider>

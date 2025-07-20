@@ -1,5 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
-import { getFavorites as getFavoritesFromStorage, toggleFavorite as toggleFavoriteInStorage } from '../utils/localStorage';
+import React, { createContext, useContext, useState } from "react";
+import {
+  getFavorites as getFavoritesFromStorage,
+  toggleFavorite as toggleFavoriteInStorage,
+} from "../utils/localStorage";
 
 // FavoritesContext manages a flat array of favorite game slugs.
 // Future: Extend to support multiplayer, daily stats, or richer metadata as needed.
@@ -10,7 +13,7 @@ export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState(() => {
     try {
       return getFavoritesFromStorage();
-    } catch (e) {
+    } catch (_e) {
       // Fallback to empty array if localStorage is unavailable or corrupt
       return [];
     }
@@ -21,7 +24,7 @@ export const FavoritesProvider = ({ children }) => {
     try {
       const updated = toggleFavoriteInStorage(slug);
       setFavorites(updated);
-    } catch (e) {
+    } catch (_e) {
       // Optionally: surface error to user via toast or log
       setFavorites([]); // fallback to empty
     }
@@ -37,7 +40,7 @@ export const FavoritesProvider = ({ children }) => {
 export const useFavorites = () => {
   const context = useContext(FavoritesContext);
   if (!context) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    throw new Error("useFavorites must be used within a FavoritesProvider");
   }
   return context;
-}; 
+};

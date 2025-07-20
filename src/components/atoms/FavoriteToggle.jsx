@@ -1,7 +1,7 @@
-import React from 'react';
-import { useFavorites } from '../../context/FavoritesProvider';
-import styles from './FavoriteToggle.module.css';
-import { trackEvent } from '../../utils/analytics';
+import React from "react";
+import { useFavorites } from "../../context/FavoritesProvider";
+import styles from "./FavoriteToggle.module.css";
+import { trackEvent } from "../../utils/analytics";
 
 const FavoriteToggle = ({ slug }) => {
   const { favorites, toggleFavorite } = useFavorites();
@@ -19,11 +19,11 @@ const FavoriteToggle = ({ slug }) => {
     }
   };
 
-  const ariaLabel = isFavorite ? 'Remove from favorites' : 'Add to favorites';
+  const ariaLabel = isFavorite ? "Remove from favorites" : "Add to favorites";
 
   return (
     <button
-      className={`${styles.favoriteButton} ${isFavorite ? styles.favorited : ''}`}
+      className={`${styles.favoriteButton} ${isFavorite ? styles.favorited : ""}`}
       onClick={handleToggle}
       aria-label={ariaLabel}
       tabIndex={0}
@@ -32,7 +32,7 @@ const FavoriteToggle = ({ slug }) => {
         width="20"
         height="20"
         viewBox="0 0 24 24"
-        fill={isFavorite ? 'currentColor' : 'none'}
+        fill={isFavorite ? "currentColor" : "none"}
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
@@ -45,4 +45,4 @@ const FavoriteToggle = ({ slug }) => {
   );
 };
 
-export default FavoriteToggle; 
+export default FavoriteToggle;

@@ -10,14 +10,18 @@
   padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
   font-weight: 600;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s, box-shadow 0.3s;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    background 0.3s,
+    box-shadow 0.3s;
   outline: none;
 }
 
@@ -26,7 +30,7 @@
   transform: translateY(0);
   pointer-events: auto;
   background: #2563eb;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
   border: none;
 }
 
@@ -55,4 +59,4 @@
     padding: 0.6rem 1.1rem;
     font-size: 1rem;
   }
-} 
+}

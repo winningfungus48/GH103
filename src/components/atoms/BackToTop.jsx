@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './BackToTop.module.css';
+import React from "react";
+import styles from "./BackToTop.module.css";
 
 // Custom hook to detect if scrollY > threshold
 function useScrollThreshold(threshold = 500) {
@@ -9,11 +9,11 @@ function useScrollThreshold(threshold = 500) {
       setPassed(window.scrollY > threshold);
     }
     check();
-    window.addEventListener('scroll', check);
-    window.addEventListener('resize', check);
+    window.addEventListener("scroll", check);
+    window.addEventListener("resize", check);
     return () => {
-      window.removeEventListener('scroll', check);
-      window.removeEventListener('resize', check);
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
     };
   }, [threshold]);
   return passed;
@@ -27,7 +27,7 @@ export default function BackToTop() {
   const show = useScrollThreshold(500);
 
   const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -38,7 +38,10 @@ export default function BackToTop() {
       tabIndex={0}
       type="button"
     >
-      <span className={styles.icon} aria-hidden="true">↑</span> Back to Top
+      <span className={styles.icon} aria-hidden="true">
+        ↑
+      </span>{" "}
+      Back to Top
     </button>
   );
-} 
+}

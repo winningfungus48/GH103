@@ -1,2 +1,2 @@
-import Wordle from './Wordle.jsx';
+import Wordle from "./Wordle.jsx";
 export default Wordle;

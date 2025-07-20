@@ -1,17 +1,17 @@
-import React from 'react';
-import Tooltip from './Tooltip';
-import styles from './Badge.module.css';
+import React from "react";
+import Tooltip from "./Tooltip";
+import styles from "./Badge.module.css";
 
 const Badge = ({ type, children }) => {
-  const color = badgeColors[type] || '#888';
-  
+  const color = badgeColors[type] || "#888";
+
   // Tooltip content based on badge type
   const getTooltipContent = () => {
     switch (type) {
-      case 'new':
-        return 'New!';
-      case 'featured':
-        return 'Featured';
+      case "new":
+        return "New!";
+      case "featured":
+        return "Featured";
       default:
         return children;
     }
@@ -23,7 +23,7 @@ const Badge = ({ type, children }) => {
         className={styles.badge}
         style={{
           background: color,
-          color: '#fff',
+          color: "#fff",
         }}
         tabIndex={0}
       >
@@ -34,8 +34,8 @@ const Badge = ({ type, children }) => {
 };
 
 const badgeColors = {
-  new: '#38bdf8', // blue
-  featured: '#fbbf24', // yellow
+  new: "#38bdf8", // blue
+  featured: "#fbbf24", // yellow
 };
 
-export default Badge; 
+export default Badge;

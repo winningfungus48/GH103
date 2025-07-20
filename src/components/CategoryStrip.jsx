@@ -11,15 +11,20 @@ const tabs = [
 ];
 
 const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
-  const handleCategoryChange = useCallback((slug) => {
-    setLastCategory(slug);
-    onCategoryChange(slug);
-  }, [onCategoryChange]);
+  const handleCategoryChange = useCallback(
+    (slug) => {
+      setLastCategory(slug);
+      onCategoryChange(slug);
+    },
+    [onCategoryChange],
+  );
 
   // Ensure 'A-Z Games' is always first, rest sorted alphabetically
   const sortedTabs = useMemo(() => {
-    const azTab = tabs.find(tab => tab.slug === 'a-z games');
-    const otherTabs = tabs.filter(tab => tab.slug !== 'a-z games').sort((a, b) => a.label.localeCompare(b.label));
+    const azTab = tabs.find((tab) => tab.slug === "a-z games");
+    const otherTabs = tabs
+      .filter((tab) => tab.slug !== "a-z games")
+      .sort((a, b) => a.label.localeCompare(b.label));
     return azTab ? [azTab, ...otherTabs] : otherTabs;
   }, []);
 
@@ -28,9 +33,7 @@ const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
       {sortedTabs.map((tab) => (
         <button
           key={tab.slug}
-          className={
-            `${styles.tab} ${activeCategory === tab.slug ? styles.active : ''}`
-          }
+          className={`${styles.tab} ${activeCategory === tab.slug ? styles.active : ""}`}
           onClick={() => handleCategoryChange(tab.slug)}
           tabIndex={0}
           aria-current={activeCategory === tab.slug ? "page" : undefined}
@@ -45,6 +48,6 @@ const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
   );
 });
 
-CategoryStrip.displayName = 'CategoryStrip';
+CategoryStrip.displayName = "CategoryStrip";
 
 export default CategoryStrip;

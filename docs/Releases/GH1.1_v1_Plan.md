@@ -34,6 +34,16 @@
 - Fix edge-case bugs and ensure incognito/offline fallbacks work.  
 - **ESLint + Prettier enforcement** pass.  
 - Remove unused/legacy files & redundant CSS.  
+- Mobile UI/UX refinements and adjustments.
+
+**Definition of Done:**
+- Zero critical bugs, all regression tests passing
+- ESLint/Prettier compliance = 100%
+- Mobile responsiveness verified across all components
+
+**Risks & Rollback:**
+- Risk: ESLint changes may introduce new issues
+- Rollback: Revert to last stable commit if regression testing fails
 
 ---
 
@@ -46,6 +56,13 @@
 - Confirm scalable **localStorage.js** namespace with version key.  
 - Performance utilities: `useDebounce`, `useThrottle`, `useInterval`.  
 
+**Definition of Done:**
+- Template system documented & tested with at least one demo game
+- All hooks implemented and tested
+- Universal UI components finalized
+
+**Dependencies:** Requires 1.1.1 completion
+
 ---
 
 ### **1.1.3 – New Games Batch 1 (3–5 Games)**  
@@ -56,6 +73,18 @@
 - Ensure games follow **responsive & accessibility standards**.  
 - Metadata baseline: `metaDescription`, `keywords`, `previewImage`.  
 
+**Definition of Done:**
+- 3–5 new games with consistent UI/UX and responsive verification
+- All games pass accessibility standards
+- Template system stress-tested and validated
+
+**Risks & Rollback:**
+- Risk: Templates may not be fully ready
+- Mitigation: Fallback to building 1–2 games manually while completing the system
+- Rollback: Revert to last stable commit if template issues arise
+
+**Dependencies:** Requires 1.1.2 completion
+
 ---
 
 ### **1.1.4 – Partner Game Migration Infrastructure Prep**  
@@ -65,6 +94,19 @@
 - Create **Partner Game Migration Checklist** (naming, testing, metadata, responsive rules).  
 - Document shared coding standards & commit workflow for contributions.  
 - Test migration pipeline with 1–2 placeholder partner-like games.  
+- Include React 18 + Vite compatibility and build size guidelines.
+
+**Definition of Done:**
+- Migration checklist validated with 1–2 sample games
+- Documentation complete for simple React game integration
+- Migration issues documented during placeholder tests
+
+**Risks & Rollback:**
+- Risk: Partner game complexity may be higher than expected
+- Mitigation: Scope to simple React games only in GH1.1
+- Rollback: Revert to last stable commit if integration issues arise
+
+**Dependencies:** Requires 1.1.3 completion
 
 ---
 
@@ -76,6 +118,13 @@
 - Perform **UI/UX consistency audit** across all games.  
 - Finalize **universal polish pass** (hover states, responsive tweaks).  
 
+**Definition of Done:**
+- Total 10 games completed
+- Full UI consistency audit passes
+- All games meet responsive and accessibility standards
+
+**Dependencies:** Requires 1.1.4 completion
+
 ---
 
 ### **1.1.6 – Final Stability & Public Launch Prep**  
@@ -86,9 +135,42 @@
 - **Final performance pass** (lazy loading, React.memo optimizations).  
 - Document all completed work in `/docs/phases/` + Roadmap update.
 
+**Definition of Done:**
+- Performance benchmarks met (lazy loading under 200ms impact, stable mobile FPS)
+- Full regression testing passed
+- All documentation updated
+
+**Dependencies:** Requires 1.1.5 completion
+
 ---
 
-## ✅ 3. GH1.1 Deliverables
+### **1.1.7 – Spillover & Final Polish**  
+**Goal:** Dedicated phase for any delayed partner migration or general refinements before public launch.
+
+**Key Tasks:**
+- Address any remaining polish items from previous phases
+- Final partner game integration refinements if needed
+- Last-minute UI/UX improvements
+- Final validation and testing
+
+**Definition of Done:**
+- All phase objectives completed
+- Release ready for public launch
+- Zero critical issues remaining
+
+**Dependencies:** Requires 1.1.6 completion
+
+---
+
+## ✅ 3. Game Selection Strategy
+- **Target Games:** Focus on **templated-friendly games (-le style, word/logic puzzles, and casual skill games)** for the first batches
+- **Priority:** Approximately **70–80% of the 10-game target will be template-friendly**, ensuring the new systems are stress-tested
+- **Partner Games:** Simple React games, aligned with existing tech stack (React 18 + Vite)
+- **Complexity:** Partner games should be similar to our own (-le-like, React-based casual puzzles)
+
+---
+
+## ✅ 4. GH1.1 Deliverables
 - **10 fully integrated games** (templated & consistent).  
 - **No UI/UX rewrites needed for future games** after this release.  
 - **Documented partner migration process** (ready for GH1.2 or later).  
@@ -96,7 +178,16 @@
 
 ---
 
-## ✅ 4. Next Steps (GH1.2 Preview)
+## ✅ 5. Next Steps (GH1.2 Preview)
 - Privacy Policy finalization.  
 - Lightweight GA4 testing & privacy compliance updates.  
 - Ads & monetization prep (banner zones + customization).  
+
+---
+
+## ✅ 6. Development Guidelines for Cursor
+1. **Strictly follow the new DoD, risk, and rollback structure phase by phase**
+2. **Partner game prep work (1.1.4) should focus on documenting migration issues during the placeholder tests**
+3. **Mobile UI/UX refinements are priority in 1.1.1**
+4. **Template system stress-testing is critical in 1.1.3**
+5. **Performance benchmarks must be met in 1.1.6**

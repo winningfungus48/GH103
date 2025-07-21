@@ -5,8 +5,9 @@ import GameCard from "../components/GameCard";
 import { getLastCategory } from "../utils/localStorage";
 import LayoutWrapper from "../components/layout/LayoutWrapper";
 import CategoryStrip from "../components/CategoryStrip";
-import AdBanner from "../components/ads/AdBanner";
-import layoutUtils from "../styles/layout.module.css";
+// AdBanner temporarily disabled until 1.2
+// import AdBanner from "../components/ads/AdBanner";
+
 import { trackEvent } from "../utils/analytics";
 import { isFavorite } from "../utils/localStorage";
 
@@ -86,8 +87,8 @@ const Home = () => {
         activeCategory={activeCategory}
         onCategoryChange={handleCategoryChange}
       />
-      <main id="main-content" className={layoutUtils.mainContent}>
-        <div className={styles.gamesGrid}>
+      <main id="main-content" className={styles.grid}>
+        <div className={styles.cardsGrid}>
           {filteredGames.map((game) => (
             <GameCard
               key={game.slug}
@@ -105,7 +106,8 @@ const Home = () => {
             <p>No games found in this category.</p>
           </div>
         )}
-        <AdBanner />
+        {/* AdBanner temporarily disabled until 1.2 */}
+        {/* <AdBanner /> */}
       </main>
     </LayoutWrapper>
   );

@@ -288,6 +288,76 @@ export function setNumberleStats(newStats) {
   }
 }
 
+// --- Wordle Stats ---
+const WORDLE_STATS_KEY = "wordle-stats";
+
+export function getWordleStats() {
+  try {
+    const data = localStorage.getItem(WORDLE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          bestStreak: 0,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      bestStreak: 0,
+    };
+  }
+}
+
+export function setWordleStats(newStats) {
+  try {
+    localStorage.setItem(WORDLE_STATS_KEY, JSON.stringify(newStats));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+// --- Simonle Stats ---
+const SIMONLE_STATS_KEY = "simonle-stats";
+
+export function getSimonleStats() {
+  try {
+    const data = localStorage.getItem(SIMONLE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          bestStreak: 0,
+          bestScore: 0,
+          bestLevel: 0,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      bestStreak: 0,
+      bestScore: 0,
+      bestLevel: 0,
+    };
+  }
+}
+
+export function setSimonleStats(newStats) {
+  try {
+    localStorage.setItem(SIMONLE_STATS_KEY, JSON.stringify(newStats));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
 // --- Theme Mode ---
 const THEME_KEY = "theme-mode";
 
@@ -302,6 +372,146 @@ export function getThemeMode() {
 export function setThemeMode(mode) {
   try {
     localStorage.setItem(THEME_KEY, mode);
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+// --- Colorle Stats ---
+const COLORLE_STATS_KEY = "colorle-stats";
+
+export function getColorleStats() {
+  try {
+    const data = localStorage.getItem(COLORLE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          maxStreak: 0,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+    };
+  }
+}
+
+export function setColorleStats(newStats) {
+  try {
+    localStorage.setItem(COLORLE_STATS_KEY, JSON.stringify(newStats));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+// --- Mathle Stats ---
+const MATHLE_STATS_KEY = "mathle-stats";
+
+export function getMathleStats() {
+  try {
+    const data = localStorage.getItem(MATHLE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          maxStreak: 0,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+    };
+  }
+}
+
+export function setMathleStats(newStats) {
+  try {
+    localStorage.setItem(MATHLE_STATS_KEY, JSON.stringify(newStats));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+// --- Puzzlele Stats ---
+const PUZZLELE_STATS_KEY = "puzzlele-stats";
+
+export function getPuzzleleStats() {
+  try {
+    const data = localStorage.getItem(PUZZLELE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          maxStreak: 0,
+          totalMoves: 0,
+          bestMoves: null,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+      totalMoves: 0,
+      bestMoves: null,
+    };
+  }
+}
+
+export function setPuzzleleStats(newStats) {
+  try {
+    localStorage.setItem(PUZZLELE_STATS_KEY, JSON.stringify(newStats));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+// --- Memoryle Stats ---
+const MEMORYLE_STATS_KEY = "memoryle-stats";
+
+export function getMemoryleStats() {
+  try {
+    const data = localStorage.getItem(MEMORYLE_STATS_KEY);
+    return data
+      ? JSON.parse(data)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          maxStreak: 0,
+          totalMoves: 0,
+          bestMoves: null,
+        };
+  } catch (_e) {
+    // Silently fail and return default stats
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+      totalMoves: 0,
+      bestMoves: null,
+    };
+  }
+}
+
+export function setMemoryleStats(newStats) {
+  try {
+    localStorage.setItem(MEMORYLE_STATS_KEY, JSON.stringify(newStats));
   } catch (_e) {
     // Silently fail
   }

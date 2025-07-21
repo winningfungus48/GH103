@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
 import GameHeader from "../../components/game/GameHeader";
@@ -10,6 +10,7 @@ import {
   setNumberleStats,
 } from "../../utils/localStorage";
 import useDailySeed from "../../hooks/useDailySeed";
+import useWelcomeModal from "../../hooks/useWelcomeModal.jsx";
 import Modal from "../../components/ui/Modal";
 
 // --- Numberle-specific logic ---
@@ -108,7 +109,7 @@ function getDailySecretNumber(dailySeed) {
 
 
 
-const Numberle = () => {
+const Numberle = ({ mode: _mode, description: _description, instructions }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -117,13 +118,17 @@ const Numberle = () => {
   const dailySeed = useDailySeed({ date: today, slug: "numberle" });
 
   // Game state
-  const [state, setState] = useState(() => ({
-    ...NUMBERLE_INITIAL_STATE,
-    secretNumber: isDailyMode
+  const [state, setState] = useState(() => {
+    const secretNumber = isDailyMode && dailySeed
       ? getDailySecretNumber(dailySeed)
-      : generateSecretNumber(),
-    board: createBoard(),
-  }));
+      : generateSecretNumber();
+    
+    return {
+      ...NUMBERLE_INITIAL_STATE,
+      secretNumber,
+      board: createBoard(),
+    };
+  });
 
   // Stats and daily state
   const [stats, setStats] = useState(() => getNumberleStats());
@@ -132,9 +137,44 @@ const Numberle = () => {
   const [message, setMessage] = useState("");
   const [winPromptIndex, setWinPromptIndex] = useState(0);
 
+  // Welcome modal
+  const { WelcomeModal, gameContainerRef } = useWelcomeModal("Numberle", instructions);
+
+  // Update secret number when daily seed changes (for daily mode)
+  useEffect(() => {
+    if (isDailyMode && dailySeed && state.secretNumber !== getDailySecretNumber(dailySeed)) {
+      setState(prev => ({
+        ...prev,
+        secretNumber: getDailySecretNumber(dailySeed),
+      }));
+    }
+  }, [isDailyMode, dailySeed, state.secretNumber]);
+
+  // Debug focus events
+  useEffect(() => {
+    const container = gameContainerRef.current;
+    if (!container) return;
+
+    const handleFocus = () => console.log('Numberle container focused');
+    const handleBlur = () => console.log('Numberle container blurred');
+
+    container.addEventListener('focus', handleFocus);
+    container.addEventListener('blur', handleBlur);
+
+    return () => {
+      container.removeEventListener('focus', handleFocus);
+      container.removeEventListener('blur', handleBlur);
+    };
+  }, [gameContainerRef]);
+
   // Game logic functions
   const inputNumber = (num) => {
-    if (state.gameOver || state.currentCol >= state.numberLength) return;
+    if (state.gameOver || state.currentCol >= state.numberLength) {
+      console.log('Numberle input blocked:', { gameOver: state.gameOver, currentCol: state.currentCol, numberLength: state.numberLength });
+      return;
+    }
+
+    console.log('Numberle input:', num, 'at position:', state.currentCol);
 
     const newBoard = [...state.board];
     newBoard[state.currentRow][state.currentCol] = {
@@ -266,6 +306,9 @@ const Numberle = () => {
   const handleKeyDown = (e) => {
     if (state.gameOver) return;
 
+    // Debug logging
+    console.log('Numberle keydown:', e.key, 'Focus element:', document.activeElement);
+
     if (e.key >= "0" && e.key <= "9") {
       inputNumber(parseInt(e.key));
     } else if (e.key === "Enter") {
@@ -324,19 +367,23 @@ const Numberle = () => {
     <GamePageLayout>
       <GameHeader
         title="Numberle"
-        subtitle="Guess the 5-digit number in 6 tries"
         logo={numberleLogo}
         onBack={() => navigate("/")}
       />
+      <WelcomeModal />
 
       <div 
         className="game-container" 
+        ref={gameContainerRef}
         onKeyDown={handleKeyDown}
         tabIndex={0}
         role="application"
         aria-label="Numberle game"
         aria-live="polite"
         aria-atomic="true"
+        style={{ outline: '2px solid transparent' }}
+        onFocus={(e) => e.target.style.outline = '2px solid #007bff'}
+        onBlur={(e) => e.target.style.outline = '2px solid transparent'}
       >
         {/* Screen reader status */}
         <div className="sr-only" aria-live="polite">

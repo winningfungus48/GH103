@@ -1,0 +1,335 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  outline: none;
+}
+
+.container:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+}
+
+.instructions {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.instructions p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.instructions p:first-child {
+  font-weight: 600;
+  color: #212529;
+}
+
+.gameContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card:focus {
+  outline: none;
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  min-height: 80px;
+}
+
+.card.flipped .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cardFront {
+  background-color: #3b82f6;
+  color: white;
+  transform: rotateY(0deg);
+}
+
+.cardBack {
+  background-color: #f3f4f6;
+  color: #374151;
+  transform: rotateY(180deg);
+  border: 2px solid #e5e7eb;
+}
+
+.card.matched .cardBack {
+  background-color: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.resetBtn {
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.resetBtn:hover {
+  background-color: #4b5563;
+}
+
+.resetBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.resetBtn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.moves,
+.pairs {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  display: block;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 5px;
+  display: block;
+}
+
+.playAgainBtn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.playAgainBtn:hover {
+  background-color: #059669;
+}
+
+.closeBtn {
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.closeBtn:hover {
+  background-color: #4b5563;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .instructions {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .instructions p {
+    font-size: 0.8rem;
+  }
+
+  .grid {
+    gap: 6px;
+  }
+
+  .cardInner {
+    min-height: 70px;
+  }
+
+  .cardFront,
+  .cardBack {
+    font-size: 1.3rem;
+  }
+
+  .controls {
+    padding: 12px;
+    margin-bottom: 15px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resetBtn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .moves,
+  .pairs {
+    font-size: 0.9rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 15px;
+  }
+}
+
+@media (max-height: 600px) {
+  .container {
+    padding: 8px;
+  }
+
+  .instructions {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .instructions p {
+    font-size: 0.75rem;
+    margin: 3px 0;
+  }
+
+  .grid {
+    gap: 4px;
+  }
+
+  .cardInner {
+    min-height: 60px;
+  }
+
+  .cardFront,
+  .cardBack {
+    font-size: 1.2rem;
+  }
+
+  .controls {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .resetBtn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .moves,
+  .pairs {
+    font-size: 0.8rem;
+  }
+} 

@@ -4,4 +4,255 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Game Board */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #d3d6da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: white;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.cell.current {
+  border-color: #878a8c;
+  animation: pulse 1s infinite;
+}
+
+.cell.correct {
+  background-color: #6aaa64;
+  border-color: #6aaa64;
+  color: white;
+  animation: flip 0.6s ease-in-out;
+}
+
+.cell.present {
+  background-color: #c9b458;
+  border-color: #c9b458;
+  color: white;
+  animation: flip 0.6s ease-in-out;
+}
+
+.cell.absent {
+  background-color: #787c7e;
+  border-color: #787c7e;
+  color: white;
+  animation: flip 0.6s ease-in-out;
+}
+
+/* Keyboard */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.keyboardRow {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.key {
+  min-width: 40px;
+  height: 58px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d3d6da;
+  color: #1a1a1b;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  user-select: none;
+  flex: 1;
+  max-width: 50px;
+}
+
+.key:hover {
+  background-color: #b8b8b8;
+}
+
+.key:active {
+  transform: scale(0.95);
+}
+
+.key.specialKey {
+  min-width: 65px;
+  max-width: 80px;
+  font-size: 12px;
+}
+
+/* Keyboard color states */
+.key.correct {
+  background-color: #6aaa64;
+  color: white;
+}
+
+.key.present {
+  background-color: #c9b458;
+  color: white;
+}
+
+.key.absent {
+  background-color: #787c7e;
+  color: white;
+}
+
+
+
+/* Settings */
+.settingsContainer {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.settingsButton {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settingsButton:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Animations */
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gameContent {
+    padding: 10px;
+    gap: 15px;
+  }
+  
+  .cell {
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+  }
+  
+  .key {
+    min-width: 35px;
+    height: 50px;
+    font-size: 12px;
+    max-width: 40px;
+  }
+  
+  .key.specialKey {
+    min-width: 55px;
+    max-width: 65px;
+    font-size: 10px;
+  }
+  
+  .keyboard {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cell {
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+  }
+  
+  .key {
+    min-width: 30px;
+    height: 45px;
+    font-size: 11px;
+    max-width: 35px;
+  }
+  
+  .key.specialKey {
+    min-width: 50px;
+    max-width: 60px;
+    font-size: 9px;
+  }
+  
+  .keyboard {
+    max-width: 350px;
+  }
+  
+  .keyboardRow {
+    gap: 4px;
+  }
+  
+  .row {
+    gap: 4px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cell {
+    border-width: 3px;
+  }
+  
+  .key {
+    border: 2px solid #1a1a1b;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .cell,
+  .key {
+    animation: none;
+    transition: none;
+  }
 }

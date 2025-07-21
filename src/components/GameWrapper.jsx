@@ -7,20 +7,27 @@ import LayoutWrapper from "./layout/LayoutWrapper";
 import { trackEvent } from "../utils/analytics";
 import NowPlayingBar from "./game/NowPlayingBar";
 
-console.log("[GameWrapper.jsx] Loaded games:", games);
+// Validation function to catch routing issues early
+const validateGameRoute = (slug, games) => {
+  const game = games.find((g) => g.slug === slug);
+  if (!game) {
+    console.warn(`[GameWrapper] Game not found for slug: "${slug}"`);
+    console.warn(`[GameWrapper] Available games:`, games.map(g => g.slug));
+    return null;
+  }
+  return game;
+};
 
 const GameWrapper = () => {
-  console.log("[GameWrapper.jsx] Rendering GameWrapper");
-  const { gameId } = useParams();
+  const { slug } = useParams();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
-  const game = games.find((g) => g.slug === gameId);
-  console.log("[GameWrapper.jsx] game:", game);
+  const game = validateGameRoute(slug, games);
 
   // Track recently played games and analytics
   useEffect(() => {
     if (game) {
-      addRecentlyPlayed(gameId);
+      addRecentlyPlayed(slug);
       // Track analytics events safely with dev-only logging
       try {
         trackEvent("page_view", { page: `game/${game.slug}`, mode });
@@ -29,7 +36,7 @@ const GameWrapper = () => {
         if (import.meta.env.DEV) console.warn("Tracking error:", err);
       }
     }
-  }, [game, gameId, mode]);
+  }, [game, slug, mode]);
 
   // Game pages override layout defaults to maximize immersion:
   // - Hide header and category strip
@@ -47,6 +54,9 @@ const GameWrapper = () => {
         <div className={styles.wrapper}>
           <div style={{ textAlign: "center", marginTop: "3rem" }}>
             <h2>Game Not Found</h2>
+            <p style={{ color: "#666", marginBottom: "1rem" }}>
+              The game "{slug}" could not be found.
+            </p>
             <Link to="/">Back to Home</Link>
           </div>
         </div>
@@ -83,7 +93,6 @@ const GameWrapper = () => {
   }
 
   const GameComponent = game.component;
-  console.log("[GameWrapper.jsx] GameComponent:", GameComponent);
 
   return (
     <LayoutWrapper
@@ -109,7 +118,7 @@ const GameWrapper = () => {
             borderRadius: 4,
           }}
         >
-          <GameComponent mode={mode} />
+          <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
         </section>
       </div>
     </LayoutWrapper>

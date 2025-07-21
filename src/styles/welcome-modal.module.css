@@ -1,0 +1,78 @@
+.welcomeModal {
+  /* Modal backdrop styling */
+}
+
+.welcomeModal :global(.modal-backdrop) {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.welcomeModal :global(.modal-content) {
+  text-align: center;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90vw;
+}
+
+.welcomeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.welcomeInstructions {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #374151;
+  margin: 0;
+  font-weight: 400;
+}
+
+.welcomeButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.welcomePlayButton {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  min-width: 120px;
+}
+
+.welcomePlayButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.welcomePlayButton:active {
+  transform: translateY(0);
+}
+
+.welcomePlayButton:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .welcomeModal :global(.modal-content) {
+    padding: 1.5rem;
+  }
+
+  .welcomeInstructions {
+    font-size: 1rem;
+  }
+
+  .welcomePlayButton {
+    padding: 10px 24px;
+    font-size: 1rem;
+  }
+} 

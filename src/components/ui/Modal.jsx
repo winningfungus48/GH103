@@ -112,11 +112,55 @@ export default function Modal({
         }}
         tabIndex={0}
       >
-        {title && (
-          <h2 style={{ margin: "0 0 1rem 0", fontSize: "1.5rem" }}>{title}</h2>
+        <div style={{ position: "relative" }}>
+          {title && (
+            <h2 style={{ 
+              margin: "0 0 1rem 0", 
+              fontSize: "1.5rem",
+              textAlign: "center"
+            }}>{title}</h2>
+          )}
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: "-8px",
+              right: "-8px",
+              background: "#f3f4f6",
+              border: "none",
+              borderRadius: "50%",
+              width: "32px",
+              height: "32px",
+              fontSize: "18px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#6b7280",
+              transition: "all 0.2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = "#e5e7eb";
+              e.target.style.color = "#374151";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = "#f3f4f6";
+              e.target.style.color = "#6b7280";
+            }}
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+        <div style={{ textAlign: "center" }}>{children}</div>
+        {buttons && (
+          <div style={{ 
+            marginTop: 24,
+            display: "flex",
+            justifyContent: "center",
+            gap: "12px"
+          }}>{buttons}</div>
         )}
-        <div>{children}</div>
-        {buttons && <div style={{ marginTop: 24 }}>{buttons}</div>}
       </div>
     </div>
   );

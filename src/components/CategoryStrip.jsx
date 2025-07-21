@@ -44,18 +44,21 @@ const CategoryStrip = React.memo(({ activeCategory, onCategoryChange }) => {
           key={tab.slug}
           className={`${styles.tab} ${
             activeCategory === tab.slug ? styles.active : ""
-          } ${tab.slug === "daily games" ? styles.dailyTab : ""}`}
+          }`}
+          // NOTE: Daily Games special styling temporarily disabled
+          // ${tab.slug === "daily games" ? styles.dailyTab : ""}
           onClick={() => handleCategoryChange(tab.slug)}
           onKeyDown={(e) => handleKeyDown(e, tab.slug)}
           aria-current={activeCategory === tab.slug ? "page" : undefined}
           aria-label={`${tab.label} games`}
           tabIndex={0}
         >
-          {tab.slug === "daily games" && (
+          {/* NOTE: Daily Games emoji temporarily disabled */}
+          {/* {tab.slug === "daily games" && (
             <span className={styles.sunEmoji} aria-hidden="true">
               ☀️
             </span>
-          )}
+          )} */}
           {tab.label}
         </button>
       ))}

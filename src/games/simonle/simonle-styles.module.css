@@ -1,7 +1,292 @@
-.gameContent {
+.gameContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 500px;
+  padding: 20px;
+  gap: 30px;
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.scoreDisplay {
+  display: flex;
+  gap: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dailyMode {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 15px;
+}
+
+.patternIndicator {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.colorGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  width: 280px;
+  height: 280px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.colorButton {
+  width: 100%;
+  height: 100%;
+  border: 4px solid;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.colorButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.colorButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.colorButton.active {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.3) saturate(1.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.colorButton.clickable {
+  cursor: pointer;
+}
+
+.colorButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.colorButton:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dim other buttons during pattern playback */
+.colorButton.patternPlayback {
+  opacity: 0.3;
+  filter: grayscale(0.3);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.colorButton.patternPlayback.active {
+  opacity: 1;
+  filter: none;
+}
+
+.gameControls {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.startButton,
+.playAgainButton {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.startButton:hover,
+.playAgainButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.startButton:active,
+.playAgainButton:active {
+  transform: translateY(0);
+}
+
+.instructions {
+  text-align: center;
+  max-width: 300px;
+}
+
+.instructions p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modalContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.modalContent p {
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 20px;
+}
+
+.stats {
+  background: #f9fafb;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.stats p {
+  margin: 5px 0;
+  font-weight: 600;
+  color: #374151;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modalButtons button {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalButtons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.modalButtons button:first-child {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.modalButtons button:first-child:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .gameContainer {
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .colorGrid {
+    width: 240px;
+    height: 240px;
+    gap: 15px;
+  }
+
+  .colorButton {
+    border-radius: 15px;
+  }
+
+  .scoreDisplay {
+    font-size: 1rem;
+    gap: 20px;
+  }
+
+  .startButton,
+  .playAgainButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .instructions p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .colorGrid {
+    width: 200px;
+    height: 200px;
+    gap: 12px;
+  }
+
+  .colorButton {
+    border-radius: 12px;
+  }
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for keyboard navigation */
+.colorButton:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.startButton:focus-visible,
+.playAgainButton:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
 }

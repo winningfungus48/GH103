@@ -4,9 +4,23 @@
 */
 
 .container {
-  max-width: 98vw;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 0.5rem;
+  margin-left: 84px;
+  margin-right: 84px;
+  padding: 0 1rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
 }

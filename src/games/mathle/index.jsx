@@ -82,7 +82,8 @@ function evaluateEquation(equation) {
   try {
     // Replace × with * and ÷ with / for evaluation
     const evalEquation = equation.replace(/×/g, '*').replace(/÷/g, '/');
-    return eval(evalEquation);
+    // Use Function constructor instead of eval for better security
+    return Function(`'use strict'; return (${evalEquation})`)();
   } catch {
     return null;
   }
@@ -136,30 +137,12 @@ const Mathle = ({ instructions }) => {
     }
   }, [dailySeed]);
 
-  // Debug focus events
-  useEffect(() => {
-    const container = gameContainerRef.current;
-    if (!container) return;
 
-    const handleFocus = () => console.log('Mathle container focused');
-    const handleBlur = () => console.log('Mathle container blurred');
-
-    container.addEventListener('focus', handleFocus);
-    container.addEventListener('blur', handleBlur);
-
-    return () => {
-      container.removeEventListener('focus', handleFocus);
-      container.removeEventListener('blur', handleBlur);
-    };
-  }, [gameContainerRef]);
 
   const inputValue = (value) => {
     if (state.gameOver || state.currentCol >= state.equationLength) {
-      console.log('Mathle input blocked:', { gameOver: state.gameOver, currentCol: state.currentCol, equationLength: state.equationLength });
       return;
     }
-
-    console.log('Mathle input:', value, 'at position:', state.currentCol);
 
     setState((prev) => {
       const newBoard = [...prev.board];

@@ -150,31 +150,13 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     }
   }, [isDailyMode, dailySeed, state.secretNumber]);
 
-  // Debug focus events
-  useEffect(() => {
-    const container = gameContainerRef.current;
-    if (!container) return;
 
-    const handleFocus = () => console.log('Numberle container focused');
-    const handleBlur = () => console.log('Numberle container blurred');
-
-    container.addEventListener('focus', handleFocus);
-    container.addEventListener('blur', handleBlur);
-
-    return () => {
-      container.removeEventListener('focus', handleFocus);
-      container.removeEventListener('blur', handleBlur);
-    };
-  }, [gameContainerRef]);
 
   // Game logic functions
   const inputNumber = (num) => {
     if (state.gameOver || state.currentCol >= state.numberLength) {
-      console.log('Numberle input blocked:', { gameOver: state.gameOver, currentCol: state.currentCol, numberLength: state.numberLength });
       return;
     }
-
-    console.log('Numberle input:', num, 'at position:', state.currentCol);
 
     const newBoard = [...state.board];
     newBoard[state.currentRow][state.currentCol] = {
@@ -305,9 +287,6 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
 
   const handleKeyDown = (e) => {
     if (state.gameOver) return;
-
-    // Debug logging
-    console.log('Numberle keydown:', e.key, 'Focus element:', document.activeElement);
 
     if (e.key >= "0" && e.key <= "9") {
       inputNumber(parseInt(e.key));

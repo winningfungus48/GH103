@@ -56,6 +56,8 @@ This document provides high-level context and process guidelines for setting up 
 - If requirements are ambiguous, pause and request clarification
 - Written validation results are required; screenshots are optional unless a visual issue is found
 - All changes should be atomic, well-documented, and validated before sign-off
+- **CRITICAL: NEVER push/pull to GitHub unless explicitly told to do so**
+- **CRITICAL: Always ask permission before deploying to live site**
 
 ---
 

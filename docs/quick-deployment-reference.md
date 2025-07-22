@@ -20,12 +20,12 @@ npm run preview
 ```bash
 git add .
 git commit -m "[type] Description"
-git push origin main
+git push origin main  # ONLY when explicitly told to
 ```
 
 ### 4. **Deploy to Live**
 ```bash
-npm run deploy
+npm run deploy  # ONLY when explicitly told to
 # Wait for completion
 ```
 
@@ -43,11 +43,11 @@ npm run deploy
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview built version |
-| `npm run deploy` | Deploy to live site |
+| `npm run deploy` | Deploy to live site (ONLY when told to) |
 | `git status` | Check current changes |
 | `git add .` | Add all changes |
 | `git commit -m "msg"` | Commit changes |
-| `git push origin main` | Push to main branch |
+| `git push origin main` | Push to main branch (ONLY when told to) |
 
 ---
 
@@ -88,4 +88,13 @@ npm run build  # Try again
 ---
 
 **Live Site:** https://winningfungus48.github.io/GH103/
-**Full Guide:** `docs/deployment-guide.md` 
+**Full Guide:** `docs/deployment-guide.md`
+
+---
+
+## 🤖 AI Assistant Note
+
+**When working with AI Assistant:**
+- AI will NOT push/pull to GitHub unless explicitly told to
+- AI will ask permission before deploying to live site
+- AI will commit changes locally but wait for instruction to push 

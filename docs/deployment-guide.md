@@ -18,10 +18,12 @@ This guide provides a clear, step-by-step process for committing changes and dep
 
 Before starting any development work:
 
-- [ ] **Pull latest changes**: `git pull origin main`
-- [ ] **Check current branch**: Ensure you're on `main` branch
+- [ ] **Pull latest changes**: `git pull origin main` (ONLY when explicitly told to)
+- [ ] **Check current branch**: Ensure you'm on `main` branch
 - [ ] **Start dev server**: `npm run dev` to test locally
 - [ ] **Review requirements**: Understand what needs to be built
+
+**⚠️ IMPORTANT: Only pull/push to GitHub when explicitly instructed to do so.**
 
 ---
 
@@ -62,9 +64,11 @@ git add .
 # 3. Commit with descriptive message
 git commit -m "[type] Brief description of changes"
 
-# 4. Push to main branch
+# 4. Push to main branch (ONLY when explicitly told to)
 git push origin main
 ```
+
+**⚠️ IMPORTANT: Only push to GitHub when explicitly instructed to do so.**
 
 **Commit Message Format:**
 - `[feat]` - New features
@@ -90,6 +94,8 @@ npm run deploy
 # 2. Wait for deployment to complete
 # 3. Verify deployment was successful
 ```
+
+**⚠️ IMPORTANT: Only deploy to live site when explicitly instructed to do so.**
 
 ### Step 5: Verify Live Site
 ```bash
@@ -165,14 +171,14 @@ npm run deploy
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run preview      # Preview built version locally
-npm run deploy       # Deploy to live site
+npm run deploy       # Deploy to live site (ONLY when explicitly told to)
 
 # Git operations
 git status           # Check current changes
 git add .            # Add all changes
 git commit -m "msg"  # Commit changes
-git push origin main # Push to main branch
-git pull origin main # Pull latest changes
+git push origin main # Push to main branch (ONLY when explicitly told to)
+git pull origin main # Pull latest changes (ONLY when explicitly told to)
 ```
 
 ### Useful Commands
@@ -247,7 +253,7 @@ git log --oneline -5          # Recent commits
 ### If Git Issues Occur
 1. **Check git status**: `git status`
 2. **Stash changes if needed**: `git stash`
-3. **Pull latest**: `git pull origin main`
+3. **Pull latest**: `git pull origin main` (ONLY when explicitly told to)
 4. **Resolve conflicts** if any
 
 ---
@@ -274,4 +280,21 @@ git log --oneline -5          # Recent commits
 **Last Updated**: 2025-01-XX
 **Version**: 1.0.0
 
-**Remember**: Always test thoroughly before deploying to the live site! 
+**Remember**: Always test thoroughly before deploying to the live site!
+
+---
+
+## 🤖 AI Assistant Guidelines
+
+### When Working with AI Assistant:
+- **AI will NOT push/pull to GitHub unless explicitly told to do so**
+- **AI will ask permission before deploying to live site**
+- **AI will commit changes locally but wait for instruction to push**
+- **AI will suggest when changes are ready for deployment**
+
+### AI Workflow:
+1. **Make changes locally** and test thoroughly
+2. **Commit changes** with descriptive messages
+3. **Ask user** if they want to push to GitHub
+4. **Ask user** if they want to deploy to live site
+5. **Only proceed** when explicitly instructed 

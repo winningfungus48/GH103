@@ -37,6 +37,17 @@ This checklist ensures all games are properly integrated and prevents common iss
 
 ## 🚨 Common Issues & Prevention
 
+### Merge Conflicts
+**Problem**: ESLint errors with merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+**Causes**:
+- Git merge conflicts not properly resolved
+- Conflict markers left in code
+
+**Prevention**:
+- Always resolve conflicts completely before committing
+- Use `git status` to check for unresolved conflicts
+- ESLint will now catch conflict markers automatically
+
 ### Routing Issues
 **Problem**: "Game Not Found" error
 **Causes**:

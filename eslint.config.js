@@ -31,6 +31,14 @@ export default defineConfig([
         argsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_'
       }],
+      // Prevent merge conflict markers from being committed
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Literal[value=/^[<>=]{7,}$/]',
+          message: 'Merge conflict markers detected. Please resolve conflicts before committing.'
+        }
+      ],
     },
   },
 ])

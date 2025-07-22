@@ -217,6 +217,17 @@ const Wordle = ({ mode, description, instructions }) => {
       }
       
       const evaluation = evaluateGuess(guess, prev.secretWord);
+      
+      // Debug logging for keyboard colors
+      if (import.meta.env.DEV) {
+        console.log('[Wordle] Submit guess debug:', {
+          guess,
+          secretWord: prev.secretWord,
+          evaluation,
+          currentKeyboardColors: prev.keyboardColors
+        });
+      }
+      
       const newBoard = [...prev.board];
       newBoard[prev.currentRow] = newBoard[prev.currentRow].map((cell, index) => ({
         ...cell,
@@ -224,6 +235,17 @@ const Wordle = ({ mode, description, instructions }) => {
       }));
       
       const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
+      
+      // Debug logging for updated keyboard colors
+      if (import.meta.env.DEV) {
+        console.log('[Wordle] Updated keyboard colors:', {
+          newKeyboardColors,
+          changes: Object.keys(newKeyboardColors).filter(key => 
+            newKeyboardColors[key] !== prev.keyboardColors[key]
+          ).map(key => `${key}: ${prev.keyboardColors[key]} -> ${newKeyboardColors[key]}`)
+        });
+      }
+      
       const gameWon = evaluation.every(status => status === "correct");
       const gameOver = gameWon || prev.currentRow === 5;
       
@@ -346,7 +368,12 @@ const Wordle = ({ mode, description, instructions }) => {
   };
 
   const getKeyStatus = (key) => {
-    return gameState.keyboardColors[key] || "";
+    const status = gameState.keyboardColors[key] || "";
+    // Debug logging for key status
+    if (import.meta.env.DEV && status) {
+      console.log(`[Wordle] Key ${key} status: ${status}`);
+    }
+    return status;
   };
 
   const getCellAriaLabel = (cell, rowIndex, colIndex) => {
@@ -449,7 +476,7 @@ const Wordle = ({ mode, description, instructions }) => {
               {row.map((key) => (
                 <button
                   key={key}
-                  className={`${styles.key} ${getKeyStatus(key)}`}
+                  className={`${styles.key} ${getKeyStatus(key) ? styles[getKeyStatus(key)] : ''}`}
                   onClick={() => inputLetter(key.toLowerCase())}
                   disabled={gameState.gameOver}
                   aria-label={`Input letter ${key}`}

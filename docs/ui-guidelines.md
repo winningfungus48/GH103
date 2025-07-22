@@ -1,200 +1,193 @@
-# UI Guidelines – Game Hub
+# UI Guidelines & Component Specifications
 
-This guide outlines best practices for building consistent, accessible, and scalable UI in Game Hub. Follow these patterns for all new features and refactors.
+This document outlines the design system, component specifications, and layout guidelines for Game Hub.
 
 ---
 
-## ✅ Grid Layout & Spacing Guidelines
+## Game Cards & Grid Layout
 
-### Game Card Grid System
-- **Container**: `.cardsGrid` uses CSS Grid with responsive breakpoints
-- **Spacing**: Consistent padding and gaps across all screen sizes
-- **Responsive**: 4 → 3 → 2 → 1 columns based on screen width
+### Grid Container Specifications
 
-**Breakpoints:**
-- **Desktop (>1100px)**: 4 columns, 2rem gap, 2rem padding
-- **Tablet (768px-1100px)**: 3 columns, 1.5rem gap, 1.5rem padding  
-- **Mobile (480px-768px)**: 2 columns, 1.2rem gap, 1.2rem padding
-- **Small Mobile (<480px)**: 1 column, 1rem gap, 1rem padding
+#### Main Grid Container (`src/pages/Home.module.css`)
+- **Max-width**: `1200px`
+- **Width**: `100%`
+- **Margin**: `0 auto` (centered)
+- **Padding**: `1rem` top/bottom, no horizontal padding
+- **Display**: Flexbox with CSS Grid progressive enhancement
 
-**Implementation:**
+#### Cards Grid Container
+- **Max-width**: `1100px` (desktop), `900px` (tablet), `600px` (mobile), `400px` (small mobile)
+- **Width**: `100%`
+- **Margin**: `0 auto` (centered)
+- **Padding**: `1rem 0.5rem` (desktop), scales down on smaller screens
+
+### Responsive Grid Behavior
+
+#### CSS Grid Implementation
 ```css
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+/* Progressive enhancement for CSS Grid */
+@supports (display: grid) {
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+  }
 }
 ```
 
-### Game Card Styling
-- **Width**: Use `width: 100%` to fill grid cells naturally
-- **Height**: Use `min-height` for consistent card heights
-- **Padding**: Consistent internal spacing (1.5rem 1.25rem)
-- **Background**: Clean white background with subtle shadow
+#### Responsive Breakpoints
+- **Desktop (default)**: `minmax(250px, 1fr)` - allows 4-5 cards per row
+- **Tablet (≤1100px)**: `minmax(220px, 1fr)` - allows 3-4 cards per row
+- **Mobile (≤768px)**: `minmax(200px, 1fr)` - allows 2-3 cards per row
+- **Small Mobile (≤480px)**: `minmax(280px, 1fr)` - ensures 1 card per row
 
-**Example:**
-```css
-.card {
-  background: white;
-  width: 100%;
-  min-height: 180px;
-  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
-}
+#### Expected Card Count Per Row
+- **Full screen (1200px+)**: 4-5 cards
+- **Half screen (600-900px)**: 2-3 cards
+- **Mobile (≤480px)**: 1 card
+- **No horizontal scrolling** on any screen size
+
+### Game Card Specifications
+
+#### Card Dimensions (`src/components/GameCard.module.css`)
+- **Width**: `100%` (flexible, fills available grid space)
+- **Min-height**: `180px` (desktop), `160px` (tablet), `140px` (mobile), `120px` (small mobile)
+- **Max-width**: `100%` (prevents overflow)
+- **Box-sizing**: `border-box` (includes padding in width calculations)
+
+#### Card Styling
+- **Background**: White
+- **Border-radius**: `12px`
+- **Box-shadow**: `0 2px 8px rgba(0, 0, 0, 0.07)`
+- **Padding**: `1.5rem 1.25rem 1.25rem 1.25rem`
+- **Hover effect**: Scale `1.02` with enhanced shadow `0 8px 24px rgba(0, 0, 0, 0.12)`
+- **Transition**: `all 0.35s ease`
+
+#### Card Content Layout
+- **Display**: Flexbox column
+- **Alignment**: `align-items: flex-start`
+- **Overflow**: `hidden` (prevents content overflow)
+
+### Spacing & Gaps
+
+#### Grid Gaps
+- **Desktop**: `2rem` (32px)
+- **Tablet (≤1100px)**: `1.5rem` (24px)
+- **Mobile (≤768px)**: `1.2rem` (19.2px)
+- **Small Mobile (≤480px)**: `1rem` (16px)
+
+#### Container Padding
+- **Main grid**: `1rem` top/bottom
+- **Cards grid**: `1rem 0.5rem` (desktop), scales down on smaller screens
+
+### Layout Container Specifications
+
+#### Global Container (`src/styles/layout.module.css`)
+- **Max-width**: `1200px`
+- **Margin**: `0 auto` (centered)
+- **Padding**: `0 1rem` (desktop), `0 0.75rem` (mobile), `0 0.5rem` (small mobile)
+- **Width**: `100%`
+- **Box-sizing**: `border-box`
+
+**Important**: No fixed left/right margins to allow proper responsive scaling.
+
+### Technical Implementation Notes
+
+#### CSS Grid vs Flexbox Fallback
+- **Primary**: CSS Grid with `auto-fit` and `minmax()` for automatic responsive behavior
+- **Fallback**: Flexbox with `flex-wrap` for older browsers
+- **Progressive enhancement**: Grid features only applied when supported
+
+#### Responsive Design Principles
+- **Mobile-first**: Base styles for mobile, enhanced for larger screens
+- **Fluid typography**: Scales with viewport size
+- **Flexible containers**: Use percentage and viewport units
+- **No horizontal overflow**: All content fits within viewport
+
+#### Performance Considerations
+- **CSS Grid**: Hardware-accelerated layout
+- **Transform animations**: Use `transform` for hover effects (GPU-accelerated)
+- **Box-shadow**: Minimal shadow for performance
+- **No layout thrashing**: Stable grid structure
+
+### Accessibility Requirements
+
+#### Card Accessibility
+- **Focus indicators**: Visible focus states for keyboard navigation
+- **ARIA labels**: Proper labeling for screen readers
+- **Color contrast**: Meets WCAG AA standards
+- **Touch targets**: Minimum 44px touch targets on mobile
+
+#### Grid Accessibility
+- **Logical tab order**: Cards tab in reading order
+- **Screen reader announcements**: Proper grid role and structure
+- **Keyboard navigation**: Full keyboard accessibility
+
+### Browser Support
+
+#### CSS Grid Support
+- **Modern browsers**: Full support (Chrome 57+, Firefox 52+, Safari 10.1+)
+- **Fallback**: Flexbox layout for older browsers
+- **Progressive enhancement**: Grid features only when supported
+
+#### Responsive Features
+- **Media queries**: All modern browsers
+- **Viewport units**: IE9+ with polyfill
+- **Flexbox**: IE10+ with prefixes
+
+### Testing Checklist
+
+#### Responsive Testing
+- [ ] Cards fit properly on desktop (1200px+)
+- [ ] Cards fit properly on tablet (768-1100px)
+- [ ] Cards fit properly on mobile (≤480px)
+- [ ] No horizontal scrolling on any screen size
+- [ ] Proper gaps maintained at all breakpoints
+- [ ] Cards don't overflow their containers
+
+#### Interaction Testing
+- [ ] Hover effects work on desktop
+- [ ] Touch interactions work on mobile
+- [ ] Focus states visible for keyboard navigation
+- [ ] Cards scale properly on hover
+- [ ] No layout shift during interactions
+
+#### Performance Testing
+- [ ] Smooth animations (60fps)
+- [ ] No layout thrashing during resize
+- [ ] Fast rendering on mobile devices
+- [ ] Proper memory usage
+
+---
+
+## Component Architecture
+
+### File Structure
+```
+src/
+├── pages/
+│   └── Home.module.css          # Grid layout styles
+├── components/
+│   ├── GameCard.module.css      # Individual card styles
+│   └── layout/
+│       └── LayoutWrapper.jsx    # Global layout wrapper
+└── styles/
+    └── layout.module.css        # Global container styles
 ```
 
----
+### CSS Module Naming Convention
+- **Grid container**: `.grid` (main), `.cardsGrid` (cards)
+- **Card component**: `.card`
+- **Layout utilities**: `.container`
 
-## ✅ Modal Best Practices
-- Use the shared `<Modal />` component for all dialogs (win/lose, info, etc.).
-- Control modal visibility via `open` and `onClose` props (controlled-only pattern).
-- Pass custom content via `children`, and use `buttons` for footer actions.
-- Use `className` and `style` props for custom overrides if needed.
-- Ensure ARIA roles, focus trapping, and escape-to-close are always enabled.
-
-**Example:**
-```jsx
-<Modal open={isOpen} onClose={handleClose} title="Info">
-  <p>Modal content here</p>
-  <div slot="buttons">
-    <button onClick={handleClose}>Close</button>
-  </div>
-</Modal>
-```
+### Responsive Breakpoints
+- **Desktop**: `>1100px`
+- **Tablet**: `768px - 1100px`
+- **Mobile**: `480px - 768px`
+- **Small Mobile**: `<480px`
 
 ---
 
-## ✅ Toast & Notification Best Practices
-- Use the `useToast().showToast({ message, type })` API for all feedback.
-- Types: `info`, `success`, `error` (choose the most appropriate for the context).
-- Toasts are queued and only one is shown at a time.
-- Use ARIA roles and ensure toasts are keyboard accessible.
-
-**Example:**
-```js
-const { showToast } = useToast();
-showToast({ message: 'Game saved!', type: 'success' });
-```
-
----
-
-## ✅ Lazy Loading & Code Splitting
-- Use `React.lazy` and `Suspense` for all game pages and heavy components.
-- Use dynamic imports in `gamesData.js` for per-game code splitting.
-- Provide a fallback UI for loading states.
-
-**Example:**
-```js
-const GameWrapper = React.lazy(() => import('./components/GameWrapper'));
-<Suspense fallback={<Loader />}>
-  <GameWrapper />
-</Suspense>
-```
-
----
-
-## ✅ Keyboard Accessibility Standards
-
-### Required Keyboard Support
-All games MUST implement comprehensive keyboard functionality:
-
-**Standard Keys:**
-- **Numbers (0-9)**: Direct input for number-based games
-- **Letters (A-Z)**: Direct input for word-based games  
-- **Enter**: Submit guess/action
-- **Backspace**: Delete last input
-- **Arrow Keys**: Navigate between elements (where applicable)
-- **Tab**: Navigate between interactive elements
-- **Escape**: Close modals, return to previous screen
-
-**Implementation Pattern:**
-```jsx
-const handleKeyDown = (e) => {
-  if (state.gameOver) return;
-
-  // Number input
-  if (e.key >= "0" && e.key <= "9") {
-    inputNumber(parseInt(e.key));
-  }
-  // Letter input  
-  else if (e.key >= "a" && e.key <= "z") {
-    inputLetter(e.key.toUpperCase());
-  }
-  // Special keys
-  else if (e.key === "Enter") {
-    submitGuess();
-  } else if (e.key === "Backspace") {
-    deleteInput();
-  }
-};
-
-// Add to game container
-<div 
-  className="game-container" 
-  onKeyDown={handleKeyDown}
-  tabIndex={0}
-  role="application"
-  aria-label="Game name"
->
-```
-
-**Focus Management:**
-- Game container must be focusable (`tabIndex={0}`)
-- All interactive elements must be keyboard accessible
-- Provide clear focus indicators
-- Maintain logical tab order
-
-### Game-Specific Requirements
-
-**Word Games (Wordle, etc.):**
-- Letters A-Z for input
-- Enter to submit
-- Backspace to delete
-
-**Number Games (Numberle, Mathle):**
-- Numbers 0-9 for input
-- Operators (+, -, ×, ÷) for math games
-- Enter to submit
-- Backspace to delete
-
-**Color Games (Colorle):**
-- Number keys 1-8 for color selection
-- Enter to submit
-- Backspace to delete
-
-**Pattern Games (Shapele, Simonle):**
-- Arrow keys for navigation
-- Enter/Space for selection
-- Number keys for pattern input
-
----
-
-## ✅ Accessibility & Consistency
-- All modals and toasts must be accessible (ARIA roles, focus trapping, keyboard navigation).
-- Use semantic HTML and ensure all interactive elements are keyboard accessible.
-- Maintain consistent spacing, typography, and color usage across the app.
-- Use `className` and `style` props for custom overrides, but keep default styles consistent.
-- **All games must implement full keyboard support** (see keyboard standards above).
-
----
-
-## ✅ Contributor Checklist
-- [ ] Used `<Modal />` for all dialogs, with ARIA and focus trapping
-- [ ] Used `useToast().showToast({ message, type })` for all notifications
-- [ ] Lazy loaded all game pages and heavy components
-- [ ] Provided fallback UI for all lazy loaded components
-- [ ] Ensured all UI is accessible via keyboard and screen reader
-- [ ] Used `className`/`style` for custom overrides, not direct style mutations
-- [ ] Added inline usage examples for new UI patterns
-- [ ] **Grid Layout**: Used proper grid classes and responsive breakpoints
-- [ ] **Spacing**: Maintained consistent padding and gaps across breakpoints
-- [ ] **Cards**: Used `width: 100%` for natural grid cell filling
-- [ ] **Keyboard Support**: Implemented full keyboard functionality (see standards above)
-- [ ] **Focus Management**: Added proper focus indicators and tab order
-- [ ] **Game Input**: Numbers, letters, operators, enter, backspace all working
-
----
-
-*Follow this guide to keep Game Hub's UI consistent, accessible, and easy to maintain as the project grows!* 
+**Last Updated**: 2025-01-XX
+**Version**: 1.0.0 

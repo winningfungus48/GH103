@@ -47,6 +47,7 @@ This document provides high-level context and process guidelines for setting up 
 - Follow atomic design for component organization
 - Use standard ESLint/Prettier configs; remove conflicting formatting files
 - Centralize utilities and ensure robust error handling
+- Reference `docs/ui-guidelines.md` for game card and grid layout specifications
 
 ---
 

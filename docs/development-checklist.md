@@ -8,6 +8,7 @@ This checklist ensures all games are properly integrated and prevents common iss
 - [ ] Review existing game patterns (Numberle, Wordle)
 - [ ] Check game catalog for requirements
 - [ ] Ensure game template is appropriate
+- [ ] Review UI guidelines (`docs/ui-guidelines.md`) for layout and responsive design
 
 ### During Implementation
 - [ ] Create game component with proper structure
@@ -66,11 +67,13 @@ This checklist ensures all games are properly integrated and prevents common iss
 - Missing CSS modules
 - Incorrect class names
 - No responsive breakpoints
+- Not following UI guidelines
 
 **Prevention**:
 - Follow existing CSS patterns
 - Test on multiple screen sizes
 - Use CSS modules consistently
+- Reference `docs/ui-guidelines.md` for grid and card specifications
 
 ## 🔧 Development Commands
 

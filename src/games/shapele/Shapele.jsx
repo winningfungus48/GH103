@@ -8,12 +8,12 @@ const Shapele = ({ mode: _mode, description: _description, instructions }) => {
   const { WelcomeModal } = useWelcomeModal("Shapele", instructions);
 
   return (
-    <GamePageLayout>
-      <GameHeader title="Shapele" />
+  <GamePageLayout>
+    <GameHeader title="Shapele" />
       <WelcomeModal />
-      <div className={styles.gameContent}>{/* Game content goes here */}</div>
-    </GamePageLayout>
-  );
+    <div className={styles.gameContent}>{/* Game content goes here */}</div>
+  </GamePageLayout>
+);
 };
 
 export default Shapele;

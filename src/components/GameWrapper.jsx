@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import games from "../data/gamesData.jsx";
 import { addRecentlyPlayed } from "../utils/localStorage";
@@ -118,7 +118,29 @@ const GameWrapper = () => {
             borderRadius: 4,
           }}
         >
-          <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
+          <Suspense fallback={
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              justifyContent: "center",
+              padding: "2rem",
+              color: "#666"
+            }}>
+              <div style={{ 
+                width: "40px", 
+                height: "40px", 
+                border: "4px solid #f3f3f3", 
+                borderTop: "4px solid #007bff", 
+                borderRadius: "50%", 
+                animation: "spin 1s linear infinite",
+                marginBottom: "1rem"
+              }}></div>
+              <p>Loading {game.name}...</p>
+            </div>
+          }>
+            <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
+          </Suspense>
         </section>
       </div>
     </LayoutWrapper>

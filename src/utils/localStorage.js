@@ -1,4 +1,59 @@
 // Utility for managing favorite game slugs and recently played in localStorage
+// Includes robust fallbacks for browsers with localStorage restrictions
+
+// Check if localStorage is available and working
+const isLocalStorageAvailable = () => {
+  try {
+    const test = '__localStorage_test__';
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Fallback storage for when localStorage is not available
+const fallbackStorage = new Map();
+
+// Safe localStorage wrapper
+const safeLocalStorage = {
+  getItem: (key) => {
+    if (isLocalStorageAvailable()) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        console.warn('localStorage getItem failed:', e);
+        return fallbackStorage.get(key) || null;
+      }
+    }
+    return fallbackStorage.get(key) || null;
+  },
+  setItem: (key, value) => {
+    if (isLocalStorageAvailable()) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('localStorage setItem failed:', e);
+        fallbackStorage.set(key, value);
+      }
+    } else {
+      fallbackStorage.set(key, value);
+    }
+  },
+  removeItem: (key) => {
+    if (isLocalStorageAvailable()) {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {
+        console.warn('localStorage removeItem failed:', e);
+        fallbackStorage.delete(key);
+      }
+    } else {
+      fallbackStorage.delete(key);
+    }
+  }
+};
 
 const FAVORITES_KEY = "gh_favorites";
 const RECENTLY_PLAYED_KEY = "gh_recentlyPlayed";
@@ -14,10 +69,10 @@ const OLD_RECENTLY_PLAYED_KEY = "recentlyPlayed";
 // --- Migration Logic ---
 function migrateLocalStorageSchema() {
   try {
-    const hasNewFavorites = localStorage.getItem(FAVORITES_KEY) !== null;
+    const hasNewFavorites = safeLocalStorage.getItem(FAVORITES_KEY) !== null;
     const hasNewRecentlyPlayed =
-      localStorage.getItem(RECENTLY_PLAYED_KEY) !== null;
-    const hasSchemaVersion = localStorage.getItem(SCHEMA_VERSION_KEY) !== null;
+      safeLocalStorage.getItem(RECENTLY_PLAYED_KEY) !== null;
+    const hasSchemaVersion = safeLocalStorage.getItem(SCHEMA_VERSION_KEY) !== null;
 
     // Only run migration if any new keys are missing
     if (!hasNewFavorites || !hasNewRecentlyPlayed || !hasSchemaVersion) {
@@ -27,7 +82,7 @@ function migrateLocalStorageSchema() {
       let migrationFailed = false;
       // Migrate favorites
       try {
-        const oldFav = localStorage.getItem(OLD_FAVORITES_KEY);
+        const oldFav = safeLocalStorage.getItem(OLD_FAVORITES_KEY);
         migratedFavorites = oldFav ? JSON.parse(oldFav) : [];
         if (!Array.isArray(migratedFavorites)) migratedFavorites = [];
       } catch (_e) {
@@ -35,7 +90,7 @@ function migrateLocalStorageSchema() {
       }
       // Migrate recently played
       try {
-        const oldRecent = localStorage.getItem(OLD_RECENTLY_PLAYED_KEY);
+        const oldRecent = safeLocalStorage.getItem(OLD_RECENTLY_PLAYED_KEY);
         migratedRecentlyPlayed = oldRecent ? JSON.parse(oldRecent) : [];
         if (!Array.isArray(migratedRecentlyPlayed)) migratedRecentlyPlayed = [];
       } catch (_e) {
@@ -43,29 +98,29 @@ function migrateLocalStorageSchema() {
       }
       // If migration failed, clear and initialize
       if (migrationFailed) {
-        localStorage.removeItem(OLD_FAVORITES_KEY);
-        localStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
-        localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
+        safeLocalStorage.removeItem(OLD_FAVORITES_KEY);
+        safeLocalStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
+        safeLocalStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
+        safeLocalStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
       } else {
         // Set migrated data to new keys
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(migratedFavorites));
-        localStorage.setItem(
+        safeLocalStorage.setItem(FAVORITES_KEY, JSON.stringify(migratedFavorites));
+        safeLocalStorage.setItem(
           RECENTLY_PLAYED_KEY,
           JSON.stringify(migratedRecentlyPlayed),
         );
         // Remove old keys
-        localStorage.removeItem(OLD_FAVORITES_KEY);
-        localStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
+        safeLocalStorage.removeItem(OLD_FAVORITES_KEY);
+        safeLocalStorage.removeItem(OLD_RECENTLY_PLAYED_KEY);
       }
       // Set schema version
-      localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
+      safeLocalStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
     }
   } catch (_e) {
     // If migration throws, clear and initialize new keys
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
-    localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
-    localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
+    safeLocalStorage.setItem(FAVORITES_KEY, JSON.stringify([]));
+    safeLocalStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify([]));
+    safeLocalStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
   }
 }
 
@@ -74,7 +129,7 @@ migrateLocalStorageSchema();
 
 export function getSchemaVersion() {
   try {
-    return localStorage.getItem(SCHEMA_VERSION_KEY) || null;
+    return safeLocalStorage.getItem(SCHEMA_VERSION_KEY) || null;
   } catch (_e) {
     return null;
   }
@@ -85,12 +140,12 @@ const FAVORITES_TIMESTAMP_KEY = "gh_favorites_ts";
 const RECENTLY_PLAYED_TIMESTAMP_KEY = "gh_recentlyPlayed_ts";
 
 function getTimestamp(key) {
-  const ts = localStorage.getItem(key);
+  const ts = safeLocalStorage.getItem(key);
   return ts ? parseInt(ts, 10) : 0;
 }
 
 function setTimestamp(key) {
-  localStorage.setItem(key, Date.now().toString());
+  safeLocalStorage.setItem(key, Date.now().toString());
 }
 
 // --- Helper: isFavorite(slug) ---
@@ -110,7 +165,7 @@ export function addRecentlyPlayed(slug) {
   const recentlyPlayed = getRecentlyPlayed();
   const filtered = recentlyPlayed.filter((gameSlug) => gameSlug !== slug);
   const updated = [slug, ...filtered].slice(0, 5);
-  localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(updated));
+  safeLocalStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(updated));
   setTimestamp(RECENTLY_PLAYED_TIMESTAMP_KEY);
   return updated;
 }
@@ -137,7 +192,7 @@ export function toggleFavorite(slug) {
   } else {
     updated = favorites.filter((fav) => fav !== slug);
   }
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+  safeLocalStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
   setTimestamp(FAVORITES_TIMESTAMP_KEY);
   return updated;
 }
@@ -145,9 +200,9 @@ export function toggleFavorite(slug) {
 // --- Fallback logic for old keys in helpers ---
 // (If migration hasn't run, helpers will transparently read old keys)
 function getWithFallback(newKey, oldKey) {
-  const data = localStorage.getItem(newKey);
+  const data = safeLocalStorage.getItem(newKey);
   if (data !== null) return JSON.parse(data);
-  const oldData = localStorage.getItem(oldKey);
+  const oldData = safeLocalStorage.getItem(oldKey);
   return oldData ? JSON.parse(oldData) : [];
 }
 
@@ -169,7 +224,7 @@ export function getRecentlyPlayed() {
 
 export function getLastCategory() {
   try {
-    const data = localStorage.getItem(LAST_CATEGORY_KEY);
+    const data = safeLocalStorage.getItem(LAST_CATEGORY_KEY);
     return data || "a-z games";
   } catch (_e) {
     return "a-z games";
@@ -178,7 +233,7 @@ export function getLastCategory() {
 
 export function setLastCategory(category) {
   try {
-    localStorage.setItem(LAST_CATEGORY_KEY, category);
+    safeLocalStorage.setItem(LAST_CATEGORY_KEY, category);
   } catch (_e) {
     // Silently fail if localStorage is not available
   }
@@ -186,7 +241,7 @@ export function setLastCategory(category) {
 
 export function getDailyProgress(gameSlug) {
   try {
-    const data = localStorage.getItem(DAILY_PROGRESS_KEY);
+    const data = safeLocalStorage.getItem(DAILY_PROGRESS_KEY);
     const progress = data ? JSON.parse(data) : {};
     return (
       progress[gameSlug] || {

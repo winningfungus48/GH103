@@ -1,29 +1,29 @@
 import styles from "./Header.module.css";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 const tabs = ["A-Z Games", "Favorites", "-le Games", "Sports"];
 
-const Header = ({ activeCategory, onCategoryChange }) => {
+const Header = React.memo(({ activeCategory, onCategoryChange }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleMenuToggle = () => {
+  const handleMenuToggle = useCallback(() => {
     setMenuOpen((open) => !open);
-  };
+  }, []);
 
-  const handleMenuKeyDown = (e) => {
+  const handleMenuKeyDown = useCallback((e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleMenuToggle();
     }
-  };
+  }, [handleMenuToggle]);
 
-  const handleTabKeyDown = (e, tab) => {
+  const handleTabKeyDown = useCallback((e, tab) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onCategoryChange(tab);
       setMenuOpen(false);
     }
-  };
+  }, [onCategoryChange]);
 
   // Hamburger icon SVG
   const Hamburger = (
@@ -78,6 +78,8 @@ const Header = ({ activeCategory, onCategoryChange }) => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = "Header";
 
 export default Header;

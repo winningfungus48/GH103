@@ -113,13 +113,13 @@ export default function Modal({
         tabIndex={0}
       >
         <div style={{ position: "relative" }}>
-          {title && (
-            <h2 style={{ 
-              margin: "0 0 1rem 0", 
-              fontSize: "1.5rem",
-              textAlign: "center"
-            }}>{title}</h2>
-          )}
+        {title && (
+          <h2 style={{ 
+            margin: "0 0 1rem 0", 
+            fontSize: "1.5rem",
+            textAlign: "center"
+          }}>{title}</h2>
+        )}
           <button
             onClick={onClose}
             style={{

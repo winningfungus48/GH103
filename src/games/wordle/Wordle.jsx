@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
 import GameHeader from "../../components/game/GameHeader";
+import GameInstructions from "../../components/game/GameInstructions";
 import WordListSettings from "../../components/game/WordListSettings";
 import { useToast } from "../../context/ToastProvider";
 import styles from "./wordle-styles.module.css";
@@ -103,13 +104,14 @@ function evaluateGuess(guess, secretWord) {
 function updateKeyboardColors(keyboardColors, guess, evaluation) {
   const newColors = { ...keyboardColors };
   
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < guess.length; i++) {
     const letter = guess[i].toUpperCase();
     const status = evaluation[i];
     
-    if (!newColors[letter] || status === "correct") {
-      newColors[letter] = status;
-    } else if (status === "present" && newColors[letter] !== "correct") {
+    // Only update if the new status is "better" than existing
+    if (!newColors[letter] || 
+        (status === "correct") || 
+        (status === "present" && newColors[letter] === "absent")) {
       newColors[letter] = status;
     }
   }
@@ -117,101 +119,95 @@ function updateKeyboardColors(keyboardColors, guess, evaluation) {
   return newColors;
 }
 
-// Get a random word for practice mode
 function getRandomWord() {
-  // Use comprehensive word list for practice mode
-  const randomIndex = Math.floor(Math.random() * COMPREHENSIVE_WORDS.length);
-  return COMPREHENSIVE_WORDS[randomIndex];
+  return COMPREHENSIVE_WORDS[Math.floor(Math.random() * COMPREHENSIVE_WORDS.length)];
 }
 
-const Wordle = ({ mode, description: _description, instructions }) => {
+const Wordle = ({ mode, description, instructions }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dailySeed = useDailySeed({ slug: "wordle" });
-  const today = new Date().toISOString().slice(0, 10);
   const { showToast } = useToast();
+  const dailySeed = useDailySeed();
+  const today = new Date().toDateString();
   
   const [gameState, setGameState] = useState(WORDLE_INITIAL_STATE);
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
   const [modalTitle, setModalTitle] = useState("");
-  const [stats, setStats] = useState(getWordleStats());
+  const [modalMessage, setModalMessage] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const [gameStatus, setGameStatus] = useState("");
 
-  // Welcome modal
-  const { WelcomeModal } = useWelcomeModal("Wordle", instructions);
+  // Welcome modal hook
+  const WelcomeModal = useWelcomeModal("wordle");
 
   // Initialize game
   useEffect(() => {
-    try {
-      const isDailyMode = mode === "daily";
-      const secretWord = isDailyMode ? getDailyWord(dailySeed) : getRandomWord();
+    const isDailyMode = mode === "daily";
+    const secretWord = isDailyMode ? getDailyWord(dailySeed) : getRandomWord();
     
-    setGameState(prev => ({
-      ...prev,
+    setGameState({
+      ...WORDLE_INITIAL_STATE,
       secretWord,
       board: createBoard(),
-      keyboardColors: {},
-      currentRow: 0,
-      currentCol: 0,
-      gameOver: false,
-      gameWon: false,
-    }));
-    } catch (error) {
-      console.error("[Wordle] Error initializing game:", error);
-    }
+    });
+    
+    // Set initial game status for screen readers
+    setGameStatus(`Wordle game started. ${isDailyMode ? 'Daily mode' : 'Practice mode'}. Guess the 5-letter word in 6 tries.`);
   }, [mode, dailySeed]);
 
-  // Memoized input functions to prevent recreation
+  // Update game status for screen readers
+  useEffect(() => {
+    if (gameState.gameOver) {
+      const attempts = gameState.currentRow;
+      const status = gameState.gameWon 
+        ? `Congratulations! You won in ${attempts} ${attempts === 1 ? 'try' : 'tries'}!`
+        : `Game over. The word was ${gameState.secretWord.toUpperCase()}.`;
+      setGameStatus(status);
+    } else {
+      const currentAttempt = gameState.currentRow + 1;
+      const status = `Attempt ${currentAttempt} of 6. ${gameState.currentCol === 0 ? 'Enter your guess.' : `Current guess: ${gameState.board[gameState.currentRow].map(cell => cell.value || 'empty').join(' ')}`}`;
+      setGameStatus(status);
+    }
+  }, [gameState.currentRow, gameState.currentCol, gameState.gameOver, gameState.gameWon, gameState.secretWord, gameState.board]);
+
+  // Memoized game functions to prevent stale closures
   const inputLetter = useCallback((letter) => {
-    setGameState(prev => {
+    setGameState((prev) => {
       if (prev.gameOver || prev.currentCol >= 5) return prev;
+      
+      const newBoard = [...prev.board];
+      newBoard[prev.currentRow][prev.currentCol] = { value: letter, status: "" };
       
       return {
         ...prev,
-        board: prev.board.map((row, rowIndex) =>
-          rowIndex === prev.currentRow
-            ? row.map((cell, colIndex) =>
-                colIndex === prev.currentCol
-                  ? { ...cell, value: letter.toUpperCase() }
-                  : cell
-              )
-            : row
-        ),
+        board: newBoard,
         currentCol: prev.currentCol + 1,
       };
     });
   }, []);
 
   const deleteLetter = useCallback(() => {
-    setGameState(prev => {
-      if (prev.gameOver || prev.currentCol <= 0) return prev;
+    setGameState((prev) => {
+      if (prev.gameOver || prev.currentCol === 0) return prev;
+      
+      const newBoard = [...prev.board];
+      newBoard[prev.currentRow][prev.currentCol - 1] = { value: "", status: "" };
       
       return {
         ...prev,
-        board: prev.board.map((row, rowIndex) =>
-          rowIndex === prev.currentRow
-            ? row.map((cell, colIndex) =>
-                colIndex === prev.currentCol - 1
-                  ? { ...cell, value: "" }
-                  : cell
-            )
-            : row
-        ),
+        board: newBoard,
         currentCol: prev.currentCol - 1,
       };
     });
   }, []);
 
   const submitGuess = useCallback(() => {
-    setGameState(prev => {
+    setGameState((prev) => {
       if (prev.gameOver || prev.currentCol !== 5) return prev;
       
-      const currentRow = prev.board[prev.currentRow];
-      const guess = currentRow.map(cell => cell.value).join("").toLowerCase();
+      const guess = prev.board[prev.currentRow].map(cell => cell.value).join("");
       
       if (!isValidWord(guess)) {
-        // Show toast error message
         showToast("Invalid Word", { 
           type: "error", 
           position: "top",
@@ -221,77 +217,52 @@ const Wordle = ({ mode, description: _description, instructions }) => {
       }
       
       const evaluation = evaluateGuess(guess, prev.secretWord);
-      const isCorrect = evaluation.every(status => status === "correct");
-      const isLastGuess = prev.currentRow === 5;
+      const newBoard = [...prev.board];
+      newBoard[prev.currentRow] = newBoard[prev.currentRow].map((cell, index) => ({
+        ...cell,
+        status: evaluation[index],
+      }));
       
-      // Update board with evaluation
-      const updatedBoard = prev.board.map((row, rowIndex) =>
-        rowIndex === prev.currentRow
-          ? row.map((cell, colIndex) => ({
-              ...cell,
-              status: evaluation[colIndex],
-            }))
-          : row
-      );
+      const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
+      const gameWon = evaluation.every(status => status === "correct");
+      const gameOver = gameWon || prev.currentRow === 5;
       
-      // Update keyboard colors
-      const updatedKeyboardColors = updateKeyboardColors(
-        prev.keyboardColors,
-        guess,
-        evaluation
-      );
-      
-      const newGameState = {
-        ...prev,
-        board: updatedBoard,
-        keyboardColors: updatedKeyboardColors,
-        currentRow: prev.currentRow + 1,
-        currentCol: 0,
-        gameOver: isCorrect || isLastGuess,
-        gameWon: isCorrect,
-      };
-      
-      // Handle game completion
-      if (newGameState.gameOver) {
-        handleGameComplete(newGameState);
+      // Update stats if daily mode
+      if (mode === "daily") {
+        const stats = getWordleStats();
+        const newStats = {
+          gamesPlayed: stats.gamesPlayed + 1,
+          gamesWon: stats.gamesWon + (gameWon ? 1 : 0),
+          currentStreak: gameWon ? stats.currentStreak + 1 : 0,
+          bestStreak: gameWon ? Math.max(stats.bestStreak, stats.currentStreak + 1) : stats.bestStreak,
+        };
+        setWordleStats(newStats);
+        setDailyProgress("wordle", today, gameWon);
       }
       
-      return newGameState;
+      return {
+        ...prev,
+        board: newBoard,
+        keyboardColors: newKeyboardColors,
+        currentRow: prev.currentRow + 1,
+        currentCol: 0,
+        gameOver,
+        gameWon,
+      };
     });
-  }, []);
+  }, [mode, today, showToast]);
 
   const handleGameComplete = useCallback((finalGameState) => {
-    const isDailyMode = mode === "daily";
-    const attempts = finalGameState.gameWon ? finalGameState.currentRow : 6;
-    
-    // Update stats
+    const attempts = finalGameState.currentRow;
+    const stats = getWordleStats();
     const newStats = {
-      ...stats,
-      gamesPlayed: stats.gamesPlayed + 1,
-      gamesWon: finalGameState.gameWon ? stats.gamesWon + 1 : stats.gamesWon,
+      gamesPlayed: stats.gamesPlayed,
+      gamesWon: stats.gamesWon,
+      currentStreak: stats.currentStreak,
+      bestStreak: stats.bestStreak,
     };
     
-    if (finalGameState.gameWon) {
-      newStats.currentStreak += 1;
-      newStats.bestStreak = Math.max(newStats.currentStreak, newStats.bestStreak);
-    } else {
-      newStats.currentStreak = 0;
-    }
-    
-    setStats(newStats);
-    setWordleStats(newStats);
-    
-    // Update daily progress if in daily mode
-    if (isDailyMode) {
-      setDailyProgress("wordle", {
-        date: today,
-        completed: true,
-        result: finalGameState.gameWon ? "win" : "loss",
-      });
-    }
-    
-    // Show completion modal
-    const prompt = finalGameState.gameWon
+    const prompt = finalGameState.gameWon 
       ? winPrompts[Math.floor(Math.random() * winPrompts.length)]
       : losePrompts[Math.floor(Math.random() * losePrompts.length)];
     
@@ -304,7 +275,7 @@ const Wordle = ({ mode, description: _description, instructions }) => {
       }\n\nGames Played: ${newStats.gamesPlayed}\nGames Won: ${newStats.gamesWon}\nCurrent Streak: ${newStats.currentStreak}\nBest Streak: ${newStats.bestStreak}`
     );
     setShowModal(true);
-  }, [mode, stats, today]);
+  }, [mode, today]);
 
   // Handle keyboard input - Fixed event handler
   useEffect(() => {
@@ -354,6 +325,13 @@ const Wordle = ({ mode, description: _description, instructions }) => {
     return gameState.keyboardColors[key] || "";
   };
 
+  const getCellAriaLabel = (cell, rowIndex, colIndex) => {
+    const position = `Position ${colIndex + 1} in row ${rowIndex + 1}`;
+    const value = cell.value || 'empty';
+    const status = cell.status ? `, ${cell.status}` : '';
+    return `${position}, ${value}${status}`;
+  };
+
   const keyboardRows = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
@@ -363,12 +341,32 @@ const Wordle = ({ mode, description: _description, instructions }) => {
   return (
   <GamePageLayout>
     <GameHeader title="Wordle" />
+    <GameInstructions description={description} instructions={instructions} />
     <WelcomeModal />
-    <div className={styles.gameContent}>
+    
+    {/* Screen reader status announcements */}
+    <div 
+      aria-live="polite" 
+      aria-atomic="true" 
+      style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
+    >
+      {gameStatus}
+    </div>
+    
+      <div className={styles.gameContent}>
         {/* Game Board */}
-        <div className={styles.board}>
+        <div 
+          className={styles.board}
+          role="grid"
+          aria-label="Wordle game board"
+        >
           {gameState.board.map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.row}>
+            <div 
+              key={rowIndex} 
+              className={styles.row}
+              role="row"
+              aria-label={`Row ${rowIndex + 1}`}
+            >
               {row.map((cell, colIndex) => (
                 <div
                   key={colIndex}
@@ -378,6 +376,9 @@ const Wordle = ({ mode, description: _description, instructions }) => {
                       ? styles.current
                       : ""
                   }`}
+                  role="gridcell"
+                  aria-label={getCellAriaLabel(cell, rowIndex, colIndex)}
+                  aria-current={rowIndex === gameState.currentRow && colIndex === gameState.currentCol ? "true" : undefined}
                 >
                   {cell.value}
                 </div>
@@ -391,6 +392,7 @@ const Wordle = ({ mode, description: _description, instructions }) => {
           <button
             className={styles.settingsButton}
             onClick={() => setShowSettings(true)}
+            aria-label="Word list settings"
             title="Word List Settings"
           >
             ⚙️ Settings
@@ -398,14 +400,24 @@ const Wordle = ({ mode, description: _description, instructions }) => {
         </div>
 
         {/* Virtual Keyboard */}
-        <div className={styles.keyboard}>
+        <div 
+          className={styles.keyboard}
+          role="group"
+          aria-label="Virtual keyboard"
+        >
           {keyboardRows.map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.keyboardRow}>
+            <div 
+              key={rowIndex} 
+              className={styles.keyboardRow}
+              role="group"
+              aria-label={`Keyboard row ${rowIndex + 1}`}
+            >
               {rowIndex === 2 && (
                 <button
                   className={`${styles.key} ${styles.specialKey}`}
                   onClick={submitGuess}
                   disabled={gameState.gameOver}
+                  aria-label="Submit guess"
                 >
                   Enter
                 </button>
@@ -416,6 +428,7 @@ const Wordle = ({ mode, description: _description, instructions }) => {
                   className={`${styles.key} ${getKeyStatus(key)}`}
                   onClick={() => inputLetter(key.toLowerCase())}
                   disabled={gameState.gameOver}
+                  aria-label={`Input letter ${key}`}
                 >
                   {key}
                 </button>
@@ -425,6 +438,7 @@ const Wordle = ({ mode, description: _description, instructions }) => {
                   className={`${styles.key} ${styles.specialKey}`}
                   onClick={deleteLetter}
                   disabled={gameState.gameOver}
+                  aria-label="Delete last letter"
                 >
                   ←
                 </button>
@@ -432,8 +446,6 @@ const Wordle = ({ mode, description: _description, instructions }) => {
             </div>
           ))}
         </div>
-
-
 
         {/* Completion Modal */}
         {showModal && (
@@ -458,6 +470,7 @@ const Wordle = ({ mode, description: _description, instructions }) => {
                   fontSize: "14px",
                   fontWeight: "bold",
                 }}
+                aria-label="Play again"
               >
                 Play Again
               </button>

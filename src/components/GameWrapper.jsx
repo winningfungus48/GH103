@@ -1,7 +1,8 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import games from "../data/gamesData.jsx";
 import { addRecentlyPlayed } from "../utils/localStorage";
+import performanceMonitor from "../utils/performance";
 import styles from "./GameWrapper.module.css";
 import LayoutWrapper from "./layout/LayoutWrapper";
 import { trackEvent } from "../utils/analytics";
@@ -18,11 +19,75 @@ const validateGameRoute = (slug, games) => {
   return game;
 };
 
+// Enhanced loading component with progress indication
+const GameLoader = ({ gameName }) => {
+  const [progress, setProgress] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 90) return prev;
+        return prev + Math.random() * 15;
+      });
+    }, 100);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={{ 
+      display: "flex", 
+      flexDirection: "column", 
+      alignItems: "center", 
+      justifyContent: "center",
+      padding: "2rem",
+      color: "#666",
+      minHeight: "300px"
+    }}>
+      <div style={{ 
+        width: "60px", 
+        height: "60px", 
+        border: "4px solid #f3f3f3", 
+        borderTop: "4px solid #007bff", 
+        borderRadius: "50%", 
+        animation: "spin 1s linear infinite",
+        marginBottom: "1rem"
+      }}></div>
+      <p style={{ marginBottom: "1rem", fontSize: "1.1rem" }}>Loading {gameName}...</p>
+      <div style={{
+        width: "200px",
+        height: "4px",
+        backgroundColor: "#f3f3f3",
+        borderRadius: "2px",
+        overflow: "hidden"
+      }}>
+        <div style={{
+          width: `${progress}%`,
+          height: "100%",
+          backgroundColor: "#007bff",
+          transition: "width 0.3s ease",
+          borderRadius: "2px"
+        }}></div>
+      </div>
+      <p style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "#999" }}>
+        {Math.round(progress)}% loaded
+      </p>
+    </div>
+  );
+};
+
 const GameWrapper = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
   const game = validateGameRoute(slug, games);
+
+  // Start performance monitoring when component mounts
+  useEffect(() => {
+    if (game) {
+      performanceMonitor.startGameLoad(game.slug);
+    }
+  }, [game]);
 
   // Track recently played games and analytics
   useEffect(() => {
@@ -94,6 +159,16 @@ const GameWrapper = () => {
 
   const GameComponent = game.component;
 
+  // Component to handle game load completion
+  const GameComponentWithMonitoring = (props) => {
+    useEffect(() => {
+      // End performance monitoring when game component mounts
+      performanceMonitor.endGameLoad(game.slug);
+    }, []);
+    
+    return <GameComponent {...props} />;
+  };
+
   return (
     <LayoutWrapper
       showHeader={false}
@@ -118,28 +193,8 @@ const GameWrapper = () => {
             borderRadius: 4,
           }}
         >
-          <Suspense fallback={
-            <div style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center", 
-              justifyContent: "center",
-              padding: "2rem",
-              color: "#666"
-            }}>
-              <div style={{ 
-                width: "40px", 
-                height: "40px", 
-                border: "4px solid #f3f3f3", 
-                borderTop: "4px solid #007bff", 
-                borderRadius: "50%", 
-                animation: "spin 1s linear infinite",
-                marginBottom: "1rem"
-              }}></div>
-              <p>Loading {game.name}...</p>
-            </div>
-          }>
-          <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
+          <Suspense fallback={<GameLoader gameName={game.name} />}>
+          <GameComponentWithMonitoring mode={mode} description={game.description} instructions={game.instructions} />
           </Suspense>
         </section>
       </div>

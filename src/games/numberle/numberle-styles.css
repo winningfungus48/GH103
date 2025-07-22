@@ -71,13 +71,13 @@ h1 {
   gap: 3px;
   margin-bottom: 15px;
   width: 100%;
-  max-width: 320px;
+  max-width: 480px;
   flex-shrink: 0;
 }
 
 .row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 3px;
 }
 
@@ -142,20 +142,28 @@ h1 {
   flex-shrink: 0;
 }
 
-.number-pad-container {
+.keypad-container {
   width: 100%;
-  max-width: 320px;
+  max-width: 480px;
   flex-shrink: 0;
 }
 
-.number-pad {
+.number-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   gap: 5px;
   margin-bottom: 6px;
 }
 
-.number-btn {
+.action-row {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.key-btn {
   aspect-ratio: 1;
   border: none;
   border-radius: 6px;
@@ -169,65 +177,89 @@ h1 {
   border: 1.5px solid #e5e7eb;
 }
 
+.key-btn:hover {
+  background-color: #d1d5db;
+}
+
+.key-btn:active {
+  transform: scale(0.95);
+}
+
 .number-btn:not(.correct):not(.present):not(.absent) {
   background-color: #e5e7eb;
   color: #374151;
   border-color: #e5e7eb;
 }
 
-.number-btn:hover {
-  background-color: #d1d5db;
+.operator-btn:not(.correct):not(.present):not(.absent) {
+  background-color: #e5e7eb;
+  color: #374151;
+  border-color: #e5e7eb;
+  font-size: 0.9rem;
+  min-width: 0;
 }
 
-.number-btn:active {
-  transform: scale(0.95);
+.action-btn:not(.active) {
+  background-color: #e5e7eb;
+  color: #374151;
+  border-color: #e5e7eb;
+  font-size: 0.8rem;
+  min-width: 0;
+  padding: 0 4px;
+  aspect-ratio: auto;
+  width: auto;
+  min-width: 1.5em;
 }
 
-.number-btn.absent {
+.key-btn.absent {
   background: #6b7280 !important;
   color: #fff !important;
   border-color: #6b7280 !important;
 }
 
-.action-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
+.key-btn.present {
+  background: #f59e0b !important;
+  color: #fff !important;
+  border-color: #f59e0b !important;
 }
 
-.action-btn {
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #e5e7eb;
-  color: #374151;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
+.key-btn.correct {
+  background: #10b981 !important;
+  color: #fff !important;
+  border-color: #10b981 !important;
 }
 
-.action-btn:hover {
-  background-color: #d1d5db;
-}
-
-.action-btn:active {
-  transform: scale(0.95);
-}
-
-#enter-btn {
+.action-btn.active {
   background-color: #3b82f6;
   color: white;
+  border-color: #3b82f6;
+  font-size: 0.8rem;
+  min-width: 0;
+  padding: 0 4px;
+  aspect-ratio: auto;
+  width: auto;
+  min-width: 1.5em;
 }
 
-#enter-btn:hover {
+.action-btn.active:hover {
   background-color: #2563eb;
 }
 
-#enter-btn:disabled {
+.action-btn:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+}
+
+/* Make Enter button span 3 columns */
+.action-row .key-btn:last-child {
+  grid-column: span 3;
+  min-width: 2.5em;
+}
+
+/* Make delete button span 2 columns */
+.action-row .key-btn:first-child {
+  grid-column: span 2;
+  min-width: 2.5em;
 }
 
 .modal {
@@ -354,13 +386,8 @@ h1 {
     font-size: 1rem;
   }
 
-  .number-btn {
+  .key-btn {
     font-size: 0.85rem;
-  }
-
-  .action-btn {
-    font-size: 0.8rem;
-    padding: 8px;
   }
 
   .modal-content {
@@ -409,22 +436,17 @@ h1 {
     margin-bottom: 8px;
   }
 
-  .number-pad {
+  .number-row {
     gap: 4px;
     margin-bottom: 4px;
   }
 
-  .action-buttons {
+  .action-row {
     gap: 4px;
   }
 
-  .number-btn {
+  .key-btn {
     font-size: 0.8rem;
-  }
-
-  .action-btn {
-    font-size: 0.75rem;
-    padding: 6px;
   }
 }
 
@@ -562,7 +584,7 @@ h1 {
 }
 
 /* Keypress bounce animation */
-.number-btn.bounce {
+.key-btn.bounce {
   animation: key-bounce 0.18s cubic-bezier(0.4, 2, 0.6, 1) 1;
 }
 @keyframes key-bounce {
@@ -625,32 +647,12 @@ h1 {
   }
 }
 
-/* Number key feedback colors */
-.number-btn.correct {
-  background: #10b981 !important;
-  color: #fff !important;
-}
-.number-btn.present {
-  background: #f59e0b !important;
-  color: #fff !important;
-}
-.number-btn.absent {
-  background: #6b7280 !important;
-  color: #fff !important;
-  border-color: #6b7280 !important;
-}
-
 .desc-secondary {
   display: block;
   font-size: 1.08em;
   color: #444;
   margin-top: 2px;
   font-weight: 500;
-}
-
-.number-btn.absent {
-  background: #444 !important;
-  color: #fff !important;
 }
 
 .difficulty-row {
@@ -752,6 +754,16 @@ h1 {
   line-height: 1.5;
   font-weight: 500;
   text-align: center;
+}
+.endgame-equation {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-family: monospace;
+  background: #f0f0f0;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 .infinite-btn {
   background: #111;
@@ -917,7 +929,7 @@ h1 {
     align-items: center;
   }
   .board,
-  .number-pad-container {
+  .keypad-container {
     max-width: 100%;
     width: 100%;
   }

@@ -12,18 +12,8 @@ export default defineConfig({
           // Separate React and React Router into their own chunks
           'react-vendor': ['react', 'react-dom'],
           'router-vendor': ['react-router-dom'],
-          'helmet-vendor': ['react-helmet-async'],
-          // Group game components together
-          'games': [
-            './src/games/numberle',
-            './src/games/wordle', 
-            './src/games/shapele',
-            './src/games/simonle',
-            './src/games/colorle',
-            './src/games/mathle',
-            './src/games/puzzlele',
-            './src/games/memoryle'
-          ]
+          'helmet-vendor': ['react-helmet-async']
+          // Removed manual chunking for games to allow proper code splitting
         }
       }
     },

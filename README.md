@@ -7,7 +7,7 @@ A modern, responsive web app for playing and discovering puzzle and logic games.
 - Centered, max-width main content for readability
 - Responsive design for desktop and mobile
 - Modular React components and CSS modules
-- Deterministic daily mode for select games (Numberle, Wordle, Shapele, Simonle)
+- Deterministic daily mode for select games (Numberle, Wordle, Shapele, Simonle) - *Note: Daily features are on hold for future expansion until 2.0.0*
 - Automated game scaffolding script for consistent new game setup
 
 ## Layout & Styling

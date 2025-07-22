@@ -21,7 +21,7 @@ This checklist ensures all games are properly integrated and prevents common iss
 - [ ] **Add stats utilities** to localStorage.js
 - [ ] **Register game in gamesData.jsx** with correct slug
 - [ ] **Test routing** - verify `/game/[slug]` works
-- [ ] **Test daily mode** - verify `?mode=daily` works
+- [ ] **Test daily mode** - verify `?mode=daily` works *(Note: Daily features are on hold until 2.0.0 - only test existing functionality)*
 - [ ] **Test favorites integration**
 - [ ] **Test recently played tracking**
 - [ ] **Test category filtering**
@@ -104,7 +104,7 @@ npm run lint
 - [ ] Game loads correctly
 - [ ] Game mechanics work as expected
 - [ ] Win/lose conditions work
-- [ ] Daily mode works (if supported)
+- [ ] Daily mode works (if supported) *(Note: Daily features are on hold until 2.0.0 - only test existing functionality)*
 - [ ] Practice mode works
 - [ ] Game state persists correctly
 - [ ] Statistics update correctly
@@ -142,7 +142,7 @@ A game is considered successfully implemented when:
 4. ✅ Build completes without errors
 5. ✅ Development server runs without issues
 6. ✅ Game is accessible via `/game/[slug]`
-7. ✅ Daily mode works (if supported)
+7. ✅ Daily mode works (if supported) *(Note: Daily features are on hold until 2.0.0 - only test existing functionality)*
 8. ✅ Documentation is updated
 
 ## 📝 Documentation Requirements

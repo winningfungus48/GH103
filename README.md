@@ -37,5 +37,10 @@ See [`docs/architecture.md`](docs/architecture.md) for full details and best pra
 - Please read the architecture doc before making layout changes.
 - Tag stable layout releases in git (e.g., `v1.0-layout-stable`).
 
+## Deployment
+- **Quick Reference**: See [`docs/quick-deployment-reference.md`](docs/quick-deployment-reference.md)
+- **Full Guide**: See [`docs/deployment-guide.md`](docs/deployment-guide.md)
+- **Live Site**: https://winningfungus48.github.io/GH103/
+
 ---
 _Last updated: 2024-06-09_

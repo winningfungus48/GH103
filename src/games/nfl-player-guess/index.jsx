@@ -202,31 +202,42 @@ const NFLPlayerGuess = ({ mode, description, instructions }) => {
         </div>
       )}
 
-      {guesses.length > 0 && (
-        <div className={styles.guessesContainer}>
-          <div className={styles.guessesHeader}>Your Guesses:</div>
-          <div className={styles.desktopHeaders}>
-            <div>Player</div>
-            <div>Age</div>
-            <div>Conference</div>
-            <div>Team</div>
-            <div>Position</div>
-            <div>Rec Yds</div>
-            <div>Rush Yds</div>
-            <div>TDs</div>
+      <div className={styles.guessesContainer}>
+        <div className={styles.guessesHeader}>Your Guesses:</div>
+        <div className={styles.desktopHeaders}>
+          <div>Player</div>
+          <div>Age</div>
+          <div>Conference</div>
+          <div>Team</div>
+          <div>Position</div>
+          <div>Rec Yds</div>
+          <div>Rush Yds</div>
+          <div>TDs</div>
+        </div>
+        <div className={styles.mobileHeaders}>
+          <div>Player</div>
+          <div>Age</div>
+          <div>Conf</div>
+          <div>Team</div>
+          <div>Pos</div>
+          <div>Rec Yds</div>
+          <div>Rush Yds</div>
+          <div>TDs</div>
+        </div>
+        
+        {guesses.length === 0 ? (
+          <div className={styles.placeholderRow}>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
+            <div>?</div>
           </div>
-          <div className={styles.mobileHeaders}>
-            <div>Player</div>
-            <div>Age</div>
-            <div>Conf</div>
-            <div>Team</div>
-            <div>Pos</div>
-            <div>Rec Yds</div>
-            <div>Rush Yds</div>
-            <div>TDs</div>
-          </div>
-          
-          {guesses.map((guess, index) => (
+        ) : (
+          guesses.map((guess, index) => (
             <div key={index} className={styles.guessRow}>
               <div style={{ backgroundColor: getMatchColor(guess.player, targetPlayer.player) }}>
                 {guess.player} {getArrow(guess.player, targetPlayer.player, 0)}
@@ -253,9 +264,9 @@ const NFLPlayerGuess = ({ mode, description, instructions }) => {
                 {guess.tds} {getArrow(guess.tds, targetPlayer.tds, 1)}
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
       {gameOver && (
         <div className={styles.gameResult}>

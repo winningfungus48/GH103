@@ -13,6 +13,8 @@ const Puzzlele = React.lazy(() => import("../games/puzzlele"));
 const Memoryle = React.lazy(() => import("../games/memoryle"));
 const NFLPlayerGuess = React.lazy(() => import("../games/nfl-player-guess"));
 const MLBPlayerComparison = React.lazy(() => import("../games/mlb-player-comparison"));
+const MLBPlayerGuess = React.lazy(() => import("../games/mlb-player-guess"));
+const NBAPlayerGuess = React.lazy(() => import("../games/nba-player-guess"));
 
 const games = [
   {
@@ -159,12 +161,36 @@ const games = [
     name: "MLB Player Comparison",
     slug: "mlb-player-comparison",
     description: "Head-to-head stat comparisons between MLB players",
-    instructions: "Andwer the question comparing two MLB pitchers head-to-head across 10 questions. Uses real 2025 MLB pitcher data.",
+    instructions: "Answer the question comparing two MLB pitchers head-to-head across 10 questions. Uses real 2025 MLB pitcher data.",
     categories: ["Sports"],
     component: MLBPlayerComparison,
     metaDescription: "MLB Player Comparison - Compare MLB pitchers head-to-head and test your baseball knowledge.",
     keywords: ["mlb", "baseball", "player comparison", "sports game", "browser game"],
     previewImage: "/assets/previews/mlb-player-comparison.png",
+    supportsDaily: false,
+  },
+  {
+    name: "MLB Player Guess",
+    slug: "mlb-player-guess",
+    description: "Guess the MLB player based on 2025 stats",
+    instructions: "Guess the hidden MLB player in 8 tries! Search for players by name, team, or league. After 4 wrong guesses, you can use a team hint. After 6 wrong guesses, you can use an initial letter hint. Compare stats like age, team, league, runs, stolen bases, home runs, and OPS to find the target player.",
+    categories: ["Sports"],
+    component: MLBPlayerGuess,
+    metaDescription: "MLB Player Guess - Test your baseball knowledge by guessing players based on their 2025 season statistics.",
+    keywords: ["mlb", "baseball", "player guess", "sports game", "browser game"],
+    previewImage: "/assets/previews/mlb-player-guess.png",
+    supportsDaily: false,
+  },
+  {
+    name: "NBA Player Guess",
+    slug: "nba-player-guess",
+    description: "Guess the NBA player based on 2024 stats",
+    instructions: "Guess the hidden NBA player in 8 tries! Search for players by name, team, conference, or position. After 4 wrong guesses, you can use a team hint. After 6 wrong guesses, you can use an initial letter hint. Compare stats like age, team, conference, position, points per game, rebounds per game, and assists per game to find the target player.",
+    categories: ["Sports"],
+    component: NBAPlayerGuess,
+    metaDescription: "NBA Player Guess - Test your basketball knowledge by guessing players based on their 2024 season statistics.",
+    keywords: ["nba", "basketball", "player guess", "sports game", "browser game"],
+    previewImage: "/assets/previews/nba-player-guess.png",
     supportsDaily: false,
   },
 ];

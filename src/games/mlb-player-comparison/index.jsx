@@ -60,6 +60,8 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
     const statIndex = Math.floor(Math.random() * availableStats.length);
     const stat = availableStats[statIndex];
 
+
+
     setCurrentPlayerA(playerA);
     setCurrentPlayerB(playerB);
     setCurrentStat(stat.key);
@@ -72,14 +74,27 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
   const selectPlayer = useCallback((choice) => {
     if (answeredCurrentQuestion || gameOver) return;
 
+    // Get fresh data to avoid stale closure issues
     const playerA = currentPlayerA;
     const playerB = currentPlayerB;
     const statKey = currentStat;
     const questionType = currentQuestionType;
 
+    // Additional safety check - ensure we have valid data
+    if (!playerA || !playerB || !statKey || !questionType) {
+      console.error('Missing game data:', { playerA, playerB, statKey, questionType });
+      return;
+    }
+
     let correctChoice;
     let valueA = playerA[statKey];
     let valueB = playerB[statKey];
+
+    // Validate data
+    if (typeof valueA !== 'number' || typeof valueB !== 'number') {
+      console.error('Invalid stat values:', { valueA, valueB, typeA: typeof valueA, typeB: typeof valueB });
+      return;
+    }
 
     if (questionType === 'lower') {
       correctChoice = valueA < valueB ? 'A' : 'B';
@@ -117,11 +132,40 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
     }
   };
 
+  // Helper function to calculate correct answer
+  const getCorrectAnswer = () => {
+    if (!currentPlayerA || !currentPlayerB || !currentStat || !currentQuestionType) return null;
+    
+    const valueA = currentPlayerA[currentStat];
+    const valueB = currentPlayerB[currentStat];
+    
+    if (currentQuestionType === 'lower') {
+      return valueA < valueB ? 'A' : 'B';
+    } else {
+      return valueA > valueB ? 'A' : 'B';
+    }
+  };
+
   const showAnswer = useCallback((userChoice, correctChoice, valueA, valueB) => {
     const isCorrect = userChoice === correctChoice;
-    const message = isCorrect 
-      ? `Correct! ${currentPlayerA.player} (${formatStat(valueA)}) vs ${currentPlayerB.player} (${formatStat(valueB)})`
-      : `Wrong! ${currentPlayerA.player} (${formatStat(valueA)}) vs ${currentPlayerB.player} (${formatStat(valueB)})`;
+    
+    // Ensure consistent message structure with fixed format
+    const playerAInfo = `${currentPlayerA.player} (${formatStat(valueA)})`;
+    const playerBInfo = `${currentPlayerB.player} (${formatStat(valueB)})`;
+    const prefix = isCorrect ? 'Correct!' : 'Wrong!';
+    const message = `${prefix} ${playerAInfo} vs ${playerBInfo}`;
+    
+    // Debug logging for message consistency
+    console.log('Message Debug:', {
+      isCorrect,
+      prefix,
+      playerAInfo,
+      playerBInfo,
+      fullMessage: message,
+      messageLength: message.length,
+      playerANameLength: currentPlayerA.player.length,
+      playerBNameLength: currentPlayerB.player.length
+    });
 
     setMessage(message);
     setMessageType(isCorrect ? 'success' : 'error');
@@ -168,8 +212,18 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
       </div>
 
       {message && (
-        <div className={`${styles.message} ${styles[messageType]}`}>
-          {message}
+        <div className={styles.messageWrapper}>
+          <div 
+            className={`${styles.messageInner} ${styles[messageType]}`}
+            data-debug={`Type: ${messageType}, Length: ${message.length}`}
+            ref={(el) => {
+              if (el) {
+                console.log(`Banner Debug - Type: ${messageType}, Height: ${el.offsetHeight}px, Width: ${el.offsetWidth}px, Content: "${message}"`);
+              }
+            }}
+          >
+            {message}
+          </div>
         </div>
       )}
 
@@ -181,7 +235,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
           
           <div className={styles.playersContainer}>
             <div 
-              className={`${styles.playerCard} ${answeredCurrentQuestion && currentPlayerA[currentStat] > currentPlayerB[currentStat] ? styles.correct : ''} ${answeredCurrentQuestion && currentPlayerA[currentStat] < currentPlayerB[currentStat] ? styles.incorrect : ''}`}
+              className={`${styles.playerCard} ${answeredCurrentQuestion && getCorrectAnswer() === 'A' ? styles.correct : ''} ${answeredCurrentQuestion && getCorrectAnswer() !== 'A' ? styles.incorrect : ''}`}
               onClick={() => selectPlayer('A')}
             >
               <div className={styles.playerName}>{currentPlayerA.player}</div>
@@ -196,7 +250,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
             <div className={styles.vs}>VS</div>
             
             <div 
-              className={`${styles.playerCard} ${answeredCurrentQuestion && currentPlayerB[currentStat] > currentPlayerA[currentStat] ? styles.correct : ''} ${answeredCurrentQuestion && currentPlayerB[currentStat] < currentPlayerA[currentStat] ? styles.incorrect : ''}`}
+              className={`${styles.playerCard} ${answeredCurrentQuestion && getCorrectAnswer() === 'B' ? styles.correct : ''} ${answeredCurrentQuestion && getCorrectAnswer() !== 'B' ? styles.incorrect : ''}`}
               onClick={() => selectPlayer('B')}
             >
               <div className={styles.playerName}>{currentPlayerB.player}</div>
@@ -219,7 +273,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
 
       <div className={styles.instructions}>
         <p><strong>How to play:</strong> Click the pitcher with the better stat.</p>
-        <p>🟢 <strong>Green:</strong> Correct | 🔴 <strong>Red:</strong> Wrong</p>
+        <p>🟢 <strong>Green:</strong> Correct Answer | 🔴 <strong>Red:</strong> Incorrect Answer</p>
         <p>Uses real 2025 MLB pitcher data!</p>
       </div>
       </div>

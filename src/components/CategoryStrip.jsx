@@ -6,7 +6,7 @@ const tabs = [
   { label: "A-Z Games", slug: "a-z games" },
   { label: "Favorites", slug: "favorites" },
   { label: "-le Games", slug: "-le games" },
-  { label: "Sports", slug: "sports" },
+  { label: "Sports", slug: "Sports" },
   { label: "Daily Games", slug: "daily games" },
 ];
 

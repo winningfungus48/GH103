@@ -4,6 +4,7 @@ import GamePageLayout from '../../components/game/GamePageLayout';
 import GameHeader from '../../components/game/GameHeader';
 import GameInstructions from '../../components/game/GameInstructions';
 import { nflPlayers } from '../../data/sports/nflPlayers';
+import useWelcomeModal from '../../hooks/useWelcomeModal.jsx';
 import styles from './nfl-player-guess.module.css';
 
 const NFLPlayerGuess = ({ mode, description, instructions }) => {
@@ -20,6 +21,9 @@ const NFLPlayerGuess = ({ mode, description, instructions }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const maxGuesses = 8;
+
+  // Welcome modal hook
+  const { WelcomeModal } = useWelcomeModal("NFL Player Guess", instructions);
 
   // Initialize game
   useEffect(() => {
@@ -121,6 +125,7 @@ const NFLPlayerGuess = ({ mode, description, instructions }) => {
     <GamePageLayout>
       <GameHeader title="NFL Player Guess" />
       <GameInstructions description={description} instructions={instructions} />
+      <WelcomeModal />
       
       <div className={styles.container}>
         <p className={styles.subtitle}>2024 season data • Hints on 5th & 7th guess</p>

@@ -4,6 +4,7 @@ import GamePageLayout from '../../components/game/GamePageLayout';
 import GameHeader from '../../components/game/GameHeader';
 import GameInstructions from '../../components/game/GameInstructions';
 import { pitcherData } from '../../data/sports/pitcherData';
+import useWelcomeModal from '../../hooks/useWelcomeModal.jsx';
 import styles from './mlb-player-comparison.module.css';
 
 const MLBPlayerComparison = ({ mode, description, instructions }) => {
@@ -21,6 +22,9 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
   const [messageType, setMessageType] = useState('');
 
   const maxQuestions = 10;
+
+  // Welcome modal hook
+  const { WelcomeModal } = useWelcomeModal("MLB Player Comparison", instructions);
 
   const availableStats = [
     { key: 'era', name: 'ERA', question: 'Who has a lower ERA?', better: 'lower' },
@@ -198,6 +202,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
     <GamePageLayout>
       <GameHeader title="MLB Pitcher Comparison" />
       <GameInstructions description={description} instructions={instructions} />
+      <WelcomeModal />
       
       <div className={styles.container}>
         <p className={styles.subtitle}>Compare pitchers • 10 questions • 2025 season data</p>
@@ -272,7 +277,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
       </div>
 
       <div className={styles.instructions}>
-        <p><strong>How to play:</strong> Click the pitcher with the better stat.</p>
+        <p><strong>How to play:</strong> Click on player to answer question.</p>
         <p>🟢 <strong>Green:</strong> Correct Answer | 🔴 <strong>Red:</strong> Incorrect Answer</p>
         <p>Uses real 2025 MLB pitcher data!</p>
       </div>

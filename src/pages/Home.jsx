@@ -17,7 +17,7 @@ const CATEGORY_SLUGS = [
   "a-z games",
   "favorites",
   "-le games",
-  "sports",
+  "Sports",
   "see more",
 ];
 

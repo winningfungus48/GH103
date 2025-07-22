@@ -16,44 +16,25 @@ const WordListSettings = ({ onClose }) => {
     <div className={styles.settingsContainer}>
       <h3>Word List Settings</h3>
       <p className={styles.description}>
-        Choose which words are accepted in the game:
+        Current word list configuration:
       </p>
       
       <div className={styles.options}>
         <div className={styles.option}>
           <input
             type="radio"
-            id="strict"
+            id="comprehensive"
             name="wordListMode"
-            value={WORD_LIST_MODES.STRICT}
-            checked={wordListInfo.currentMode === WORD_LIST_MODES.STRICT}
-            onChange={() => handleModeChange(WORD_LIST_MODES.STRICT)}
+            value={WORD_LIST_MODES.COMPREHENSIVE}
+            checked={wordListInfo.currentMode === WORD_LIST_MODES.COMPREHENSIVE}
+            onChange={() => handleModeChange(WORD_LIST_MODES.COMPREHENSIVE)}
           />
-          <label htmlFor="strict">
+          <label htmlFor="comprehensive">
             <div className={styles.optionHeader}>
-              <strong>{wordListInfo.allStats.strict.name}</strong>
+              <strong>{wordListInfo.allStats.comprehensive.name}</strong>
             </div>
             <div className={styles.optionDescription}>
-              {wordListInfo.allStats.strict.description}
-            </div>
-          </label>
-        </div>
-
-        <div className={styles.option}>
-          <input
-            type="radio"
-            id="extended"
-            name="wordListMode"
-            value={WORD_LIST_MODES.EXTENDED}
-            checked={wordListInfo.currentMode === WORD_LIST_MODES.EXTENDED}
-            onChange={() => handleModeChange(WORD_LIST_MODES.EXTENDED)}
-          />
-          <label htmlFor="extended">
-            <div className={styles.optionHeader}>
-              <strong>{wordListInfo.allStats.extended.name}</strong>
-            </div>
-            <div className={styles.optionDescription}>
-              {wordListInfo.allStats.extended.description}
+              {wordListInfo.allStats.comprehensive.description}
             </div>
           </label>
         </div>
@@ -61,6 +42,13 @@ const WordListSettings = ({ onClose }) => {
 
       <div className={styles.currentMode}>
         <strong>Current Mode:</strong> {wordListInfo.currentStats.name}
+      </div>
+
+      <div className={styles.info}>
+        <p>
+          <strong>Note:</strong> This comprehensive word list includes all legitimate 5-letter English words, 
+          carefully filtered to exclude proper nouns, abbreviations, and edge cases.
+        </p>
       </div>
 
       {onClose && (

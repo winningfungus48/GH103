@@ -10,7 +10,7 @@ export const games = [
     id: 7,
     title: "Numberle",
     description:
-      "Guess the 5-digit number in six tries. A new puzzle every day!",
+      "Guess the hidden math equation in six tries. A new puzzle every day!",
     categories: ["-le Games", "A-Z Games", "Daily Games"],
     route: "/games/numberle",
     supportsDaily: true,

@@ -1,14 +1,13 @@
 // Word list configuration system
-// Allows users to choose between strict (Wordle official) and extended (comprehensive) word lists
+// Single comprehensive mode with all legitimate 5-letter English words
 
 const WORD_LIST_CONFIG_KEY = 'wordle-word-list-mode';
 
 export const WORD_LIST_MODES = {
-  STRICT: 'strict',      // Only Wordle official words
-  EXTENDED: 'extended'   // Comprehensive word list
+  COMPREHENSIVE: 'comprehensive'   // All legitimate 5-letter English words
 };
 
-export const DEFAULT_MODE = WORD_LIST_MODES.EXTENDED;
+export const DEFAULT_MODE = WORD_LIST_MODES.COMPREHENSIVE;
 
 // Get current word list mode from localStorage
 export function getWordListMode() {
@@ -42,15 +41,10 @@ export function getWordListInfo() {
   const mode = getWordListMode();
   
   const stats = {
-    strict: {
-      name: 'Wordle Official',
-      description: 'Only official Wordle words (2,500+)',
-      count: 2500
-    },
-    extended: {
-      name: 'Extended Dictionary',
-      description: 'Comprehensive word list (15,000+)',
-      count: 15000
+    comprehensive: {
+      name: 'Comprehensive Dictionary',
+      description: 'All legitimate 5-letter English words (~12,000 words)',
+      count: 12000
     }
   };
   

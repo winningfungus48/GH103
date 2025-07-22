@@ -138,7 +138,7 @@ const Wordle = ({ mode, description, instructions }) => {
   const [gameStatus, setGameStatus] = useState("");
 
   // Welcome modal hook
-  const WelcomeModal = useWelcomeModal("wordle");
+  const { WelcomeModal } = useWelcomeModal("wordle");
 
   // Initialize game
   useEffect(() => {
@@ -277,7 +277,31 @@ const Wordle = ({ mode, description, instructions }) => {
     setShowModal(true);
   }, [mode, today]);
 
-  // Handle keyboard input - Fixed event handler
+  // Watch for game completion and trigger modal
+  useEffect(() => {
+    if (gameState.gameOver) {
+      // Debug logging
+      if (import.meta.env.DEV) {
+        console.log('[Wordle] Game over detected:', {
+          gameWon: gameState.gameWon,
+          currentRow: gameState.currentRow,
+          secretWord: gameState.secretWord
+        });
+      }
+      
+      // Add a small delay to ensure the board animation completes
+      const timer = setTimeout(() => {
+        if (import.meta.env.DEV) {
+          console.log('[Wordle] Triggering game completion modal');
+        }
+        handleGameComplete(gameState);
+      }, 1000); // 1 second delay to show the final guess animation
+      
+      return () => clearTimeout(timer);
+    }
+  }, [gameState.gameOver, gameState.gameWon, handleGameComplete]);
+
+  // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Prevent default for special keys
@@ -297,7 +321,7 @@ const Wordle = ({ mode, description, instructions }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [inputLetter, deleteLetter, submitGuess]); // Only depend on memoized functions
+  }, [inputLetter, deleteLetter, submitGuess]);
 
   const resetGame = () => {
     const isDailyMode = mode === "daily";
@@ -339,20 +363,20 @@ const Wordle = ({ mode, description, instructions }) => {
   ];
 
   return (
-  <GamePageLayout>
-    <GameHeader title="Wordle" />
-    <GameInstructions description={description} instructions={instructions} />
-    <WelcomeModal />
-    
-    {/* Screen reader status announcements */}
-    <div 
-      aria-live="polite" 
-      aria-atomic="true" 
-      style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
-    >
-      {gameStatus}
-    </div>
-    
+    <GamePageLayout>
+      <GameHeader title="Wordle" />
+      <GameInstructions description={description} instructions={instructions} />
+      <WelcomeModal />
+      
+      {/* Screen reader status announcements */}
+      <div 
+        aria-live="polite" 
+        aria-atomic="true" 
+        style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
+      >
+        {gameStatus}
+      </div>
+      
       <div className={styles.gameContent}>
         {/* Game Board */}
         <div 
@@ -489,8 +513,8 @@ const Wordle = ({ mode, description, instructions }) => {
           </Modal>
         )}
       </div>
-  </GamePageLayout>
-);
+    </GamePageLayout>
+  );
 };
 
-export default Wordle;
+export default Wordle; 

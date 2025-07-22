@@ -1,0 +1,230 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import GamePageLayout from '../../components/game/GamePageLayout';
+import GameHeader from '../../components/game/GameHeader';
+import GameInstructions from '../../components/game/GameInstructions';
+import { pitcherData } from '../../data/sports/pitcherData';
+import styles from './mlb-player-comparison.module.css';
+
+const MLBPlayerComparison = ({ mode, description, instructions }) => {
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [currentPlayerA, setCurrentPlayerA] = useState(null);
+  const [currentPlayerB, setCurrentPlayerB] = useState(null);
+  const [currentStat, setCurrentStat] = useState(null);
+  const [currentStatName, setCurrentStatName] = useState(null);
+  const [currentQuestionType, setCurrentQuestionType] = useState(null);
+  const [currentQuestionText, setCurrentQuestionText] = useState(null);
+  const [answeredCurrentQuestion, setAnsweredCurrentQuestion] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+
+  const maxQuestions = 10;
+
+  const availableStats = [
+    { key: 'era', name: 'ERA', question: 'Who has a lower ERA?', better: 'lower' },
+    { key: 'walks', name: 'Walks', question: 'Who has fewer walks allowed?', better: 'lower' },
+    { key: 'strikeouts', name: 'Strikeouts', question: 'Who has more strikeouts?', better: 'higher' },
+    { key: 'soBbRatio', name: 'SO/BB Ratio', question: 'Who has a higher SO/BB ratio?', better: 'higher' }
+  ];
+
+  // Initialize game
+  useEffect(() => {
+    if (pitcherData.length > 0) {
+      startGame();
+    }
+  }, []);
+
+  const startGame = useCallback(() => {
+    setCurrentQuestion(1);
+    setScore(0);
+    setGameOver(false);
+    setAnsweredCurrentQuestion(false);
+    setMessage('');
+    generateQuestion();
+  }, []);
+
+  const generateQuestion = useCallback(() => {
+    // Select two random pitchers
+    const playerAIndex = Math.floor(Math.random() * pitcherData.length);
+    let playerBIndex = Math.floor(Math.random() * pitcherData.length);
+    while (playerBIndex === playerAIndex) {
+      playerBIndex = Math.floor(Math.random() * pitcherData.length);
+    }
+
+    const playerA = pitcherData[playerAIndex];
+    const playerB = pitcherData[playerBIndex];
+
+    // Select a random stat
+    const statIndex = Math.floor(Math.random() * availableStats.length);
+    const stat = availableStats[statIndex];
+
+    setCurrentPlayerA(playerA);
+    setCurrentPlayerB(playerB);
+    setCurrentStat(stat.key);
+    setCurrentStatName(stat.name);
+    setCurrentQuestionType(stat.better);
+    setCurrentQuestionText(stat.question);
+    setAnsweredCurrentQuestion(false);
+  }, []);
+
+  const selectPlayer = useCallback((choice) => {
+    if (answeredCurrentQuestion || gameOver) return;
+
+    const playerA = currentPlayerA;
+    const playerB = currentPlayerB;
+    const statKey = currentStat;
+    const questionType = currentQuestionType;
+
+    let correctChoice;
+    let valueA = playerA[statKey];
+    let valueB = playerB[statKey];
+
+    if (questionType === 'lower') {
+      correctChoice = valueA < valueB ? 'A' : 'B';
+    } else {
+      correctChoice = valueA > valueB ? 'A' : 'B';
+    }
+
+    const isCorrect = choice === correctChoice;
+
+    if (isCorrect) {
+      setScore(prev => prev + 1);
+    }
+
+    showAnswer(choice, correctChoice, valueA, valueB);
+    setAnsweredCurrentQuestion(true);
+
+    // Move to next question after delay
+    setTimeout(() => {
+      if (currentQuestion >= maxQuestions) {
+        endGame();
+      } else {
+        setCurrentQuestion(prev => prev + 1);
+        generateQuestion();
+      }
+    }, 2000);
+  }, [answeredCurrentQuestion, gameOver, currentPlayerA, currentPlayerB, currentStat, currentQuestionType, currentQuestion, maxQuestions, generateQuestion]);
+
+  const formatStat = (value) => {
+    if (currentStat === 'era') {
+      return value.toFixed(2);
+    } else if (currentStat === 'soBbRatio') {
+      return value.toFixed(2);
+    } else {
+      return value.toString();
+    }
+  };
+
+  const showAnswer = useCallback((userChoice, correctChoice, valueA, valueB) => {
+    const isCorrect = userChoice === correctChoice;
+    const message = isCorrect 
+      ? `Correct! ${currentPlayerA.player} (${formatStat(valueA)}) vs ${currentPlayerB.player} (${formatStat(valueB)})`
+      : `Wrong! ${currentPlayerA.player} (${formatStat(valueA)}) vs ${currentPlayerB.player} (${formatStat(valueB)})`;
+
+    setMessage(message);
+    setMessageType(isCorrect ? 'success' : 'error');
+  }, [currentPlayerA, currentPlayerB, currentStat]);
+
+  const endGame = useCallback(() => {
+    setGameOver(true);
+    const percentage = Math.round((score / maxQuestions) * 100);
+    let finalMessage = `Game Over! You got ${score}/${maxQuestions} correct (${percentage}%)`;
+    
+    if (percentage >= 80) {
+      finalMessage += ' - Excellent!';
+    } else if (percentage >= 60) {
+      finalMessage += ' - Good job!';
+    } else {
+      finalMessage += ' - Keep practicing!';
+    }
+    
+    setMessage(finalMessage);
+    setMessageType('info');
+  }, [score, maxQuestions]);
+
+  const newGame = useCallback(() => {
+    startGame();
+  }, [startGame]);
+
+
+
+  return (
+    <GamePageLayout>
+      <GameHeader title="MLB Pitcher Comparison" />
+      <GameInstructions description={description} instructions={instructions} />
+      
+      <div className={styles.container}>
+        <p className={styles.subtitle}>Compare pitchers • 10 questions • 2025 season data</p>
+      
+      <div className={styles.gameInfo}>
+        <div className={styles.infoBox}>
+          <strong>Question: {currentQuestion} / {maxQuestions}</strong>
+        </div>
+        <div className={styles.infoBox}>
+          <strong>Score: {score} / {maxQuestions}</strong>
+        </div>
+      </div>
+
+      {message && (
+        <div className={`${styles.message} ${styles[messageType]}`}>
+          {message}
+        </div>
+      )}
+
+      {!gameOver && currentPlayerA && currentPlayerB && (
+        <div className={styles.questionContainer}>
+          <div className={styles.questionText}>
+            {currentQuestionText}
+          </div>
+          
+          <div className={styles.playersContainer}>
+            <div 
+              className={`${styles.playerCard} ${answeredCurrentQuestion && currentPlayerA[currentStat] > currentPlayerB[currentStat] ? styles.correct : ''} ${answeredCurrentQuestion && currentPlayerA[currentStat] < currentPlayerB[currentStat] ? styles.incorrect : ''}`}
+              onClick={() => selectPlayer('A')}
+            >
+              <div className={styles.playerName}>{currentPlayerA.player}</div>
+              <div className={styles.playerTeam}>{currentPlayerA.team}</div>
+              {answeredCurrentQuestion && (
+                <div className={styles.playerStat}>
+                  {currentStatName}: {formatStat(currentPlayerA[currentStat])}
+                </div>
+              )}
+            </div>
+            
+            <div className={styles.vs}>VS</div>
+            
+            <div 
+              className={`${styles.playerCard} ${answeredCurrentQuestion && currentPlayerB[currentStat] > currentPlayerA[currentStat] ? styles.correct : ''} ${answeredCurrentQuestion && currentPlayerB[currentStat] < currentPlayerA[currentStat] ? styles.incorrect : ''}`}
+              onClick={() => selectPlayer('B')}
+            >
+              <div className={styles.playerName}>{currentPlayerB.player}</div>
+              <div className={styles.playerTeam}>{currentPlayerB.team}</div>
+              {answeredCurrentQuestion && (
+                <div className={styles.playerStat}>
+                  {currentStatName}: {formatStat(currentPlayerB[currentStat])}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.controls}>
+        <button onClick={newGame} className={styles.newGameButton}>
+          New Game
+        </button>
+      </div>
+
+      <div className={styles.instructions}>
+        <p><strong>How to play:</strong> Click the pitcher with the better stat.</p>
+        <p>🟢 <strong>Green:</strong> Correct | 🔴 <strong>Red:</strong> Wrong</p>
+        <p>Uses real 2025 MLB pitcher data!</p>
+      </div>
+      </div>
+    </GamePageLayout>
+  );
+};
+
+export default MLBPlayerComparison; 

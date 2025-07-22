@@ -11,6 +11,8 @@ const Colorle = React.lazy(() => import("../games/colorle"));
 const Mathle = React.lazy(() => import("../games/mathle"));
 const Puzzlele = React.lazy(() => import("../games/puzzlele"));
 const Memoryle = React.lazy(() => import("../games/memoryle"));
+const NFLPlayerGuess = React.lazy(() => import("../games/nfl-player-guess"));
+const MLBPlayerComparison = React.lazy(() => import("../games/mlb-player-comparison"));
 
 const games = [
   {
@@ -140,6 +142,30 @@ const games = [
       seedSource: "date",
       difficulty: "medium",
     },
+  },
+  {
+    name: "NFL Player Guess",
+    slug: "nfl-player-guess",
+    description: "Guess the NFL player based on 2024 stats",
+    instructions: "Guess the NFL player based on 2024 stats",
+    categories: ["Sports"],
+    component: NFLPlayerGuess,
+    metaDescription: "NFL Player Guess - Test your football knowledge by guessing players based on their 2024 season statistics.",
+    keywords: ["nfl", "football", "player guess", "sports game", "browser game"],
+    previewImage: "/assets/previews/nfl-player-guess.png",
+    supportsDaily: false,
+  },
+  {
+    name: "MLB Player Comparison",
+    slug: "mlb-player-comparison",
+    description: "Head-to-head stat comparisons between MLB players",
+    instructions: "Head-to-head stat comparisons between MLB players",
+    categories: ["Sports"],
+    component: MLBPlayerComparison,
+    metaDescription: "MLB Player Comparison - Compare MLB pitchers head-to-head and test your baseball knowledge.",
+    keywords: ["mlb", "baseball", "player comparison", "sports game", "browser game"],
+    previewImage: "/assets/previews/mlb-player-comparison.png",
+    supportsDaily: false,
   },
 ];
 

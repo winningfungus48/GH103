@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Games</h1>
+            <p>Choose your game</p>
+        </header>
+        
+        <main>
+            <div class="games-grid">
+                <div class="game-card" onclick="navigateToGame('snake')">
+                    <h2>Snake</h2>
+                    <p>Classic snake game</p>
+                </div>
+                
+                <div class="game-card" onclick="navigateToGame('tetris')">
+                    <h2>Tetris</h2>
+                    <p>Block puzzle game</p>
+                </div>
+                
+                <div class="game-card" onclick="navigateToGame('pong')">
+                    <h2>Pong</h2>
+                    <p>Retro paddle game</p>
+                </div>
+                
+                <div class="game-card" onclick="navigateToGame('nba-player-guess')">
+                    <h2>Guess the NBA Player</h2>
+                    <p>Guess the NBA player based on 2024-25 stats</p>
+                </div>
+                
+                <div class="game-card" onclick="navigateToGame('quiz')">
+                    <h2>MLB Record Showdown</h2>
+                    <p>Compare 2025 team records - who has more wins?</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Games</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Redirect to hash-based routing for GitHub Pages compatibility
+        (function() {
+            const path = window.location.pathname;
+            if (path.startsWith('/home/') && path !== '/home/') {
+                const gameName = path.split('/home/')[1];
+                // Redirect to hash-based URL
+                window.location.replace(`/#/home/${gameName}`);
+            } else if (path.startsWith('/category/') && path !== '/category/') {
+                const categoryName = path.split('/category/')[1];
+                // Redirect to hash-based URL
+                window.location.replace(`/#/category/${categoryName}`);
+            }
+        })();
+    </script>
+</body>
+</html> 

@@ -139,7 +139,7 @@ const GameWrapper = () => {
               <p>Loading {game.name}...</p>
             </div>
           }>
-            <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
+          <GameComponent mode={mode} description={game.description} instructions={game.instructions} />
           </Suspense>
         </section>
       </div>

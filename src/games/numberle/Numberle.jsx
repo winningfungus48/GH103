@@ -126,7 +126,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     return {
       ...NUMBERLE_INITIAL_STATE,
       secretNumber,
-      board: createBoard(),
+    board: createBoard(),
     };
   });
 

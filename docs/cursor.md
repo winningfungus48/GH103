@@ -13,6 +13,7 @@ This document provides high-level context and process guidelines for setting up 
   - Consistent UI/UX and performance
 - **Current Release:** 1.0.0 (Core Foundations)
 - **Expansion Features:** (e.g., daily games, leaderboards, analytics) are out of scope until 2.0.0
+- **Daily Features:** All daily-related functionality (daily challenges, streaks, daily mode) is **ON HOLD** until 2.0.0. Current daily functionality in games should remain as-is but no new daily features should be implemented.
 
 ---
 
@@ -46,6 +47,7 @@ This document provides high-level context and process guidelines for setting up 
 - Follow atomic design for component organization
 - Use standard ESLint/Prettier configs; remove conflicting formatting files
 - Centralize utilities and ensure robust error handling
+- Reference `docs/ui-guidelines.md` for game card and grid layout specifications
 
 ---
 

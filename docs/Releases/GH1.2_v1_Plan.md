@@ -9,6 +9,11 @@
    - Update and expand the Privacy Policy to reflect analytics and monetization use.  
    - Ensure all tracking and ads comply with ethical and legal guidelines.
 
+**⚠️ IMPORTANT: Daily Features On Hold**
+- All daily-related functionality (daily challenges, streaks, daily mode enhancements) is **ON HOLD** until 2.0.0
+- Current daily functionality in existing games should remain as-is
+- No new daily features should be implemented in GH1.2
+
 2. **Analytics Integration (GA4)**  
    - Implement lightweight GA4 tracking with dev-only logging first.  
    - Validate data accuracy before public rollout.

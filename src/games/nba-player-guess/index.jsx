@@ -161,7 +161,12 @@ const NBAPlayerGuess = ({ mode, description, instructions }) => {
 
   const getMatchColor = (guessValue, targetValue) => {
     if (guessValue === targetValue) return '#6aaa64';
-    return '#c9b458';
+    if (typeof guessValue === 'number' && typeof targetValue === 'number') {
+      const diff = Math.abs(guessValue - targetValue);
+      const threshold = Math.max(targetValue * 0.1, 10);
+      if (diff <= threshold) return '#c9b458';
+    }
+    return '#787c7e';
   };
 
   const getNumericMatchColor = (guessValue, targetValue, threshold) => {
@@ -473,6 +478,12 @@ const NBAPlayerGuess = ({ mode, description, instructions }) => {
             New Game
           </button>
         )}
+      </div>
+      
+      <div style={{ marginTop: '20px', fontSize: '0.8rem', color: '#666', lineHeight: '1.2' }}>
+        <p style={{ margin: '5px 0' }}><strong>How to play:</strong> Search players by name, team, or position. Use arrows to navigate.</p>
+        <p style={{ margin: '5px 0' }}>🟢 <strong>Green:</strong> Correct | 🟡 <strong>Yellow:</strong> Close (±3 years, ±5 PPG, ±3 RPG, ±2 APG) | ⬜ <strong>Gray:</strong> Wrong</p>
+        <p style={{ margin: '5px 0' }}>↑ <strong>Target higher</strong> | ↓ <strong>Target lower</strong></p>
       </div>
       
       <style>{`

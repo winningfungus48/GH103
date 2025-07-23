@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import styles from "./mathle-styles.module.css";
 import {
   getMathleStats,
@@ -295,10 +294,6 @@ const Mathle = ({ instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader
-        title="Mathle"
-        onBack={() => navigate("/")}
-      />
       
       <div 
         className={styles.container}

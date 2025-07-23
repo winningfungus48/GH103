@@ -1,39 +1,56 @@
 import styles from "./Header.module.css";
 import React, { useState, useCallback } from "react";
+import SlidingPanel from "./navigation/SlidingPanel";
+import { setLastCategory } from "../utils/localStorage";
 
-const tabs = ["A-Z Games", "Favorites", "-le Games", "Sports"];
+// Use the same category structure as CategoryStrip
+const tabs = [
+  { label: "A-Z Games", slug: "a-z games" },
+  { label: "Favorites", slug: "favorites" },
+  { label: "-le Games", slug: "-le games" },
+  { label: "Sports", slug: "Sports" },
+  { label: "Daily Games", slug: "daily games" },
+];
 
 const Header = React.memo(({ activeCategory, onCategoryChange }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
 
-  const handleMenuToggle = useCallback(() => {
-    setMenuOpen((open) => !open);
+  const handlePanelToggle = useCallback(() => {
+    setPanelOpen((open) => !open);
   }, []);
 
-  const handleMenuKeyDown = useCallback((e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleMenuToggle();
-    }
-  }, [handleMenuToggle]);
+  const handlePanelClose = useCallback(() => {
+    setPanelOpen(false);
+  }, []);
 
-  const handleTabKeyDown = useCallback((e, tab) => {
+  const handleCategorySelect = useCallback((slug) => {
+    setLastCategory(slug);
+    onCategoryChange(slug);
+    setPanelOpen(false); // Close panel when category is selected
+  }, [onCategoryChange]);
+
+  const handleKeyDown = useCallback((e, slug) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      onCategoryChange(tab);
-      setMenuOpen(false);
+      handleCategorySelect(slug);
     }
-  }, [onCategoryChange]);
+  }, [handleCategorySelect]);
+
+  // Ensure 'A-Z Games' is always first, rest sorted alphabetically
+  const sortedTabs = React.useMemo(() => {
+    const aToZ = tabs.find((tab) => tab.slug === "a-z games");
+    const rest = tabs.filter((tab) => tab.slug !== "a-z games");
+    return [aToZ, ...rest.sort((a, b) => a.label.localeCompare(b.label))];
+  }, []);
 
   // Hamburger icon SVG
   const Hamburger = (
     <button
       className={styles.hamburger}
-      aria-label="Open menu"
-      aria-expanded={menuOpen}
-      aria-controls="mobile-menu"
-      onClick={handleMenuToggle}
-      onKeyDown={handleMenuKeyDown}
+      aria-label="Open categories menu"
+      aria-expanded={panelOpen}
+      aria-controls="mobile-categories-panel"
+      onClick={handlePanelToggle}
       tabIndex={0}
     >
       <span className={styles.bar} aria-hidden="true"></span>
@@ -50,32 +67,39 @@ const Header = React.memo(({ activeCategory, onCategoryChange }) => {
       </nav>
       <div className={styles.mobileNav}>
         {Hamburger}
-        {menuOpen && (
-          <nav 
-            className={styles.mobileMenu} 
-            id="mobile-menu"
-            role="navigation"
-            aria-label="Mobile navigation"
-          >
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                className={`${styles.mobileTab} ${activeCategory === tab ? styles.active : ""}`}
-                onClick={() => {
-                  onCategoryChange(tab);
-                  setMenuOpen(false);
-                }}
-                onKeyDown={(e) => handleTabKeyDown(e, tab)}
-                tabIndex={0}
-                aria-current={activeCategory === tab ? "page" : undefined}
-                aria-label={`${tab} games`}
-              >
-                {tab}
-              </button>
-            ))}
-          </nav>
-        )}
       </div>
+
+      {/* Mobile Sliding Panel */}
+      <SlidingPanel
+        isOpen={panelOpen}
+        onClose={handlePanelClose}
+        title="Categories"
+        width="70%"
+        className={styles.mobileCategoriesPanel}
+      >
+        <nav 
+          className={styles.mobileCategoriesList}
+          role="navigation"
+          aria-label="Mobile categories navigation"
+          id="mobile-categories-panel"
+        >
+          {sortedTabs.map((tab) => (
+            <button
+              key={tab.slug}
+              className={`${styles.mobileCategoryItem} ${
+                activeCategory === tab.slug ? styles.active : ""
+              }`}
+              onClick={() => handleCategorySelect(tab.slug)}
+              onKeyDown={(e) => handleKeyDown(e, tab.slug)}
+              tabIndex={0}
+              aria-current={activeCategory === tab.slug ? "page" : undefined}
+              aria-label={`${tab.label} games`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </SlidingPanel>
     </header>
   );
 });

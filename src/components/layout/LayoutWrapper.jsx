@@ -6,6 +6,7 @@ import CategoryStrip from "../CategoryStrip";
 import Footer from "./Footer";
 // import BackToTop from '../atoms/BackToTop';
 import { Helmet } from "react-helmet-async";
+import { useCategory } from "../../context/CategoryContext";
 
 // LayoutWrapper provides a flexible global layout for all major pages.
 // Props:
@@ -22,9 +23,12 @@ const LayoutWrapper = ({
   metaDescription = "Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!",
   keywords = ["games", "puzzle", "logic", "free", "browser", "fun"],
 }) => {
+  const { activeCategory, onCategoryChange } = useCategory();
+
   useEffect(() => {
     console.log("[LayoutWrapper] rendered", { width: window.innerWidth });
   }, []);
+
   return (
     <>
       {/* SEO metadata for the page */}
@@ -39,13 +43,19 @@ const LayoutWrapper = ({
         {/* Render header if showHeader is true */}
         {showHeader && (
           <div className={styles.headerWrapper}>
-            <Header />
+            <Header 
+              activeCategory={activeCategory}
+              onCategoryChange={onCategoryChange}
+            />
           </div>
         )}
-        {/* Render category strip if showCategoryStrip is true */}
+        {/* Render category strip if showCategoryStrip is true - hidden on mobile */}
         {showCategoryStrip && (
           <div className={styles.categoryStripWrapper}>
-            <CategoryStrip />
+            <CategoryStrip 
+              activeCategory={activeCategory}
+              onCategoryChange={onCategoryChange}
+            />
           </div>
         )}
         {/* Main content always rendered, full width with white background */}

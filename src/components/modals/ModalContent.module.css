@@ -1,0 +1,90 @@
+.content {
+  text-align: center;
+}
+
+.placeholder {
+  padding: 1rem 0;
+}
+
+.howToPlay {
+  text-align: left;
+  padding: 1rem 0;
+}
+
+.icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.placeholder h3,
+.howToPlay h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.placeholder p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.placeholder ul {
+  text-align: left;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.placeholder li {
+  margin-bottom: 0.5rem;
+}
+
+.instructions {
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.instructions p {
+  margin-bottom: 1rem;
+}
+
+.instructions ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.instructions li {
+  margin-bottom: 0.5rem;
+}
+
+.instructions strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.instructions em {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .placeholder h3,
+  .howToPlay h3 {
+    font-size: 1.25rem;
+  }
+
+  .placeholder p,
+  .instructions {
+    font-size: 0.95rem;
+  }
+
+  .icon {
+    font-size: 2.5rem;
+  }
+} 

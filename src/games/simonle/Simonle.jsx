@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import styles from "./simonle-styles.module.css";
 import {
   setDailyProgress,
@@ -368,10 +367,6 @@ const Simonle = ({ mode: _mode, description: _description, instructions }) => {
 
   return (
   <GamePageLayout>
-      <GameHeader
-        title="Simonle"
-        onBack={() => navigate("/")}
-      />
       
       <WelcomeModal />
 

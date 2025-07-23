@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import styles from "./colorle-styles.module.css";
 import {
   setDailyProgress,
@@ -222,10 +221,6 @@ const Colorle = ({ instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader
-        title="Colorle"
-        onBack={() => navigate("/")}
-      />
       
       <div className={styles.container}>
         <div className={styles.board} role="grid" aria-label="Colorle game board">

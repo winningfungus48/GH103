@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,11 +7,13 @@
   width: 100%;
   box-sizing: border-box;
   background: inherit;
+  padding-top: 1rem;
 }
 
 @media (max-width: 700px) {
   .wrapper {
     padding: 1rem;
+    min-height: calc(100vh - 48px);
   }
 }
 

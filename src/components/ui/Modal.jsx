@@ -47,7 +47,7 @@ export default function Modal({
         }
       }, 0);
       const handleKeyDown = (e) => {
-        if (e.key === "Escape") onClose();
+        if (e.key === "Escape" || e.key === "Enter") onClose();
         // Focus trap
         if (e.key === "Tab" && modalRef.current) {
           const focusableEls = modalRef.current.querySelectorAll(

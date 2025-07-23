@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import GamePageLayout from '../../components/game/GamePageLayout';
-import GameHeader from '../../components/game/GameHeader';
 import GameInstructions from '../../components/game/GameInstructions';
 import { pitcherData } from '../../data/sports/pitcherData';
 import useWelcomeModal from '../../hooks/useWelcomeModal.jsx';
@@ -200,7 +199,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader title="MLB Pitcher Comparison" />
+
       <GameInstructions description={description} instructions={instructions} />
       <WelcomeModal />
       

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import styles from "./puzzlele-styles.module.css";
 import {
   getPuzzleleStats,
@@ -257,10 +256,6 @@ const Puzzlele = ({ instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader
-        title="Puzzlele"
-        onBack={() => navigate("/")}
-      />
       
       <div 
         className={styles.container}

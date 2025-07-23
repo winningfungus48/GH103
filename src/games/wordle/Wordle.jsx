@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import GameInstructions from "../../components/game/GameInstructions";
 import WordListSettings from "../../components/game/WordListSettings";
 import { useToast } from "../../context/ToastProvider";
@@ -13,7 +12,7 @@ import {
 } from "../../utils/localStorage";
 import useDailySeed from "../../hooks/useDailySeed";
 import useWelcomeModal from "../../hooks/useWelcomeModal.jsx";
-import { getDailyWord, isValidWord, getWordListStats, COMPREHENSIVE_WORDS } from "../../data/comprehensiveWordleWords";
+import { getDailyWord, isValidGuess, getWordListStats, preloadValidGuesses } from "../../data/wordleWordLists";
 import Modal from "../../components/ui/Modal";
 
 // --- Wordle-specific logic ---
@@ -153,6 +152,9 @@ const Wordle = ({ mode, description, instructions }) => {
     
     // Set initial game status for screen readers
     setGameStatus(`Wordle game started. ${isDailyMode ? 'Daily mode' : 'Practice mode'}. Guess the 5-letter word in 6 tries.`);
+    
+    // Preload valid guesses for better performance
+    preloadValidGuesses();
   }, [mode, dailySeed]);
 
   // Update game status for screen readers
@@ -201,21 +203,25 @@ const Wordle = ({ mode, description, instructions }) => {
     });
   }, []);
 
-  const submitGuess = useCallback(() => {
-    setGameState((prev) => {
-      if (prev.gameOver || prev.currentCol !== 5) return prev;
-      
-      const guess = prev.board[prev.currentRow].map(cell => cell.value).join("");
-      
-      if (!isValidWord(guess)) {
-        showToast("Invalid Word", { 
-          type: "error", 
-          position: "top",
-          duration: 2000 
-        });
-        return prev;
-      }
-      
+  const submitGuess = useCallback(async () => {
+    const currentState = gameState;
+    if (currentState.gameOver || currentState.currentCol !== 5) return;
+    
+    const guess = currentState.board[currentState.currentRow].map(cell => cell.value).join("");
+    
+    // Check if word is valid (async)
+    const isValid = await isValidGuess(guess);
+    if (!isValid) {
+      showToast("Invalid Word", { 
+        type: "error", 
+        position: "top",
+        duration: 2000 
+      });
+      return;
+    }
+    
+    // Process the valid guess
+    setGameState(prev => {
       const evaluation = evaluateGuess(guess, prev.secretWord);
       
       // Debug logging for keyboard colors
@@ -233,6 +239,46 @@ const Wordle = ({ mode, description, instructions }) => {
         ...cell,
         status: evaluation[index],
       }));
+      
+      const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
+      
+      // Debug logging for updated keyboard colors
+      if (import.meta.env.DEV) {
+        console.log('[Wordle] Updated keyboard colors:', {
+          newKeyboardColors,
+          changes: Object.keys(newKeyboardColors).filter(key => 
+            newKeyboardColors[key] !== prev.keyboardColors[key]
+          ).map(key => `${key}: ${prev.keyboardColors[key]} -> ${newKeyboardColors[key]}`)
+        });
+      }
+      
+      const gameWon = evaluation.every(status => status === "correct");
+      const gameOver = gameWon || prev.currentRow === 5;
+      
+      // Update stats if daily mode
+      if (mode === "daily") {
+        const stats = getWordleStats();
+        const newStats = {
+          gamesPlayed: stats.gamesPlayed + 1,
+          gamesWon: stats.gamesWon + (gameWon ? 1 : 0),
+          currentStreak: gameWon ? stats.currentStreak + 1 : 0,
+          bestStreak: gameWon ? Math.max(stats.bestStreak, stats.currentStreak + 1) : stats.bestStreak,
+        };
+        setWordleStats(newStats);
+        setDailyProgress("wordle", today, gameWon);
+      }
+      
+      return {
+        ...prev,
+        board: newBoard,
+        keyboardColors: newKeyboardColors,
+        currentRow: prev.currentRow + 1,
+        currentCol: 0,
+        gameOver,
+        gameWon,
+      };
+    });
+  }, [gameState, mode, today, showToast]);
       
       const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
       
@@ -391,7 +437,6 @@ const Wordle = ({ mode, description, instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader title="Wordle" />
       <GameInstructions description={description} instructions={instructions} />
       <WelcomeModal />
       

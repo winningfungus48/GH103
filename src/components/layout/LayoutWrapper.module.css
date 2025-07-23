@@ -56,3 +56,10 @@
     margin-top: 1rem;
   }
 }
+
+/* Hide CategoryStrip on mobile - Header handles mobile categories */
+@media (max-width: 768px) {
+  .categoryStripWrapper {
+    display: none;
+  }
+}

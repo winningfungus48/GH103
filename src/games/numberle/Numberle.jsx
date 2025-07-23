@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import "./numberle-styles.css";
 import numberleLogo from "./numberle-logo.svg";
 import {
@@ -380,11 +379,6 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader
-        title="Numberle"
-        logo={numberleLogo}
-        onBack={() => navigate("/")}
-      />
       <WelcomeModal />
 
       <div 

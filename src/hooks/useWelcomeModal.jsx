@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Modal from "../components/ui/Modal";
 import styles from "../styles/welcome-modal.module.css";
+import { safeLocalStorage } from "../utils/localStorage";
 
 /**
  * useWelcomeModal - Reusable hook for game welcome modals
@@ -8,14 +9,35 @@ import styles from "../styles/welcome-modal.module.css";
  * @param {string} gameTitle - The title of the game
  * @param {string} instructions - The game instructions
  * @param {boolean} showOnLoad - Whether to show modal immediately on load (default: true)
- * @returns {object} { WelcomeModal, isOpen, closeModal, openModal, gameContainerRef }
+ * @returns {object} { WelcomeModal, isOpen, closeModal, openModal, resetWelcomeModal, gameContainerRef }
  */
 export default function useWelcomeModal(gameTitle, instructions, showOnLoad = true) {
-  const [isOpen, setIsOpen] = useState(showOnLoad);
+  // Create a unique key for this game's welcome modal state
+  const welcomeModalKey = `welcomeModal_${gameTitle.toLowerCase().replace(/\s+/g, '_')}`;
+  
+  // Check if user has seen this game's welcome modal before
+  const hasSeenWelcomeModal = () => {
+    return safeLocalStorage.getItem(welcomeModalKey) === 'true';
+  };
+
+  // Mark that user has seen this game's welcome modal
+  const markWelcomeModalSeen = () => {
+    safeLocalStorage.setItem(welcomeModalKey, 'true');
+  };
+
+  // Reset the welcome modal state (useful for testing or if user wants to see it again)
+  const resetWelcomeModal = useCallback(() => {
+    safeLocalStorage.removeItem(welcomeModalKey);
+  }, [welcomeModalKey]);
+
+  // Only show modal if showOnLoad is true AND user hasn't seen it before
+  const [isOpen, setIsOpen] = useState(showOnLoad && !hasSeenWelcomeModal());
   const gameContainerRef = useRef(null);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
+    // Mark that user has seen this welcome modal
+    markWelcomeModalSeen();
     // Restore focus to game container after modal closes
     setTimeout(() => {
       if (gameContainerRef.current) {
@@ -77,6 +99,7 @@ export default function useWelcomeModal(gameTitle, instructions, showOnLoad = tr
     isOpen,
     closeModal,
     openModal,
+    resetWelcomeModal,
     gameContainerRef,
   };
 } 

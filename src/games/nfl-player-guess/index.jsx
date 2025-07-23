@@ -275,6 +275,12 @@ const NFLPlayerGuess = ({ mode, description, instructions }) => {
           </button>
         </div>
       )}
+
+      <div style={{ marginTop: '20px', fontSize: '0.8rem', color: '#666', lineHeight: '1.2' }}>
+        <p style={{ margin: '5px 0' }}><strong>How to play:</strong> Search players by name, team, or position. Use arrows to navigate.</p>
+        <p style={{ margin: '5px 0' }}>🟢 <strong>Green:</strong> Correct | 🟡 <strong>Yellow:</strong> Close (±3 TDs, ±200 yards, ±3 years) | ⬜ <strong>Gray:</strong> Wrong</p>
+        <p style={{ margin: '5px 0' }}>↑ <strong>Target higher</strong> | ↓ <strong>Target lower</strong></p>
+      </div>
       </div>
     </GamePageLayout>
   );

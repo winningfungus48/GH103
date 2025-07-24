@@ -4,7 +4,7 @@ import LayoutWrapper from "../components/layout/LayoutWrapper";
 import layoutUtils from "../styles/layout.module.css";
 import { getLastCategory } from "../utils/localStorage";
 
-const PrivacyPolicy = () => {
+const Contact = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("a-z games");
 
@@ -23,9 +23,9 @@ const PrivacyPolicy = () => {
 
   return (
       <LayoutWrapper
-      pageTitle="Privacy Policy – Game Hub"
-      metaDescription="Read the Game Hub privacy policy. We respect your privacy and do not collect personal data."
-      keywords={["privacy", "game hub", "policy"]}
+      pageTitle="Contact – Game Hub"
+      metaDescription="Get in touch with Game Hub. We welcome feedback and suggestions."
+      keywords={["contact", "game hub", "feedback", "support"]}
       activeCategory={activeCategory}
       onCategoryChange={handleCategoryChange}
     >
@@ -34,23 +34,16 @@ const PrivacyPolicy = () => {
       style={{ padding: "2rem 0", maxWidth: 600, margin: "0 auto" }}
     >
       <h1 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-        Privacy Policy
+        Contact
       </h1>
+      
       <div style={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
         <p style={{ marginBottom: "1.5rem" }}>
-          Game Hub respects your privacy. We do not collect, store, or share any personal information.
+          We welcome feedback, suggestions, and bug reports for Game Hub.
         </p>
         
         <p style={{ marginBottom: "1.5rem" }}>
-          Our games work entirely in your browser. Game progress and preferences are stored locally on your device and are not transmitted to our servers.
-        </p>
-        
-        <p style={{ marginBottom: "1.5rem" }}>
-          We do not use cookies, tracking technologies, or analytics services. Your gaming experience remains private and secure.
-        </p>
-        
-        <p style={{ marginBottom: "0" }}>
-          If you have any questions about our privacy practices, please contact us.
+          Contact methods coming soon.
         </p>
       </div>
     </div>
@@ -58,4 +51,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default Contact; 

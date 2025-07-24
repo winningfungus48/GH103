@@ -21,6 +21,8 @@ const LayoutWrapper = ({
   pageTitle = "Game Hub – Play Free Puzzle Games",
   metaDescription = "Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!",
   keywords = ["games", "puzzle", "logic", "free", "browser", "fun"],
+  activeCategory,
+  onCategoryChange,
 }) => {
   useEffect(() => {
     console.log("[LayoutWrapper] rendered", { width: window.innerWidth });
@@ -39,13 +41,13 @@ const LayoutWrapper = ({
         {/* Render header if showHeader is true */}
         {showHeader && (
           <div className={styles.headerWrapper}>
-            <Header />
+            <Header activeCategory={activeCategory} onCategoryChange={onCategoryChange} />
           </div>
         )}
         {/* Render category strip if showCategoryStrip is true */}
         {showCategoryStrip && (
           <div className={styles.categoryStripWrapper}>
-            <CategoryStrip />
+            <CategoryStrip activeCategory={activeCategory} onCategoryChange={onCategoryChange} />
           </div>
         )}
         {/* Main content always rendered, full width with white background */}

@@ -4,7 +4,7 @@ import LayoutWrapper from "../components/layout/LayoutWrapper";
 import layoutUtils from "../styles/layout.module.css";
 import { getLastCategory } from "../utils/localStorage";
 
-const PrivacyPolicy = () => {
+const About = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("a-z games");
 
@@ -21,11 +21,11 @@ const PrivacyPolicy = () => {
     navigate("/");
   }, [navigate]);
 
-  return (
-      <LayoutWrapper
-      pageTitle="Privacy Policy – Game Hub"
-      metaDescription="Read the Game Hub privacy policy. We respect your privacy and do not collect personal data."
-      keywords={["privacy", "game hub", "policy"]}
+    return (
+    <LayoutWrapper
+      pageTitle="About – Game Hub"
+      metaDescription="Learn about Game Hub, a collection of daily puzzle games and challenges."
+      keywords={["about", "game hub", "puzzle games", "daily challenges"]}
       activeCategory={activeCategory}
       onCategoryChange={handleCategoryChange}
     >
@@ -34,23 +34,20 @@ const PrivacyPolicy = () => {
       style={{ padding: "2rem 0", maxWidth: 600, margin: "0 auto" }}
     >
       <h1 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-        Privacy Policy
+        About Game Hub
       </h1>
+      
       <div style={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
         <p style={{ marginBottom: "1.5rem" }}>
-          Game Hub respects your privacy. We do not collect, store, or share any personal information.
+          Game Hub is a collection of daily puzzle games and challenges. Each game offers a unique experience with new content every day.
         </p>
         
         <p style={{ marginBottom: "1.5rem" }}>
-          Our games work entirely in your browser. Game progress and preferences are stored locally on your device and are not transmitted to our servers.
+          Our games include word puzzles, number challenges, memory games, and sports trivia. All games are designed to be accessible and enjoyable for everyone.
         </p>
         
         <p style={{ marginBottom: "1.5rem" }}>
-          We do not use cookies, tracking technologies, or analytics services. Your gaming experience remains private and secure.
-        </p>
-        
-        <p style={{ marginBottom: "0" }}>
-          If you have any questions about our privacy practices, please contact us.
+          Game Hub is built with modern web technologies and focuses on performance and user experience. No personal data is collected, and all games work offline.
         </p>
       </div>
     </div>
@@ -58,4 +55,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default About; 

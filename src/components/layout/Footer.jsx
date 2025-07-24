@@ -20,13 +20,13 @@ const Footer = () => {
           className={styles.nav}
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          <Link to="/privacy-policy" className={styles.link}>
+          <Link to="/privacy" className={styles.link}>
             Privacy Policy
           </Link>
-          <Link to="#" className={styles.link}>
+          <Link to="/about" className={styles.link}>
             About
           </Link>
-          <Link to="#" className={styles.link}>
+          <Link to="/contact" className={styles.link}>
             Contact
           </Link>
         </nav>

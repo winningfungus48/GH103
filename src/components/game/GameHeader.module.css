@@ -1,11 +1,18 @@
 .header {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 64px;
   margin-bottom: 1.5rem;
+  background: #ffffff;
+  z-index: 100;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .backLink {
@@ -60,6 +67,7 @@
   .header {
     min-height: 48px;
     margin-bottom: 1rem;
+    padding: 0 0.5rem;
   }
   .title {
     font-size: 1.2rem;
@@ -67,5 +75,8 @@
   .backLink {
     font-size: 0.95rem;
     padding: 0.25rem 0.5rem;
+  }
+  .rightActions {
+    gap: 0.25rem;
   }
 }

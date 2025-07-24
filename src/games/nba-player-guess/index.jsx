@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import GamePageLayout from '../../components/game/GamePageLayout';
-import GameHeader from '../../components/game/GameHeader';
 import GameInstructions from '../../components/game/GameInstructions';
 import { nbaPlayers } from '../../data/sports/nbaPlayers';
 import useWelcomeModal from '../../hooks/useWelcomeModal.jsx';
@@ -188,7 +187,7 @@ const NBAPlayerGuess = ({ mode, description, instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader title="NBA Player Guess" />
+
       <GameInstructions description={description} instructions={instructions} />
       <WelcomeModal />
       

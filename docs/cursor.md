@@ -15,6 +15,9 @@ This document provides high-level context and process guidelines for setting up 
 - **Expansion Features:** (e.g., daily games, leaderboards, analytics) are out of scope until 2.0.0
 - **Daily Features:** All daily-related functionality (daily challenges, streaks, daily mode) is **ON HOLD** until 2.0.0. Current daily functionality in games should remain as-is but no new daily features should be implemented.
 
+### Recent Updates
+- **Welcome Modal Behavior:** Welcome modals now only appear on first visit to each game, not on every refresh. Uses localStorage to track user's first-time experience per game.
+
 ---
 
 ## 2. Development Process Template

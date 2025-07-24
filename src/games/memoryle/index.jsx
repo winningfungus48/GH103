@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GamePageLayout from "../../components/game/GamePageLayout";
-import GameHeader from "../../components/game/GameHeader";
 import styles from "./memoryle-styles.module.css";
 import {
   getMemoryleStats,
@@ -236,10 +235,6 @@ const Memoryle = ({ instructions }) => {
 
   return (
     <GamePageLayout>
-      <GameHeader
-        title="Memoryle"
-        onBack={() => navigate("/")}
-      />
       
       <div 
         className={styles.container}

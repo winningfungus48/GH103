@@ -571,3 +571,6 @@ export function setMemoryleStats(newStats) {
     // Silently fail
   }
 }
+
+// Export safeLocalStorage for use in other components
+export { safeLocalStorage };

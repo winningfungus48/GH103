@@ -6,11 +6,10 @@ const AllCategories = React.lazy(() => import("./pages/AllCategories"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const GameWrapper = React.lazy(() => import("./components/GameWrapper"));
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
-const About = React.lazy(() => import("./pages/About"));
-const Contact = React.lazy(() => import("./pages/Contact"));
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastProvider } from "./context/ToastProvider";
 import { FavoritesProvider } from "./context/FavoritesProvider";
+import { CategoryProvider } from "./context/CategoryContext";
 
 // Fallback UI for lazy loading
 const Loader = () => (
@@ -33,8 +32,6 @@ function App() {
               <Route path="/categories" element={<AllCategories />} />
               <Route path="/game/:slug" element={<GameWrapper />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>

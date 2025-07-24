@@ -7,6 +7,8 @@ import styles from "./GameWrapper.module.css";
 import LayoutWrapper from "./layout/LayoutWrapper";
 import { trackEvent } from "../utils/analytics";
 import NowPlayingBar from "./game/NowPlayingBar";
+import GameHeader from "./game/GameHeader";
+import GameHeaderActions from "./game/GameHeaderActions";
 
 // Validation function to catch routing issues early
 const validateGameRoute = (slug, games) => {
@@ -80,12 +82,15 @@ const GameWrapper = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
+  
   const game = validateGameRoute(slug, games);
 
   // Start performance monitoring when component mounts
   useEffect(() => {
     if (game) {
       performanceMonitor.startGameLoad(game.slug);
+      // Scroll to top when game loads to ensure header is visible
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [game]);
 
@@ -182,6 +187,13 @@ const GameWrapper = () => {
     >
       {/* NowPlayingBar is scaffolded for future use; set visible to true to enable */}
       <NowPlayingBar gameTitle={game.name} visible={false} />
+      
+      {/* Game Header with Actions */}
+      <GameHeader 
+        title={game.name}
+        rightActions={<GameHeaderActions instructions={game.instructions} />}
+      />
+      
       <div className={styles.wrapper}>
         <section
           style={{

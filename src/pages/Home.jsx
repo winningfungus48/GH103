@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import styles from "./Home.module.css";
 import games from "../data/gamesData.jsx";
 import GameCard from "../components/GameCard";
-import { getLastCategory } from "../utils/localStorage";
 import LayoutWrapper from "../components/layout/LayoutWrapper";
 import CategoryStrip from "../components/CategoryStrip";
+import { useCategory } from "../context/CategoryContext";
 // AdBanner temporarily disabled until 1.2
 // import AdBanner from "../components/ads/AdBanner";
 
@@ -23,13 +23,7 @@ const CATEGORY_SLUGS = [
 
 const Home = () => {
   console.log("[Home.jsx] Rendering Home");
-  const [activeCategory, setActiveCategory] = useState("a-z games");
-
-  // Load the last selected category from localStorage on component mount
-  useEffect(() => {
-    const lastCategory = getLastCategory();
-    setActiveCategory(lastCategory);
-  }, []);
+  const { activeCategory, onCategoryChange } = useCategory();
 
   // Track homepage view
   useEffect(() => {
@@ -39,11 +33,6 @@ const Home = () => {
     } catch (err) {
       if (import.meta.env.DEV) console.warn("Tracking error:", err);
     }
-  }, []);
-
-  // Memoize the category change handler
-  const handleCategoryChange = useCallback((category) => {
-    setActiveCategory(category);
   }, []);
 
   // Memoize filtered games to prevent unnecessary re-computation
@@ -85,7 +74,7 @@ const Home = () => {
     >
       <CategoryStrip
         activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
+        onCategoryChange={onCategoryChange}
       />
       <main id="main-content" className={styles.grid}>
         <div className={styles.cardsGrid}>

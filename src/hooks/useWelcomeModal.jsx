@@ -38,12 +38,7 @@ export default function useWelcomeModal(gameTitle, instructions, showOnLoad = tr
     setIsOpen(false);
     // Mark that user has seen this welcome modal
     markWelcomeModalSeen();
-    // Restore focus to game container after modal closes
-    setTimeout(() => {
-      if (gameContainerRef.current) {
-        gameContainerRef.current.focus();
-      }
-    }, 100); // Small delay to ensure modal is fully closed
+    // Removed focus restoration to prevent unwanted scroll behavior
   }, []);
 
   const openModal = useCallback(() => {

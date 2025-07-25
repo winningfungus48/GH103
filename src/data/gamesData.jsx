@@ -22,13 +22,13 @@ const games = [
     name: "Numberle",
     slug: "numberle",
     description:
-      "A number-based Wordle variant where you guess the correct number in 6 tries.",
+      "A number-based Wordle variant where you guess the correct 5-digit number in 6 tries.",
     instructions:
-      "A number-based Wordle variant where you guess the correct number in 6 tries.",
+      "A number-based Wordle variant where you guess the correct 5-digit number in 6 tries.",
     categories: ["-le games", "see more", "Daily Games"],
     component: React.lazy(getNumberle),
     metaDescription:
-      "Numberle is a fun and free puzzle game where you guess the number in 6 tries. A math-based twist on Wordle.",
+      "Numberle is a fun and free puzzle game where you guess the 5-digit number in 6 tries. A number-based twist on Wordle.",
     keywords: ["numberle", "math game", "puzzle", "logic", "browser game"],
     previewImage: "/assets/previews/numberle.png",
     supportsDaily: true,
@@ -101,11 +101,11 @@ const games = [
   {
     name: "Mathle",
     slug: "mathle",
-    description: "Guess the mathematical equation in 6 tries. A new puzzle every day!",
-    instructions: "Guess the mathematical equation in 6 tries. A new puzzle every day!",
+    description: "Guess the 8-character mathematical equation in 6 tries. A new puzzle every day!",
+    instructions: "Guess the 8-character mathematical equation in 6 tries. A new puzzle every day!",
     categories: ["-le games", "see more", "Daily Games", "logic games"],
     component: React.lazy(getMathle),
-    metaDescription: "Mathle is a fun and free puzzle game where you guess the mathematical equation in 6 tries. A mathematical twist on Wordle.",
+    metaDescription: "Mathle is a fun and free puzzle game where you guess the 8-character mathematical equation in 6 tries. A mathematical twist on Wordle.",
     keywords: ["mathle", "math game", "puzzle", "logic", "browser game", "equation"],
     previewImage: "/assets/previews/mathle.png",
     supportsDaily: true,

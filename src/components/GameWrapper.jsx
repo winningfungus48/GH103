@@ -89,8 +89,6 @@ const GameWrapper = () => {
   useEffect(() => {
     if (game) {
       performanceMonitor.startGameLoad(game.slug);
-      // Scroll to top when game loads to ensure header is visible
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [game]);
 

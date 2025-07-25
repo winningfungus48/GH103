@@ -2,10 +2,10 @@
   max-width: 500px;
   margin: 0 auto;
   padding: 15px;
-  height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   outline: none;
 }
 

@@ -4,19 +4,78 @@ This document outlines the design system, component specifications, and layout g
 
 ---
 
+## Responsive Container Standards
+
+### Global Responsive Pattern
+All containers in Game Hub follow a consistent responsive pattern:
+- **Small screens (< 900px)**: Full width (100%)
+- **Large screens (≥ 900px)**: Constrained max-width with centered layout
+
+### Standard Breakpoint
+- **Breakpoint**: `900px`
+- **Media query**: `@media (min-width: 900px)`
+- **Implementation**: Full width by default, max-width applied only on large screens
+
+### Container Specifications by Component
+
+#### App Root (`src/App.css`)
+- **Small screens**: Full width
+- **Large screens**: `max-width: 1280px`
+- **Centering**: `margin: 0 auto`
+
+#### Home Page (`src/pages/Home.module.css`)
+- **Grid container**:
+  - Small screens: Full width
+  - Large screens: `max-width: 1200px`
+- **Cards grid**:
+  - Small screens: Full width  
+  - Large screens: `max-width: 1100px`
+
+#### All Categories Page (`src/pages/AllCategories.module.css`)
+- **Grid container**:
+  - Small screens: Full width
+  - Large screens: `max-width: 900px`
+
+#### Game Containers
+- **Memoryle** (`src/games/memoryle/memoryle-styles.module.css`):
+  - Small screens: Full width
+  - Large screens: `max-width: 1100px`
+- **Numberle** (`src/games/numberle/numberle-styles.css`):
+  - Small screens: Full width
+  - Large screens: `max-width: 500px`
+
+### Implementation Template
+```css
+.container {
+  width: 100%;
+  margin: 0 auto;
+  /* other styles */
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: [appropriate-width]px;
+  }
+}
+```
+
+---
+
 ## Game Cards & Grid Layout
 
 ### Grid Container Specifications
 
 #### Main Grid Container (`src/pages/Home.module.css`)
-- **Max-width**: `1200px`
+- **Small screens**: Full width
+- **Large screens**: `max-width: 1200px`
 - **Width**: `100%`
 - **Margin**: `0 auto` (centered)
 - **Padding**: `1rem` top/bottom, no horizontal padding
 - **Display**: Flexbox with CSS Grid progressive enhancement
 
 #### Cards Grid Container
-- **Max-width**: `1100px` (desktop), `900px` (tablet), `600px` (mobile), `400px` (small mobile)
+- **Small screens**: Full width
+- **Large screens**: `max-width: 1100px`
 - **Width**: `100%`
 - **Margin**: `0 auto` (centered)
 - **Padding**: `1rem 0.5rem` (desktop), scales down on smaller screens
@@ -84,7 +143,8 @@ This document outlines the design system, component specifications, and layout g
 ### Layout Container Specifications
 
 #### Global Container (`src/styles/layout.module.css`)
-- **Max-width**: `1200px`
+- **Small screens**: Full width
+- **Large screens**: `max-width: 1200px`
 - **Margin**: `0 auto` (centered)
 - **Padding**: `0 1rem` (desktop), `0 0.75rem` (mobile), `0 0.5rem` (small mobile)
 - **Width**: `100%`
@@ -104,6 +164,7 @@ This document outlines the design system, component specifications, and layout g
 - **Fluid typography**: Scales with viewport size
 - **Flexible containers**: Use percentage and viewport units
 - **No horizontal overflow**: All content fits within viewport
+- **Consistent breakpoint**: Use `900px` for all responsive containers
 
 #### Performance Considerations
 - **CSS Grid**: Hardware-accelerated layout
@@ -139,6 +200,8 @@ This document outlines the design system, component specifications, and layout g
 ### Testing Checklist
 
 #### Responsive Testing
+- [ ] Containers use full width on small screens (< 900px)
+- [ ] Containers are constrained on large screens (≥ 900px)
 - [ ] Cards fit properly on desktop (1200px+)
 - [ ] Cards fit properly on tablet (768-1100px)
 - [ ] Cards fit properly on mobile (≤480px)
@@ -182,6 +245,8 @@ src/
 - **Layout utilities**: `.container`
 
 ### Responsive Breakpoints
+- **Large screens**: `≥900px` (constrained containers)
+- **Small screens**: `<900px` (full width)
 - **Desktop**: `>1100px`
 - **Tablet**: `768px - 1100px`
 - **Mobile**: `480px - 768px`
@@ -190,4 +255,4 @@ src/
 ---
 
 **Last Updated**: 2025-01-XX
-**Version**: 1.0.0 
+**Version**: 1.1.0 

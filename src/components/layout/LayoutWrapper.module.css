@@ -63,3 +63,20 @@
     display: none;
   }
 }
+
+/* Medium height screens - when window is resized to half height */
+@media (max-height: 700px) and (min-height: 501px) {
+  .headerWrapper {
+    min-height: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .categoryStripWrapper {
+    min-height: 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .content {
+    padding: 1rem 0;
+  }
+}

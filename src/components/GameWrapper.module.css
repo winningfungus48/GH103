@@ -1,19 +1,20 @@
 .wrapper {
-  min-height: calc(100vh - 64px);
+  min-height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
   background: inherit;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
 }
 
 @media (max-width: 700px) {
   .wrapper {
-    padding: 1rem;
-    min-height: calc(100vh - 48px);
+    padding: 1rem 1rem 1.5rem 1rem;
+    min-height: auto;
   }
 }
 

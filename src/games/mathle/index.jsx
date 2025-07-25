@@ -19,14 +19,14 @@ const MATHLE_INITIAL_STATE = {
   gameOver: false,
   gameWon: false,
   maxAttempts: 6,
-  equationLength: 5,
+  equationLength: 8,
   board: Array.from({ length: 6 }, () =>
-    Array.from({ length: 5 }, () => ({ value: "", status: "" })),
+    Array.from({ length: 8 }, () => ({ value: "", status: "" })),
   ),
   numberPadColors: {},
 };
 
-const OPERATORS = ["+", "-", "×", "÷"];
+const OPERATORS = ["+", "-", "*", "/", "="];
 const NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 const winPrompts = [
@@ -49,40 +49,36 @@ function generateSecretEquation(seed) {
     };
   })();
 
-  // Generate a simple equation: number operator number = result
-  const num1 = Math.floor(rng() * 9) + 1; // 1-9
-  const num2 = Math.floor(rng() * 9) + 1; // 1-9
-  const operator = OPERATORS[Math.floor(rng() * 4)]; // All operators: +, -, ×, ÷
+  // Generate 8-character equations similar to the original Numberle logic
+  const equations = [
+    "1+2*3=7",
+    "4+5-2=7", 
+    "3*4/2=6",
+    "8-3+1=6",
+    "2*3+1=7",
+    "9-4*1=5",
+    "6/2+3=6",
+    "5+1*2=7",
+    "7-2+1=6",
+    "4*2-1=7"
+  ];
   
-  let result;
-  let equation;
+  const equation = equations[Math.floor(rng() * equations.length)];
   
-  if (operator === "+") {
-    result = num1 + num2;
-    equation = `${num1}+${num2}=${result}`;
-  } else if (operator === "-") {
-    result = num1 - num2;
-    equation = `${num1}-${num2}=${result}`;
-  } else if (operator === "×") {
-    result = num1 * num2;
-    equation = `${num1}×${num2}=${result}`;
-  } else if (operator === "÷") {
-    // Ensure division results in whole numbers
-    result = num1;
-    const divisor = num2;
-    const dividend = result * divisor;
-    equation = `${dividend}÷${divisor}=${result}`;
-  }
+  // Calculate the result
+  const evalEquation = equation.replace(/=/g, '===').replace(/\*/g, '*').replace(/\//g, '/');
+  const leftSide = equation.split('=')[0];
+  const result = Function(`'use strict'; return (${leftSide})`)();
   
   return { equation, result };
 }
 
 function evaluateEquation(equation) {
   try {
-    // Replace × with * and ÷ with / for evaluation
-    const evalEquation = equation.replace(/×/g, '*').replace(/÷/g, '/');
+    // Split by equals sign and evaluate the left side
+    const leftSide = equation.split('=')[0];
     // Use Function constructor instead of eval for better security
-    return Function(`'use strict'; return (${evalEquation})`)();
+    return Function(`'use strict'; return (${leftSide})`)();
   } catch {
     return null;
   }
@@ -128,6 +124,7 @@ const Mathle = ({ instructions }) => {
   useEffect(() => {
     if (dailySeed !== null) {
       const { equation, result } = generateSecretEquation(dailySeed);
+      console.log('Generated secret equation:', equation, 'result:', result);
       setState((prev) => ({
         ...prev,
         secretEquation: equation,
@@ -177,19 +174,27 @@ const Mathle = ({ instructions }) => {
 
     if (currentGuess.length !== state.equationLength) return;
 
-    // Validate equation format
-    const equationPattern = /^\d+[+\-×÷]\d+=\d+$/;
+    // Validate equation format - must be exactly 8 characters with no spaces
+    const equationPattern = /^[\d+\-*/]{7}=\d{1}$/;
     if (!equationPattern.test(currentGuess)) {
-      setMessage("Invalid equation format! Use: number+number=result");
+      setMessage("Invalid equation format! Must be exactly 8 characters (e.g., 1+2*3=7)");
       setTimeout(() => setMessage(""), 3000);
       return;
     }
 
+    console.log('Current guess:', currentGuess);
+    console.log('Secret equation:', state.secretEquation);
+    console.log('Secret result:', state.secretResult);
+    
     const { result, isCorrect, evaluatesCorrectly } = checkGuess(
       currentGuess,
       state.secretEquation,
       state.secretResult
     );
+    
+    console.log('Check result:', result);
+    console.log('Is correct:', isCorrect);
+    console.log('Evaluates correctly:', evaluatesCorrectly);
 
     const newBoard = [...state.board];
     newBoard[state.currentRow] = result;
@@ -271,18 +276,8 @@ const Mathle = ({ instructions }) => {
       inputValue(e.key);
     }
     // Operator input
-    else if (e.key === "+" || e.key === "-") {
+    else if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/" || e.key === "=") {
       inputValue(e.key);
-    }
-    else if (e.key === "*") {
-      inputValue("×");
-    }
-    else if (e.key === "/") {
-      inputValue("÷");
-    }
-    // Equals sign
-    else if (e.key === "=") {
-      inputValue("=");
     }
     // Special keys
     else if (e.key === "Enter") {
@@ -388,22 +383,22 @@ const Mathle = ({ instructions }) => {
               -
             </button>
             <button
-              className={`${styles.operatorBtn} ${state.numberPadColors["×"] || ""}`}
-              onClick={() => inputValue("×")}
+              className={`${styles.operatorBtn} ${state.numberPadColors["*"] || ""}`}
+              onClick={() => inputValue("*")}
               disabled={state.gameOver}
               aria-label="Enter multiply operator"
               tabIndex={0}
             >
-              ×
+              *
             </button>
             <button
-              className={`${styles.operatorBtn} ${state.numberPadColors["÷"] || ""}`}
-              onClick={() => inputValue("÷")}
+              className={`${styles.operatorBtn} ${state.numberPadColors["/"] || ""}`}
+              onClick={() => inputValue("/")}
               disabled={state.gameOver}
               aria-label="Enter divide operator"
               tabIndex={0}
             >
-              ÷
+              /
             </button>
             <button
               className={`${styles.operatorBtn} ${state.numberPadColors["="] || ""}`}

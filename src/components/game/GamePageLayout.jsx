@@ -1,18 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styles from "./GamePageLayout.module.css";
 
 const GamePageLayout = ({ children, extraTopContent }) => {
-  const layoutRef = useRef(null);
-
-  // Scroll to top on mount (smooth)
-  useEffect(() => {
-    if (layoutRef.current) {
-      layoutRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
-
   return (
-    <div className={styles.pageBg} ref={layoutRef}>
+    <div className={styles.pageBg}>
       {extraTopContent && (
         <div className={styles.extraTop}>{extraTopContent}</div>
       )}

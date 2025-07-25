@@ -12,13 +12,19 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
   padding: 15px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: 500px;
+  }
 }
 
 header {
@@ -77,7 +83,7 @@ h1 {
 
 .row {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 3px;
 }
 
@@ -150,14 +156,39 @@ h1 {
 
 .number-row {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 5px;
   margin-bottom: 6px;
 }
 
+.number-row .key-btn:nth-child(6) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.number-row .key-btn:nth-child(7) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.number-row .key-btn:nth-child(8) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.number-row .key-btn:nth-child(9) {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.number-row .key-btn:nth-child(10) {
+  grid-column: 5;
+  grid-row: 2;
+}
+
 .action-row {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 5px;
   width: 100%;
   max-width: 480px;
@@ -250,15 +281,15 @@ h1 {
   cursor: not-allowed;
 }
 
-/* Make Enter button span 3 columns */
+/* Make Enter button span 1 column */
 .action-row .key-btn:last-child {
-  grid-column: span 3;
+  grid-column: span 1;
   min-width: 2.5em;
 }
 
-/* Make delete button span 2 columns */
+/* Make delete button span 1 column */
 .action-row .key-btn:first-child {
-  grid-column: span 2;
+  grid-column: span 1;
   min-width: 2.5em;
 }
 

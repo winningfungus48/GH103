@@ -9,11 +9,12 @@ This checklist ensures all games are properly integrated and prevents common iss
 - [ ] Check game catalog for requirements
 - [ ] Ensure game template is appropriate
 - [ ] Review UI guidelines (`docs/ui-guidelines.md`) for layout and responsive design
+- [ ] Review responsive container standards (900px breakpoint)
 
 ### During Implementation
 - [ ] Create game component with proper structure
 - [ ] Implement game logic and state management
-- [ ] Add responsive CSS styles
+- [ ] Add responsive CSS styles following container standards
 - [ ] Test game mechanics thoroughly
 - [ ] Add accessibility features (ARIA, keyboard navigation)
 
@@ -34,6 +35,35 @@ This checklist ensures all games are properly integrated and prevents common iss
 - [ ] **Cross-browser testing** - Firefox, Safari, Edge
 - [ ] **Accessibility testing** - keyboard navigation, screen readers
 - [ ] **Performance testing** - load times, memory usage
+- [ ] **Responsive testing** - verify containers follow 900px breakpoint standard
+
+## 📱 Responsive Design Requirements
+
+### Container Standards
+All new components must follow the established responsive pattern:
+- **Small screens (< 900px)**: Full width (100%)
+- **Large screens (≥ 900px)**: Constrained max-width with centered layout
+
+### Implementation Template
+```css
+.container {
+  width: 100%;
+  margin: 0 auto;
+  /* other styles */
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: [appropriate-width]px;
+  }
+}
+```
+
+### Testing Requirements
+- [ ] Container uses full width on screens < 900px
+- [ ] Container is constrained on screens ≥ 900px
+- [ ] No horizontal scrolling on any screen size
+- [ ] Content remains readable and usable at all breakpoints
 
 ## 🚨 Common Issues & Prevention
 
@@ -79,12 +109,15 @@ This checklist ensures all games are properly integrated and prevents common iss
 - Incorrect class names
 - No responsive breakpoints
 - Not following UI guidelines
+- Not following responsive container standards
 
 **Prevention**:
 - Follow existing CSS patterns
 - Test on multiple screen sizes
 - Use CSS modules consistently
 - Reference `docs/ui-guidelines.md` for grid and card specifications
+- Follow responsive container standards (900px breakpoint)
+- Use full width on small screens, constrained width on large screens
 
 ## 🔧 Development Commands
 
@@ -133,6 +166,7 @@ npm run lint
 
 ### UI/UX Testing
 - [ ] Responsive design works
+- [ ] Containers follow 900px breakpoint standard
 - [ ] Keyboard navigation works
 - [ ] Touch interactions work
 - [ ] Loading states work
@@ -157,7 +191,8 @@ A game is considered successfully implemented when:
 5. ✅ Development server runs without issues
 6. ✅ Game is accessible via `/game/[slug]`
 7. ✅ Daily mode works (if supported) *(Note: Daily features are on hold until 2.0.0 - only test existing functionality)*
-8. ✅ Documentation is updated
+8. ✅ Responsive design follows container standards
+9. ✅ Documentation is updated
 
 ## 📝 Documentation Requirements
 
@@ -166,4 +201,5 @@ After implementing a game:
 - [ ] Document any custom implementations
 - [ ] Note any template extensions needed
 - [ ] Update phase documentation
-- [ ] Create validation results file 
+- [ ] Create validation results file
+- [ ] Verify responsive design follows established standards 

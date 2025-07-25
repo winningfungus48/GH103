@@ -23,11 +23,6 @@ function App() {
       <FavoritesProvider>
         <CategoryProvider>
           <div className={styles.app}>
-            {/* Skip link for accessibility */}
-            <a href="#main-content" className="skip-link">
-              Skip to main content
-            </a>
-            
             <Suspense fallback={<Loader />}>
               <Routes>
                 <Route path="/" element={<Home />} />

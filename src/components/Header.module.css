@@ -188,3 +188,26 @@
     border-left: 4px solid #000;
   }
 }
+
+/* Medium height screens - when window is resized to half height */
+@media (max-height: 700px) and (min-height: 501px) {
+  .header {
+    height: var(--header-height-compact, 2.5rem);
+    font-size: 1.3rem;
+  }
+
+  .header h1 {
+    font-size: 1.3rem;
+  }
+
+  .hamburger {
+    width: 36px;
+    height: 36px;
+  }
+
+  .bar {
+    width: 24px;
+    height: 2px;
+    margin: 2px 0;
+  }
+}

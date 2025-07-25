@@ -8,9 +8,8 @@
 
 .grid {
   flex: 1;
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
   padding-top: 1rem;
   padding-bottom: 0.5rem;
@@ -21,16 +20,26 @@
   justify-content: flex-start;
 }
 
+@media (min-width: 900px) {
+  .grid {
+    max-width: 1200px;
+  }
+}
+
 .cardsGrid {
-  /* Fallback for browsers without CSS Grid support */
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   width: 100%;
-  max-width: 1100px;
   margin: 0 auto;
   justify-content: center;
   padding: 1rem 0.5rem;
+}
+
+@media (min-width: 900px) {
+  .cardsGrid {
+    max-width: 1100px;
+  }
 }
 
 /* Progressive enhancement for CSS Grid */
@@ -104,5 +113,25 @@
   :global(.categoryStrip)::-webkit-scrollbar {
     height: 4px;
     background: transparent;
+  }
+}
+
+/* Medium height screens - when window is resized to half height */
+@media (max-height: 700px) and (min-height: 501px) {
+  .grid {
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    min-height: 60vh;
+  }
+
+  .cardsGrid {
+    gap: 1.5rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  @supports (display: grid) {
+    .cardsGrid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
   }
 }

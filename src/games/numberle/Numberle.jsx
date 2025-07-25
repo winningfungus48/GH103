@@ -14,15 +14,15 @@ import Modal from "../../components/ui/Modal";
 
 // --- Numberle-specific logic ---
 const NUMBERLE_INITIAL_STATE = {
-  secretEquation: "",
+  secretNumber: "",
   currentRow: 0,
   currentCol: 0,
   gameOver: false,
   gameWon: false,
   maxAttempts: 6,
-  equationLength: 8,
+  numberLength: 5,
   board: Array.from({ length: 6 }, () =>
-    Array.from({ length: 8 }, () => ({ value: "", status: "" })),
+    Array.from({ length: 5 }, () => ({ value: "", status: "" })),
   ),
   keypadColors: {},
 };
@@ -40,34 +40,18 @@ const winPrompts = [
   "You nailed it!",
 ];
 
-// Valid math operators
-const OPERATORS = ['+', '-', '*', '/', '='];
-
-// Generate a valid math equation
-function generateSecretEquation() {
-  const equations = [
-    "1+2*3=7",
-    "4+5-2=7", 
-    "3*4/2=6",
-    "8-3+1=6",
-    "2*3+1=7",
-    "9-4*1=5",
-    "6/2+3=6",
-    "5+1*2=7",
-    "7-2+1=6",
-    "4*2-1=7"
-  ];
-  
-  return equations[Math.floor(Math.random() * equations.length)];
+// Generate a random 5-digit number
+function generateSecretNumber() {
+  return Math.floor(Math.random() * 100000).toString().padStart(5, '0');
 }
 
 function createBoard() {
   return Array.from({ length: 6 }, () =>
-    Array.from({ length: 8 }, () => ({ value: "", status: "" })),
+    Array.from({ length: 5 }, () => ({ value: "", status: "" })),
   );
 }
 
-function getDailySecretEquation(dailySeed) {
+function getDailySecretNumber(dailySeed) {
   function seededRandom(seedStr) {
     let hash = 0;
     for (let i = 0; i < seedStr.length; i++) {
@@ -81,67 +65,13 @@ function getDailySecretEquation(dailySeed) {
     };
   }
   
-  const equations = [
-    "1+2*3=7",
-    "4+5-2=7", 
-    "3*4/2=6",
-    "8-3+1=6",
-    "2*3+1=7",
-    "9-4*1=5",
-    "6/2+3=6",
-    "5+1*2=7",
-    "7-2+1=6",
-    "4*2-1=7"
-  ];
-  
   const rand = seededRandom(dailySeed);
-  return equations[Math.floor(rand() * equations.length)];
+  return Math.floor(rand() * 100000).toString().padStart(5, '0');
 }
 
-// Validate if a string is a valid math equation
-function isValidEquation(equation) {
-  try {
-    // Check if it contains exactly one '='
-    if ((equation.match(/=/g) || []).length !== 1) {
-      return false;
-    }
-    
-    // Split by '=' and check both sides
-    const parts = equation.split('=');
-    if (parts.length !== 2) return false;
-    
-    const leftSide = parts[0];
-    const rightSide = parts[1];
-    
-    // Check if right side is a valid integer (allows leading zeros)
-    if (!/^\d+$/.test(rightSide)) {
-      return false;
-    }
-    
-    // Convert to number and check if it's a valid integer
-    const rightSideNum = parseInt(rightSide, 10);
-    if (isNaN(rightSideNum) || !Number.isInteger(rightSideNum)) {
-      return false;
-    }
-    
-    // Check if left side contains only valid characters
-    if (!/^[\d+\-*/]+$/.test(leftSide)) {
-      return false;
-    }
-    
-    // Safely evaluate the left side using Function constructor (safer than eval)
-    const calculateResult = new Function('return ' + leftSide);
-    const result = calculateResult();
-    
-    if (isNaN(result) || !Number.isInteger(result)) {
-      return false;
-    }
-    
-    // Check if the equation is true
-    return result === rightSideNum;
-  } catch (error) {
-    return false;
-  }
+// Validate if a string is a valid 5-digit number
+function isValidNumber(number) {
+  return /^\d{5}$/.test(number);
 }
 
 const Numberle = ({ mode: _mode, description: _description, instructions }) => {
@@ -154,13 +84,13 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
 
   // Game state
   const [state, setState] = useState(() => {
-    const secretEquation = isDailyMode && dailySeed
-      ? getDailySecretEquation(dailySeed)
-      : generateSecretEquation();
+    const secretNumber = isDailyMode && dailySeed
+      ? getDailySecretNumber(dailySeed)
+      : generateSecretNumber();
     
     return {
       ...NUMBERLE_INITIAL_STATE,
-      secretEquation,
+      secretNumber,
       board: createBoard(),
     };
   });
@@ -175,19 +105,19 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
   // Welcome modal
   const { WelcomeModal, gameContainerRef } = useWelcomeModal("Numberle", instructions);
 
-  // Update secret equation when daily seed changes (for daily mode)
+  // Update secret number when daily seed changes (for daily mode)
   useEffect(() => {
-    if (isDailyMode && dailySeed && state.secretEquation !== getDailySecretEquation(dailySeed)) {
+    if (isDailyMode && dailySeed && state.secretNumber !== getDailySecretNumber(dailySeed)) {
       setState(prev => ({
         ...prev,
-        secretEquation: getDailySecretEquation(dailySeed),
+        secretNumber: getDailySecretNumber(dailySeed),
       }));
     }
-  }, [isDailyMode, dailySeed, state.secretEquation]);
+  }, [isDailyMode, dailySeed, state.secretNumber]);
 
   // Game logic functions
   const inputCharacter = (char) => {
-    if (state.gameOver || state.currentCol >= state.equationLength) {
+    if (state.gameOver || state.currentCol >= state.numberLength) {
       return;
     }
 
@@ -221,27 +151,27 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
   };
 
   const submitGuess = () => {
-    if (state.gameOver || state.currentCol !== state.equationLength) return;
+    if (state.gameOver || state.currentCol !== state.numberLength) return;
 
     const guess = state.board[state.currentRow]
       .map((tile) => tile.value)
       .join("");
 
     console.log("Submitting guess:", guess);
-    console.log("Secret equation:", state.secretEquation);
+    console.log("Secret number:", state.secretNumber);
 
-    if (!isValidEquation(guess)) {
-      setMessage("Please enter a valid equation (e.g., 1+2*3=7)");
+    if (!isValidNumber(guess)) {
+      setMessage("Please enter a valid 5-digit number");
       return;
     }
 
-    const feedback = evaluateGuess(guess, state.secretEquation);
+    const feedback = evaluateGuess(guess, state.secretNumber);
     console.log("Feedback:", feedback);
     
     const newBoard = [...state.board];
 
     // Update board with feedback
-    for (let i = 0; i < state.equationLength; i++) {
+    for (let i = 0; i < state.numberLength; i++) {
       newBoard[state.currentRow][i] = {
         ...newBoard[state.currentRow][i],
         status: feedback[i],
@@ -250,7 +180,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
 
     // Update keypad colors
     const newKeypadColors = { ...state.keypadColors };
-    for (let i = 0; i < state.equationLength; i++) {
+    for (let i = 0; i < state.numberLength; i++) {
       const char = guess[i];
       const status = feedback[i];
       if (!newKeypadColors[char] || status === "correct") {
@@ -258,7 +188,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
       }
     }
 
-    const isWon = guess === state.secretEquation;
+    const isWon = guess === state.secretNumber;
     const isGameOver = isWon || state.currentRow === state.maxAttempts - 1;
 
     const newState = {
@@ -314,9 +244,9 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
   const resetGame = () => {
     setState({
       ...NUMBERLE_INITIAL_STATE,
-      secretEquation: isDailyMode
-        ? getDailySecretEquation(dailySeed)
-        : generateSecretEquation(),
+      secretNumber: isDailyMode
+        ? getDailySecretNumber(dailySeed)
+        : generateSecretNumber(),
       board: createBoard(),
     });
     setShowEndgameModal(false);
@@ -332,31 +262,29 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
       submitGuess();
     } else if (e.key === "Backspace") {
       deleteCharacter();
-    } else if (["+", "-", "*", "/", "="].includes(e.key)) {
-      inputCharacter(e.key);
     }
   };
 
   // Evaluation function
-  const evaluateGuess = (guess, secretEquation) => {
-    const feedback = Array(8).fill("absent");
+  const evaluateGuess = (guess, secretNumber) => {
+    const feedback = Array(5).fill("absent");
     const secretCounts = {};
 
-    // Count characters in secret equation
-    for (let i = 0; i < 8; i++) {
-      secretCounts[secretEquation[i]] = (secretCounts[secretEquation[i]] || 0) + 1;
+    // Count digits in secret number
+    for (let i = 0; i < 5; i++) {
+      secretCounts[secretNumber[i]] = (secretCounts[secretNumber[i]] || 0) + 1;
     }
 
-    // First pass: mark correct characters
-    for (let i = 0; i < 8; i++) {
-      if (guess[i] === secretEquation[i]) {
+    // First pass: mark correct digits
+    for (let i = 0; i < 5; i++) {
+      if (guess[i] === secretNumber[i]) {
         feedback[i] = "correct";
         secretCounts[guess[i]]--;
       }
     }
 
-    // Second pass: mark present characters
-    for (let i = 0; i < 8; i++) {
+    // Second pass: mark present digits
+    for (let i = 0; i < 5; i++) {
       if (feedback[i] === "correct") continue;
       if (secretCounts[guess[i]] > 0) {
         feedback[i] = "present";
@@ -372,9 +300,9 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     if (state.gameOver) {
       return state.gameWon 
         ? "Congratulations! You won the game!" 
-        : `Game over. The equation was ${state.secretEquation}`;
+        : `Game over. The number was ${state.secretNumber}`;
     }
-    return `Attempt ${state.currentRow + 1} of ${state.maxAttempts}, ${state.currentCol} characters entered`;
+    return `Attempt ${state.currentRow + 1} of ${state.maxAttempts}, ${state.currentCol} digits entered`;
   };
 
   return (
@@ -453,40 +381,28 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
             ))}
           </div>
           
-          {/* Operators and action buttons row */}
+          {/* Action buttons row */}
           <div 
             className="action-row" 
             role="group" 
-            aria-label="Operator and action keys"
+            aria-label="Action keys"
           >
             <button
               className="key-btn action-btn"
               onClick={deleteCharacter}
               disabled={state.gameOver}
-              aria-label="Delete last character"
+              aria-label="Delete last digit"
               tabIndex={0}
             >
               ⌫
             </button>
-            {OPERATORS.map((op) => (
-              <button
-                key={op}
-                className={`key-btn operator-btn ${state.keypadColors[op] || ""}`}
-                onClick={() => inputCharacter(op)}
-                disabled={state.gameOver}
-                aria-label={`Enter operator ${op}`}
-                tabIndex={0}
-              >
-                {op}
-              </button>
-            ))}
             <button
-              className={`key-btn action-btn ${state.currentCol === state.equationLength ? "active" : ""}`}
+              className={`key-btn action-btn ${state.currentCol === state.numberLength ? "active" : ""}`}
               onClick={submitGuess}
               disabled={
-                state.gameOver || state.currentCol !== state.equationLength
+                state.gameOver || state.currentCol !== state.numberLength
               }
-              aria-label="Submit equation"
+              aria-label="Submit number"
               tabIndex={0}
             >
               Enter
@@ -523,7 +439,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
         <div className="endgame-content">
           <p className="endgame-message">{endgameData.message}</p>
           {!state.gameWon && (
-            <p className="endgame-equation">The equation was: {state.secretEquation}</p>
+            <p className="endgame-equation">The number was: {state.secretNumber}</p>
           )}
         </div>
       </Modal>

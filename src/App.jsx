@@ -20,23 +20,25 @@ function App() {
   return (
     <ToastProvider>
       <FavoritesProvider>
-        <div className={styles.app}>
-          {/* Skip link for accessibility */}
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
-          
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/categories" element={<AllCategories />} />
-              <Route path="/game/:slug" element={<GameWrapper />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/404" element={<NotFound />} />
-              <Route path="*" element={<Navigate to="/404" replace />} />
-            </Routes>
-          </Suspense>
-        </div>
+        <CategoryProvider>
+          <div className={styles.app}>
+            {/* Skip link for accessibility */}
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            
+            <Suspense fallback={<Loader />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/categories" element={<AllCategories />} />
+                <Route path="/game/:slug" element={<GameWrapper />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+              </Routes>
+            </Suspense>
+          </div>
+        </CategoryProvider>
       </FavoritesProvider>
     </ToastProvider>
   );

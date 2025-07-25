@@ -3,6 +3,7 @@ import styles from "./GameCard.module.css";
 import Badge from "./atoms/Badge";
 import GameTitle from "./atoms/GameTitle";
 import GameCardFooter from "./molecules/GameCardFooter";
+import { getGameIcon } from "./icons/GameIcons";
 
 const GameCard = React.memo(
   ({ title, description, slug, route, new: isNew, featured }) => {
@@ -45,6 +46,12 @@ const GameCard = React.memo(
             {featured && <Badge type="featured">Featured</Badge>}
           </div>
         )}
+        
+        {/* Game Icon */}
+        <div className={styles.iconContainer}>
+          {getGameIcon(title, styles.gameIcon, 48)}
+        </div>
+        
         <GameTitle title={title} id={`game-title-${slug}`} />
         <p 
           className={styles.description} 

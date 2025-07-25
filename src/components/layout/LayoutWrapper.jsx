@@ -22,8 +22,6 @@ const LayoutWrapper = ({
   pageTitle = "Game Hub – Play Free Puzzle Games",
   metaDescription = "Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!",
   keywords = ["games", "puzzle", "logic", "free", "browser", "fun"],
-  activeCategory,
-  onCategoryChange,
 }) => {
   const { activeCategory, onCategoryChange } = useCategory();
 

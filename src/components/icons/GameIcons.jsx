@@ -1,6 +1,6 @@
 import React from "react";
 
-// Wordle Icon - Green background with white W in black square
+// Wordle Icon - Green gradient background with white W in black square
 export const WordleIcon = ({ className = "", size = 48 }) => (
   <svg
     width={size}
@@ -10,7 +10,13 @@ export const WordleIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#6AAA64" />
+    <defs>
+      <linearGradient id="wordleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#10b981", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#059669", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#wordleGradient)" />
     <rect x="12" y="12" width="24" height="24" rx="2" fill="black" />
     <text
       x="24"
@@ -26,7 +32,7 @@ export const WordleIcon = ({ className = "", size = 48 }) => (
   </svg>
 );
 
-// Numberle Icon - Blue background with math symbols
+// Numberle Icon - Simple numbers
 export const NumberleIcon = ({ className = "", size = 48 }) => (
   <svg
     width={size}
@@ -36,28 +42,34 @@ export const NumberleIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#4A90E2" />
+    <defs>
+      <linearGradient id="numberleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#6366f1", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#4f46e5", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#numberleGradient)" />
     <text
       x="24"
       y="20"
       textAnchor="middle"
       fill="white"
-      fontSize="12"
+      fontSize="14"
       fontWeight="bold"
       fontFamily="Arial, sans-serif"
     >
-      2+2
+      12
     </text>
     <text
       x="24"
       y="32"
       textAnchor="middle"
       fill="white"
-      fontSize="12"
+      fontSize="14"
       fontWeight="bold"
       fontFamily="Arial, sans-serif"
     >
-      =4
+      34
     </text>
   </svg>
 );
@@ -235,7 +247,7 @@ export const ShapeleIcon = ({ className = "", size = 48 }) => (
   </svg>
 );
 
-// Colorle Icon - Color palette
+// Colorle Icon - Simple color palette
 export const ColorleIcon = ({ className = "", size = 48 }) => (
   <svg
     width={size}
@@ -245,18 +257,23 @@ export const ColorleIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#9B59B6" />
-    {/* Color palette circles */}
-    <circle cx="16" cy="16" r="6" fill="#E74C3C" />
-    <circle cx="28" cy="16" r="6" fill="#3498DB" />
-    <circle cx="16" cy="28" r="6" fill="#2ECC71" />
-    <circle cx="28" cy="28" r="6" fill="#F1C40F" />
-    {/* Palette handle */}
-    <rect x="36" y="20" width="4" height="8" rx="2" fill="#34495E" />
+    <defs>
+      <linearGradient id="colorleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#8b5cf6", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#7c3aed", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#colorleGradient)" />
+    {/* Simple color palette */}
+    <circle cx="16" cy="16" r="4" fill="#E74C3C" />
+    <circle cx="24" cy="16" r="4" fill="#3498DB" />
+    <circle cx="32" cy="16" r="4" fill="#2ECC71" />
+    <circle cx="20" cy="24" r="4" fill="#F1C40F" />
+    <circle cx="28" cy="24" r="4" fill="#9B59B6" />
   </svg>
 );
 
-// Mathle Icon - Math symbols
+// Mathle Icon - Simple abacus
 export const MathleIcon = ({ className = "", size = 48 }) => (
   <svg
     width={size}
@@ -266,29 +283,25 @@ export const MathleIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#27AE60" />
-    <text
-      x="24"
-      y="18"
-      textAnchor="middle"
-      fill="white"
-      fontSize="14"
-      fontWeight="bold"
-      fontFamily="Arial, sans-serif"
-    >
-      5+3=8
-    </text>
-    <text
-      x="24"
-      y="32"
-      textAnchor="middle"
-      fill="white"
-      fontSize="14"
-      fontWeight="bold"
-      fontFamily="Arial, sans-serif"
-    >
-      2×4=8
-    </text>
+    <defs>
+      <linearGradient id="mathleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#10b981", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#059669", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#mathleGradient)" />
+    {/* Simple abacus */}
+    <rect x="12" y="16" width="24" height="16" fill="white" rx="2" />
+    <line x1="16" y1="20" x2="32" y2="20" stroke="#10b981" strokeWidth="2" />
+    <line x1="16" y1="24" x2="32" y2="24" stroke="#10b981" strokeWidth="2" />
+    <line x1="16" y1="28" x2="32" y2="28" stroke="#10b981" strokeWidth="2" />
+    {/* Beads */}
+    <circle cx="18" cy="20" r="2" fill="#ef4444" />
+    <circle cx="22" cy="20" r="2" fill="#f59e0b" />
+    <circle cx="26" cy="24" r="2" fill="#ef4444" />
+    <circle cx="30" cy="24" r="2" fill="#f59e0b" />
+    <circle cx="20" cy="28" r="2" fill="#ef4444" />
+    <circle cx="24" cy="28" r="2" fill="#f59e0b" />
   </svg>
 );
 
@@ -312,7 +325,7 @@ export const PuzzleleIcon = ({ className = "", size = 48 }) => (
   </svg>
 );
 
-// Memoryle Icon - Brain/memory symbol
+// Memoryle Icon - Simple puzzle piece
 export const MemoryleIcon = ({ className = "", size = 48 }) => (
   <svg
     width={size}
@@ -322,12 +335,15 @@ export const MemoryleIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#16A085" />
-    {/* Brain-like pattern */}
-    <path d="M16 16 Q24 8 32 16 Q24 24 32 32 Q24 40 16 32 Q24 24 16 16" fill="white" />
-    <circle cx="20" cy="20" r="2" fill="#16A085" />
-    <circle cx="28" cy="20" r="2" fill="#16A085" />
-    <circle cx="24" cy="28" r="2" fill="#16A085" />
+    <defs>
+      <linearGradient id="memoryleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#f59e0b", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#d97706", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#memoryleGradient)" />
+    {/* Simple puzzle piece */}
+    <path d="M16 16 L24 16 L24 24 L32 24 L32 32 L24 32 L24 24 L16 24 Z" fill="white" />
   </svg>
 );
 
@@ -341,11 +357,20 @@ export const NFLPlayerGuessIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#8B4513" />
-    {/* Football */}
+    <defs>
+      <linearGradient id="nflGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#8b4513", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#a0522d", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#nflGradient)" />
+    {/* Simple football */}
     <ellipse cx="24" cy="24" rx="12" ry="6" fill="#8B4513" stroke="white" strokeWidth="2" />
-    <line x1="12" y1="24" x2="36" y2="24" stroke="white" strokeWidth="1" />
-    <line x1="24" y1="18" x2="24" y2="30" stroke="white" strokeWidth="1" />
+    {/* Simple laces */}
+    <path d="M12 24 L36 24" stroke="white" strokeWidth="1" />
+    <path d="M20 22 L20 26" stroke="white" strokeWidth="1" />
+    <path d="M24 22 L24 26" stroke="white" strokeWidth="1" />
+    <path d="M28 22 L28 26" stroke="white" strokeWidth="1" />
   </svg>
 );
 
@@ -358,11 +383,18 @@ export const NBAPlayerGuessIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#FF6B35" />
-    {/* Basketball */}
-    <circle cx="24" cy="24" r="12" fill="#FF6B35" stroke="white" strokeWidth="2" />
-    <line x1="12" y1="24" x2="36" y2="24" stroke="white" strokeWidth="1" />
-    <line x1="24" y1="12" x2="24" y2="36" stroke="white" strokeWidth="1" />
+    <defs>
+      <linearGradient id="nbaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#f97316", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#ea580c", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#nbaGradient)" />
+    {/* Simple basketball */}
+    <circle cx="24" cy="24" r="12" fill="#f97316" stroke="white" strokeWidth="2" />
+    {/* Simple lines */}
+    <path d="M12 24 L36 24" stroke="white" strokeWidth="1" />
+    <path d="M24 12 L24 36" stroke="white" strokeWidth="1" />
   </svg>
 );
 
@@ -375,11 +407,18 @@ export const MLBPlayerGuessIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#2E8B57" />
-    {/* Baseball */}
-    <circle cx="24" cy="24" r="12" fill="white" stroke="#2E8B57" strokeWidth="2" />
-    <line x1="12" y1="24" x2="36" y2="24" stroke="#2E8B57" strokeWidth="1" />
-    <line x1="24" y1="12" x2="24" y2="36" stroke="#2E8B57" strokeWidth="1" />
+    <defs>
+      <linearGradient id="mlbGuessGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#ef4444", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#dc2626", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#mlbGuessGradient)" />
+    {/* Simple baseball stadium */}
+    <rect x="12" y="16" width="24" height="16" fill="white" rx="2" />
+    <rect x="14" y="18" width="20" height="12" fill="#ef4444" rx="1" />
+    {/* Simple field */}
+    <circle cx="24" cy="24" r="3" fill="white" />
   </svg>
 );
 
@@ -392,12 +431,18 @@ export const MLBPlayerComparisonIcon = ({ className = "", size = 48 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="48" height="48" rx="8" fill="#4169E1" />
-    {/* Two baseballs side by side */}
-    <circle cx="16" cy="24" r="8" fill="white" stroke="#4169E1" strokeWidth="1" />
-    <circle cx="32" cy="24" r="8" fill="white" stroke="#4169E1" strokeWidth="1" />
-    <line x1="8" y1="24" x2="24" y2="24" stroke="#4169E1" strokeWidth="1" />
-    <line x1="24" y1="24" x2="40" y2="24" stroke="#4169E1" strokeWidth="1" />
+    <defs>
+      <linearGradient id="mlbComparisonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{stopColor: "#3b82f6", stopOpacity: 1}} />
+        <stop offset="100%" style={{stopColor: "#2563eb", stopOpacity: 1}} />
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="8" fill="url(#mlbComparisonGradient)" />
+    {/* Single baseball with red stitching */}
+    <circle cx="24" cy="24" r="12" fill="white" />
+    {/* Baseball stitching */}
+    <path d="M12 24 Q24 12 36 24" stroke="#ef4444" strokeWidth="2" fill="none" />
+    <path d="M12 24 Q24 36 36 24" stroke="#ef4444" strokeWidth="2" fill="none" />
   </svg>
 );
 

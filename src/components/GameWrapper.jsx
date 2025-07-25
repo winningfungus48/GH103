@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense, useState } from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, Link, useSearchParams, useLocation } from "react-router-dom";
 import games from "../data/gamesData.jsx";
 import { addRecentlyPlayed } from "../utils/localStorage";
 import performanceMonitor from "../utils/performance";
@@ -9,6 +9,7 @@ import { trackEvent } from "../utils/analytics";
 import NowPlayingBar from "./game/NowPlayingBar";
 import GameHeader from "./game/GameHeader";
 import GameHeaderActions from "./game/GameHeaderActions";
+import { trackNavigation, recoverFromNavigationIssue } from "../utils/navigation";
 
 // Validation function to catch routing issues early
 const validateGameRoute = (slug, games) => {
@@ -81,7 +82,34 @@ const GameLoader = ({ gameName }) => {
 const GameWrapper = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const mode = searchParams.get("mode");
+  
+  // Track navigation for debugging
+  useEffect(() => {
+    trackNavigation(location.pathname, `/game/${slug}`, 'route-change');
+    console.log('[GameWrapper] Navigation detected:', { 
+      slug, 
+      mode, 
+      pathname: location.pathname,
+      search: location.search 
+    });
+  }, [slug, mode, location]);
+  
+  // Attempt recovery if there are navigation issues
+  useEffect(() => {
+    const checkForIssues = () => {
+      if (document.body.innerHTML.trim() === '') {
+        console.warn('[GameWrapper] Blank page detected, attempting recovery...');
+        recoverFromNavigationIssue();
+      }
+    };
+    
+    // Check after a short delay to allow React to render
+    const timeoutId = setTimeout(checkForIssues, 200);
+    
+    return () => clearTimeout(timeoutId);
+  }, []);
   
   const game = validateGameRoute(slug, games);
 

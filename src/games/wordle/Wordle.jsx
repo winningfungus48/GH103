@@ -12,7 +12,7 @@ import {
 } from "../../utils/localStorage";
 import useDailySeed from "../../hooks/useDailySeed";
 import useWelcomeModal from "../../hooks/useWelcomeModal.jsx";
-import { getDailyWord, isValidGuess, getWordListStats, preloadValidGuesses } from "../../data/wordleWordLists";
+import { getDailyWord, isValidGuess, getWordListStats, preloadValidGuesses, ANSWERS } from "../../data/wordleWordLists";
 import Modal from "../../components/ui/Modal";
 
 // --- Wordle-specific logic ---
@@ -119,7 +119,7 @@ function updateKeyboardColors(keyboardColors, guess, evaluation) {
 }
 
 function getRandomWord() {
-  return COMPREHENSIVE_WORDS[Math.floor(Math.random() * COMPREHENSIVE_WORDS.length)];
+  return ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
 }
 
 const Wordle = ({ mode, description, instructions }) => {
@@ -144,10 +144,12 @@ const Wordle = ({ mode, description, instructions }) => {
     const isDailyMode = mode === "daily";
     const secretWord = isDailyMode ? getDailyWord(dailySeed) : getRandomWord();
     
+    const initialBoard = createBoard();
+    
     setGameState({
       ...WORDLE_INITIAL_STATE,
       secretWord,
-      board: createBoard(),
+      board: initialBoard,
     });
     
     // Set initial game status for screen readers
@@ -174,17 +176,23 @@ const Wordle = ({ mode, description, instructions }) => {
 
   // Memoized game functions to prevent stale closures
   const inputLetter = useCallback((letter) => {
+    
     setGameState((prev) => {
-      if (prev.gameOver || prev.currentCol >= 5) return prev;
+      
+      if (prev.gameOver || prev.currentCol >= 5) {
+        return prev;
+      }
       
       const newBoard = [...prev.board];
       newBoard[prev.currentRow][prev.currentCol] = { value: letter, status: "" };
       
-      return {
+      const newState = {
         ...prev,
         board: newBoard,
         currentCol: prev.currentCol + 1,
       };
+      
+      return newState;
     });
   }, []);
 
@@ -224,16 +232,6 @@ const Wordle = ({ mode, description, instructions }) => {
     setGameState(prev => {
       const evaluation = evaluateGuess(guess, prev.secretWord);
       
-      // Debug logging for keyboard colors
-      if (import.meta.env.DEV) {
-        console.log('[Wordle] Submit guess debug:', {
-          guess,
-          secretWord: prev.secretWord,
-          evaluation,
-          currentKeyboardColors: prev.keyboardColors
-        });
-      }
-      
       const newBoard = [...prev.board];
       newBoard[prev.currentRow] = newBoard[prev.currentRow].map((cell, index) => ({
         ...cell,
@@ -241,16 +239,6 @@ const Wordle = ({ mode, description, instructions }) => {
       }));
       
       const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
-      
-      // Debug logging for updated keyboard colors
-      if (import.meta.env.DEV) {
-        console.log('[Wordle] Updated keyboard colors:', {
-          newKeyboardColors,
-          changes: Object.keys(newKeyboardColors).filter(key => 
-            newKeyboardColors[key] !== prev.keyboardColors[key]
-          ).map(key => `${key}: ${prev.keyboardColors[key]} -> ${newKeyboardColors[key]}`)
-        });
-      }
       
       const gameWon = evaluation.every(status => status === "correct");
       const gameOver = gameWon || prev.currentRow === 5;
@@ -308,20 +296,8 @@ const Wordle = ({ mode, description, instructions }) => {
   // Watch for game completion and trigger modal
   useEffect(() => {
     if (gameState.gameOver) {
-      // Debug logging
-      if (import.meta.env.DEV) {
-        console.log('[Wordle] Game over detected:', {
-          gameWon: gameState.gameWon,
-          currentRow: gameState.currentRow,
-          secretWord: gameState.secretWord
-        });
-      }
-      
       // Add a small delay to ensure the board animation completes
       const timer = setTimeout(() => {
-        if (import.meta.env.DEV) {
-          console.log('[Wordle] Triggering game completion modal');
-        }
         handleGameComplete(gameState);
       }, 1000); // 1 second delay to show the final guess animation
       
@@ -375,10 +351,6 @@ const Wordle = ({ mode, description, instructions }) => {
 
   const getKeyStatus = (key) => {
     const status = gameState.keyboardColors[key] || "";
-    // Debug logging for key status
-    if (import.meta.env.DEV && status) {
-      console.log(`[Wordle] Key ${key} status: ${status}`);
-    }
     return status;
   };
 
@@ -423,22 +395,24 @@ const Wordle = ({ mode, description, instructions }) => {
               role="row"
               aria-label={`Row ${rowIndex + 1}`}
             >
-              {row.map((cell, colIndex) => (
-                <div
-                  key={colIndex}
-                  className={`${styles.cell} ${getCellStatus(cell)} ${
-                    rowIndex === gameState.currentRow &&
-                    colIndex === gameState.currentCol
-                      ? styles.current
-                      : ""
-                  }`}
-                  role="gridcell"
-                  aria-label={getCellAriaLabel(cell, rowIndex, colIndex)}
-                  aria-current={rowIndex === gameState.currentRow && colIndex === gameState.currentCol ? "true" : undefined}
-                >
-                  {cell.value}
-                </div>
-              ))}
+              {row.map((cell, colIndex) => {
+                return (
+                  <div
+                    key={colIndex}
+                    className={`${styles.cell} ${getCellStatus(cell)} ${
+                      rowIndex === gameState.currentRow &&
+                      colIndex === gameState.currentCol
+                        ? styles.current
+                        : ""
+                    }`}
+                    role="gridcell"
+                    aria-label={getCellAriaLabel(cell, rowIndex, colIndex)}
+                    aria-current={rowIndex === gameState.currentRow && colIndex === gameState.currentCol ? "true" : undefined}
+                  >
+                    {cell.value}
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>
@@ -482,7 +456,9 @@ const Wordle = ({ mode, description, instructions }) => {
                 <button
                   key={key}
                   className={`${styles.key} ${getKeyStatus(key) ? styles[getKeyStatus(key)] : ''}`}
-                  onClick={() => inputLetter(key.toLowerCase())}
+                  onClick={() => {
+                    inputLetter(key.toLowerCase());
+                  }}
                   disabled={gameState.gameOver}
                   aria-label={`Input letter ${key}`}
                 >

@@ -102,8 +102,10 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
   const [message, setMessage] = useState("");
   const [winPromptIndex, setWinPromptIndex] = useState(0);
 
+
+
   // Welcome modal
-  const { WelcomeModal, gameContainerRef } = useWelcomeModal("Numberle", instructions);
+  const { WelcomeModal, gameContainerRef, isOpen: isWelcomeOpen } = useWelcomeModal("Numberle", instructions);
 
   // Update secret number when daily seed changes (for daily mode)
   useEffect(() => {
@@ -157,8 +159,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
       .map((tile) => tile.value)
       .join("");
 
-    console.log("Submitting guess:", guess);
-    console.log("Secret number:", state.secretNumber);
+
 
     if (!isValidNumber(guess)) {
       setMessage("Please enter a valid 5-digit number");
@@ -166,7 +167,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     }
 
     const feedback = evaluateGuess(guess, state.secretNumber);
-    console.log("Feedback:", feedback);
+
     
     const newBoard = [...state.board];
 
@@ -189,7 +190,10 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     }
 
     const isWon = guess === state.secretNumber;
-    const isGameOver = isWon || state.currentRow === state.maxAttempts - 1;
+    // Game is over if won OR if this is the last attempt (6th attempt = row 5)
+    const isGameOver = isWon || (state.currentRow === state.maxAttempts - 1);
+
+
 
     const newState = {
       ...state,
@@ -214,7 +218,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     setShowEndgameModal(true);
     setEndgameData({
       won: gameState.gameWon,
-      message: winPrompts[winPromptIndex],
+      message: gameState.gameWon ? winPrompts[winPromptIndex] : `Game Over! The number was ${gameState.secretNumber}`,
     });
     setWinPromptIndex((prev) => (prev + 1) % winPrompts.length);
 
@@ -251,6 +255,10 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
     });
     setShowEndgameModal(false);
     setMessage("");
+  };
+
+  const closeModal = () => {
+    setShowEndgameModal(false);
   };
 
   const handleKeyDown = (e) => {
@@ -307,7 +315,8 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
 
   return (
     <GamePageLayout>
-      <WelcomeModal />
+      {/* Temporarily disabled welcome modal for testing */}
+      {/* <WelcomeModal /> */}
 
       <div 
         className="game-container" 
@@ -414,7 +423,7 @@ const Numberle = ({ mode: _mode, description: _description, instructions }) => {
       {/* Endgame Modal */}
       <Modal
         open={showEndgameModal}
-        onClose={resetGame}
+        onClose={closeModal}
         title={state.gameWon ? "Congratulations!" : "Game Over"}
         className="endgame-modal"
         buttons={

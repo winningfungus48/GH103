@@ -72,7 +72,9 @@ export default function Modal({
     }
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   return (
     <div
@@ -112,20 +114,21 @@ export default function Modal({
         }}
         tabIndex={0}
       >
-        <div style={{ position: "relative" }}>
-        {title && (
-          <h2 style={{ 
-            margin: "0 0 1rem 0", 
-            fontSize: "1.5rem",
-            textAlign: "center"
-          }}>{title}</h2>
-        )}
+                <div style={{ position: "relative", padding: "24px 24px 0 24px" }}>
+          {title && (
+            <h2 style={{ 
+              margin: "0 0 1rem 0", 
+              fontSize: "1.5rem",
+              textAlign: "center",
+              paddingRight: "40px" // Add space for close button
+            }}>{title}</h2>
+          )}
           <button
             onClick={onClose}
             style={{
               position: "absolute",
-              top: "-8px",
-              right: "-8px",
+              top: "16px",
+              right: "16px",
               background: "#f3f4f6",
               border: "none",
               borderRadius: "50%",
@@ -137,7 +140,8 @@ export default function Modal({
               alignItems: "center",
               justifyContent: "center",
               color: "#6b7280",
-              transition: "all 0.2s ease"
+              transition: "all 0.2s ease",
+              zIndex: 1
             }}
             onMouseEnter={(e) => {
               e.target.style.background = "#e5e7eb";
@@ -152,7 +156,7 @@ export default function Modal({
             ×
           </button>
         </div>
-        <div style={{ textAlign: "center" }}>{children}</div>
+        <div style={{ textAlign: "center", padding: "0 24px 24px 24px" }}>{children}</div>
         {buttons && (
           <div style={{ 
             marginTop: 24,

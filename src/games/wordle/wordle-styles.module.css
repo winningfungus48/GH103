@@ -33,6 +33,7 @@
   font-weight: bold;
   text-transform: uppercase;
   background-color: white;
+  color: #1a1a1b;
   transition: all 0.2s ease;
   user-select: none;
 }

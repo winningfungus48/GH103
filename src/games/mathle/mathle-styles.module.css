@@ -63,6 +63,7 @@
   font-weight: 600;
   text-transform: uppercase;
   background-color: white;
+  color: #1a1a1b;
   transition: all 0.2s ease;
   position: relative;
   min-height: 50px;

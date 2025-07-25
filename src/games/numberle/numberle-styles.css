@@ -97,6 +97,7 @@ h1 {
   font-weight: 600;
   text-transform: uppercase;
   background-color: white;
+  color: #1a1a1b;
   transition: all 0.2s ease;
 }
 
@@ -293,42 +294,7 @@ h1 {
   min-width: 2.5em;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.show {
-  display: flex;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content h2 {
-  margin-bottom: 15px;
-  color: #1a1a1a;
-}
-
-.modal-content p {
-  margin-bottom: 20px;
-  color: #6c757d;
-}
+/* Old modal styles - REMOVED: Now using Modal component */
 
 .stats {
   display: grid;
@@ -421,9 +387,7 @@ h1 {
     font-size: 0.85rem;
   }
 
-  .modal-content {
-    padding: 20px;
-  }
+  /* Old modal-content - REMOVED: Now using Modal component */
 
   .stats {
     grid-template-columns: 1fr;
@@ -609,10 +573,7 @@ h1 {
   }
 }
 
-/* Ensure overlay is above other modals */
-.modal {
-  z-index: 1000;
-}
+/* Old modal z-index - REMOVED: Now using Modal component */
 
 /* Keypress bounce animation */
 .key-btn.bounce {
@@ -724,32 +685,7 @@ h1 {
   }
 }
 
-/* Endgame Modal Overlay */
-.endgame-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 2000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.3s;
-  opacity: 1;
-}
-.endgame-overlay.show {
-  display: flex !important;
-  opacity: 1 !important;
-  z-index: 9999 !important;
-}
-.endgame-overlay.hide {
-  opacity: 0;
-  pointer-events: none;
-}
+/* Endgame Modal Overlay - REMOVED: Now using Modal component */
 .endgame-modal {
   background: #f7f7f7;
   border-radius: 18px;

@@ -3,6 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 5px;
+  color: #333;
 }
 
 .gameHeader {
@@ -35,6 +36,7 @@
   margin-bottom: 3px;
   font-weight: normal;
   font-size: 0.95rem;
+  color: #333;
 }
 
 .searchInput {
@@ -43,6 +45,7 @@
   font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 4px;
+  color: #333;
 }
 
 .dropdown {
@@ -104,13 +107,13 @@
 
 .guessButton {
   padding: 8px 16px;
-  background: #007cba;
+  background: #28a745;
   color: white;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  margin-top: 6px;
-  border-radius: 3px;
+  border-radius: 4px;
+  margin-left: 8px;
 }
 
 .guessButton.disabled {
@@ -119,38 +122,36 @@
 }
 
 .gameInfo {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .guessCount {
-  font-size: 1rem;
-  font-weight: normal;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .hintDisplay {
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-  font-weight: normal;
-  color: #007cba;
-  background: #f0f8ff;
-  padding: 8px;
-  border-radius: 4px;
-  display: inline-block;
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  color: #333;
 }
 
 .guessesContainer {
-  margin-bottom: 12px;
+  margin-top: 20px;
 }
 
 .guessesHeader {
-  font-size: 1rem;
-  font-weight: normal;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
 }
 
 .desktopHeaders {
   display: grid;
-  grid-template-columns: 2fr 0.7fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 5px;
   margin-bottom: 5px;
   font-weight: bold;
@@ -162,18 +163,11 @@
 
 .mobileHeaders {
   display: none;
-  grid-template-columns: 1.8fr 0.5fr 0.7fr 0.8fr 0.6fr 0.9fr 0.9fr 0.6fr;
-  gap: 2px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  background: #f0f0f0;
-  padding: 6px;
-  border-radius: 5px;
 }
 
 .guessRow {
   display: grid;
-  grid-template-columns: 2fr 0.7fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 5px;
   margin-bottom: 5px;
 }
@@ -185,17 +179,6 @@
   font-weight: bold;
   text-align: center;
   background: #6c757d;
-}
-
-.guessRow > div:nth-child(2),
-.guessRow > div:nth-child(8) {
-  background: #ffc107;
-  color: white;
-}
-
-.guessRow > div:nth-child(5) {
-  background: #28a745;
-  color: white;
 }
 
 .placeholderRow {
@@ -286,31 +269,49 @@
   
   .mobileHeaders {
     display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
   }
   
   .mobileHeaders > div {
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 3px;
     text-align: center;
-    min-width: 30px;
-    font-size: 11px;
   }
   
   .guessRow {
-    grid-template-columns: 1.8fr 0.5fr 0.7fr 0.8fr 0.6fr 0.9fr 0.9fr 0.6fr;
-    gap: 2px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    margin-bottom: 10px;
   }
   
   .guessRow > div {
-    padding: 6px;
-    font-size: 11px;
+    padding: 8px;
+    border-radius: 3px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    background: #f8f9fa;
   }
   
   .placeholderRow {
-    grid-template-columns: 1.8fr 0.5fr 0.7fr 0.8fr 0.6fr 0.9fr 0.9fr 0.6fr;
-    gap: 2px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    margin-bottom: 10px;
   }
   
   .placeholderRow > div {
-    padding: 6px;
-    font-size: 11px;
+    padding: 8px;
+    border-radius: 3px;
+    background-color: #e8e8e8;
+    color: #999;
+    font-weight: bold;
+    text-align: center;
   }
 } 

@@ -4,6 +4,7 @@ import GamePageLayout from '../../components/game/GamePageLayout';
 import GameInstructions from '../../components/game/GameInstructions';
 import { mlbPlayers } from '../../data/sports/mlbPlayers';
 import useWelcomeModal from '../../hooks/useWelcomeModal.jsx';
+import styles from './mlb-player-guess.module.css';
 
 const MLBPlayerGuess = ({ mode, description, instructions }) => {
   const [targetPlayer, setTargetPlayer] = useState(null);
@@ -219,29 +220,12 @@ const MLBPlayerGuess = ({ mode, description, instructions }) => {
               autoComplete="off"
             />
             {showDropdown && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                background: 'white',
-                border: '2px solid #ccc',
-                borderTop: 'none',
-                borderRadius: '0 0 4px 4px',
-                maxHeight: '200px',
-                overflowY: 'auto',
-                zIndex: 1000
-              }}>
+              <div className={styles.dropdown}>
                 {filteredPlayers.map((player, index) => (
                   <div
                     key={player.player}
                     onClick={() => selectPlayer(player)}
-                    style={{
-                      padding: '8px',
-                      cursor: 'pointer',
-                      backgroundColor: index === highlightedIndex ? '#f0f0f0' : 'white',
-                      borderBottom: '1px solid #eee'
-                    }}
+                    className={styles.dropdownItem}
                   >
                     {player.player} ({player.team})
                   </div>
@@ -319,16 +303,7 @@ const MLBPlayerGuess = ({ mode, description, instructions }) => {
           </div>
           
           {/* Desktop Headers */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr',
-            gap: '5px',
-            marginBottom: '10px',
-            fontWeight: 'bold',
-            background: '#f0f0f0',
-            padding: '10px',
-            borderRadius: '5px'
-          }}>
+          <div className={styles.desktopHeaders}>
             <div>Player</div>
             <div>League</div>
             <div>Team</div>
@@ -341,26 +316,9 @@ const MLBPlayerGuess = ({ mode, description, instructions }) => {
           
           {/* Placeholder Row */}
           {guesses.length === 0 && (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr',
-              gap: '5px',
-              marginBottom: '5px'
-            }}>
+            <div className={styles.placeholderRow}>
               {[...Array(8)].map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: '8px',
-                    borderRadius: '3px',
-                    backgroundColor: '#e8e8e8',
-                    color: '#999',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}
-                >
-                  ?
-                </div>
+                <div key={i}>?</div>
               ))}
             </div>
           )}

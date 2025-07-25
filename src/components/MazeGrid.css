@@ -1,0 +1,65 @@
+.maze-grid {
+  position: relative;
+  width: 100vw;
+  max-width: 1000px;
+  height: 75vh;
+  max-height: 600px;
+  margin: 0 auto;
+  background: #0a0a1a;
+  display: grid;
+  grid-template-rows: repeat(15, 1fr);
+  grid-template-columns: repeat(20, 1fr);
+  box-shadow: 0 0 40px #0ff8, 0 0 80px #80f, 0 0 0 8px #222 inset;
+  border-radius: 24px;
+  overflow: hidden;
+  gap: 0;
+}
+
+/* Maze walls - thin neon lines that define corridors */
+.maze-wall {
+  background: #00f0ff;
+  box-shadow: 0 0 4px #0ff, 0 0 8px #80f;
+  z-index: 1;
+}
+
+/* Main vertical corridor (center) - avatar moves in this space */
+.main-corridor {
+  grid-column: 9 / 12; /* Columns 9-11 (3 columns wide) */
+  grid-row: 1 / span 15;
+  background: transparent; /* Avatar moves in this transparent space */
+}
+
+/* Left corridor walls */
+.left-wall-1 { grid-row: 1; grid-column: 8; } /* Left wall of main corridor */
+.left-wall-2 { grid-row: 1; grid-column: 12; } /* Right wall of main corridor */
+
+/* Horizontal corridors to games */
+.corridor-left-1 { grid-row: 2 / 4; grid-column: 2 / 9; background: transparent; }
+.corridor-left-2 { grid-row: 4 / 6; grid-column: 2 / 9; background: transparent; }
+.corridor-left-3 { grid-row: 6 / 8; grid-column: 2 / 9; background: transparent; }
+.corridor-left-4 { grid-row: 8 / 10; grid-column: 2 / 9; background: transparent; }
+.corridor-left-5 { grid-row: 10 / 12; grid-column: 2 / 9; background: transparent; }
+.corridor-left-6 { grid-row: 12 / 14; grid-column: 2 / 9; background: transparent; }
+
+.corridor-right-1 { grid-row: 2 / 4; grid-column: 12 / 19; background: transparent; }
+.corridor-right-2 { grid-row: 4 / 6; grid-column: 12 / 19; background: transparent; }
+.corridor-right-3 { grid-row: 6 / 8; grid-column: 12 / 19; background: transparent; }
+.corridor-right-4 { grid-row: 8 / 10; grid-column: 12 / 19; background: transparent; }
+.corridor-right-5 { grid-row: 10 / 12; grid-column: 12 / 19; background: transparent; }
+.corridor-right-6 { grid-row: 12 / 14; grid-column: 12 / 19; background: transparent; }
+
+/* Wall pieces for horizontal corridors */
+.wall-horizontal {
+  background: #00f0ff;
+  box-shadow: 0 0 4px #0ff, 0 0 8px #80f;
+  z-index: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .maze-grid {
+    max-width: 90vw;
+    height: 60vh;
+    max-height: 400px;
+  }
+} 

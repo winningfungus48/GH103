@@ -1,0 +1,42 @@
+.game-icon {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: filter 0.2s, box-shadow 0.2s;
+  filter: drop-shadow(0 0 8px #0ff) drop-shadow(0 0 16px #80f);
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.game-icon:hover, .game-icon:focus {
+  filter: drop-shadow(0 0 16px #0ff) drop-shadow(0 0 32px #80f) brightness(1.2);
+  animation: pulse 0.7s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { filter: drop-shadow(0 0 8px #0ff) drop-shadow(0 0 16px #80f); }
+  100% { filter: drop-shadow(0 0 24px #0ff) drop-shadow(0 0 48px #80f) brightness(1.3); }
+}
+
+.game-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-icon-label {
+  color: #fff;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  text-shadow: 0 0 4px #0ff, 0 0 8px #80f;
+  font-family: 'Press Start 2P', 'VT323', 'monospace', Arial, sans-serif;
+  letter-spacing: 1px;
+  pointer-events: none;
+} 

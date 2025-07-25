@@ -1,0 +1,9 @@
+.main-page-container {
+  background: #0a0a1a;
+  min-height: 100vh;
+  color: #fff;
+}
+
+.main-page-container * {
+  color: inherit;
+} 

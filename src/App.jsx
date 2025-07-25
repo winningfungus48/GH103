@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import ErrorBoundary from "./components/ErrorBoundary";
 // Use React.lazy for heavy pages/components
 const Home = React.lazy(() => import("./pages/Home"));
+const Main = React.lazy(() => import("./pages/Main"));
 const AllCategories = React.lazy(() => import("./pages/AllCategories"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const GameWrapper = React.lazy(() => import("./components/GameWrapper"));
@@ -46,6 +47,7 @@ function App() {
               <Suspense fallback={<Loader />}>
                               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/main" element={<Main />} />
                 <Route path="/categories" element={<AllCategories />} />
                 <Route path="/game/:slug" element={<GameWrapper />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />

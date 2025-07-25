@@ -2,10 +2,10 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+  padding: 1rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   min-height: 180px;
   max-width: 100%;
@@ -13,6 +13,75 @@
   transform: scale(1);
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
+}
+
+/* Subtle colored backgrounds for each game */
+.card.colorle {
+  background: linear-gradient(135deg, #f8f5ff 0%, #f0ebff 100%);
+}
+
+.card.mathle {
+  background: linear-gradient(135deg, #f0fff4 0%, #e6ffed 100%);
+}
+
+.card.memoryle {
+  background: linear-gradient(135deg, #fff8f0 0%, #ffe6cc 100%);
+}
+
+.card.mlb-player-comparison {
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+}
+
+.card.mlb-player-guess {
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe6e6 100%);
+}
+
+.card.nba-player-guess {
+  background: linear-gradient(135deg, #fff8e6 0%, #ffe6b3 100%);
+}
+
+.card.nfl-player-guess {
+  background: linear-gradient(135deg, #f5f0e6 0%, #e6d9b3 100%);
+}
+
+.card.numberle {
+  background: linear-gradient(135deg, #f0f0ff 0%, #e6e6ff 100%);
+}
+
+.card.puzzlele {
+  background: linear-gradient(135deg, #fff0f5 0%, #ffe6f0 100%);
+}
+
+.card.shapele {
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+}
+
+.card.simonle {
+  background: linear-gradient(135deg, #fff8f0 0%, #ffe6cc 100%);
+}
+
+.card.wordle {
+  background: linear-gradient(135deg, #f0fff4 0%, #e6ffed 100%);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  min-height: 56px;
+}
+
+.gameIcon {
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.gameIcon:hover {
+  transform: scale(1.05);
 }
 
 .card:hover,
@@ -31,29 +100,30 @@
 .description {
   font-size: 1rem;
   color: #333;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.875rem;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  text-align: center;
 }
 
 @media (max-width: 1100px) {
   .card {
-    min-height: 160px;
+    min-height: 150px;
   }
 }
 
 @media (max-width: 768px) {
   .card {
-    min-height: 140px;
+    min-height: 130px;
   }
 }
 
 @media (max-width: 480px) {
   .card {
-    min-height: 120px;
+    min-height: 110px;
   }
 }

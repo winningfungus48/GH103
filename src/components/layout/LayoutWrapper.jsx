@@ -22,8 +22,12 @@ const LayoutWrapper = ({
   pageTitle = "Game Hub – Play Free Puzzle Games",
   metaDescription = "Enjoy a variety of free puzzle and logic games on Game Hub. No registration required. Play now!",
   keywords = ["games", "puzzle", "logic", "free", "browser", "fun"],
+  onCategoryChange: customCategoryChange,
 }) => {
-  const { activeCategory, onCategoryChange } = useCategory();
+  const { activeCategory, onCategoryChange: contextCategoryChange } = useCategory();
+  
+  // Use custom handler if provided, otherwise use context handler
+  const handleCategoryChange = customCategoryChange || contextCategoryChange;
 
   useEffect(() => {
     console.log("[LayoutWrapper] rendered", { width: window.innerWidth });
@@ -45,7 +49,7 @@ const LayoutWrapper = ({
           <div className={styles.headerWrapper}>
             <Header 
               activeCategory={activeCategory}
-              onCategoryChange={onCategoryChange}
+              onCategoryChange={handleCategoryChange}
             />
           </div>
         )}
@@ -54,7 +58,7 @@ const LayoutWrapper = ({
           <div className={styles.categoryStripWrapper}>
             <CategoryStrip 
               activeCategory={activeCategory}
-              onCategoryChange={onCategoryChange}
+              onCategoryChange={handleCategoryChange}
             />
           </div>
         )}

@@ -29,8 +29,8 @@ const FavoriteToggle = ({ slug }) => {
       tabIndex={0}
     >
       <svg
-        width="20"
-        height="20"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         fill={isFavorite ? "currentColor" : "none"}
         stroke="currentColor"

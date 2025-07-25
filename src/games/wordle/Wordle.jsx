@@ -279,46 +279,6 @@ const Wordle = ({ mode, description, instructions }) => {
       };
     });
   }, [gameState, mode, today, showToast]);
-      
-      const newKeyboardColors = updateKeyboardColors(prev.keyboardColors, guess, evaluation);
-      
-      // Debug logging for updated keyboard colors
-      if (import.meta.env.DEV) {
-        console.log('[Wordle] Updated keyboard colors:', {
-          newKeyboardColors,
-          changes: Object.keys(newKeyboardColors).filter(key => 
-            newKeyboardColors[key] !== prev.keyboardColors[key]
-          ).map(key => `${key}: ${prev.keyboardColors[key]} -> ${newKeyboardColors[key]}`)
-        });
-      }
-      
-      const gameWon = evaluation.every(status => status === "correct");
-      const gameOver = gameWon || prev.currentRow === 5;
-      
-      // Update stats if daily mode
-      if (mode === "daily") {
-        const stats = getWordleStats();
-        const newStats = {
-          gamesPlayed: stats.gamesPlayed + 1,
-          gamesWon: stats.gamesWon + (gameWon ? 1 : 0),
-          currentStreak: gameWon ? stats.currentStreak + 1 : 0,
-          bestStreak: gameWon ? Math.max(stats.bestStreak, stats.currentStreak + 1) : stats.bestStreak,
-        };
-        setWordleStats(newStats);
-        setDailyProgress("wordle", today, gameWon);
-      }
-      
-      return {
-        ...prev,
-        board: newBoard,
-        keyboardColors: newKeyboardColors,
-        currentRow: prev.currentRow + 1,
-        currentCol: 0,
-        gameOver,
-        gameWon,
-      };
-    });
-  }, [mode, today, showToast]);
 
   const handleGameComplete = useCallback((finalGameState) => {
     const attempts = finalGameState.currentRow;

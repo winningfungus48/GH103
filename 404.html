@@ -41,14 +41,15 @@
     </div>
     
     <script>
-        // Smart redirect: preserve the current path for React Router to handle
+        // Hash-based redirect to avoid infinite loops
         const currentPath = window.location.pathname;
         const basePath = '/GH103';
         
-        // If we're already on a valid path within our app, redirect to the same path
-        // This allows React Router to handle the routing properly
+        // Extract the route part after the base path
         if (currentPath.startsWith(basePath)) {
-            window.location.href = currentPath;
+            const route = currentPath.substring(basePath.length);
+            // Convert to hash-based routing to avoid server requests
+            window.location.href = basePath + '/#' + route;
         } else {
             // Fallback to home page for truly invalid paths
             window.location.href = basePath + '/';

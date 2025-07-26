@@ -1,0 +1,1 @@
+import{r as a}from"./router-vendor-K3Txs3ma.js";function f({date:e,slug:o}={}){return a.useMemo(()=>{let r;e?typeof e=="string"?r=new Date(e):r=e:r=new Date;const n=r.toISOString().slice(0,10),i=o?`${o}:${n}`:n;let t=0;for(let s=0;s<i.length;s++)t=(t<<5)-t+i.charCodeAt(s),t|=0;return`${Math.abs(t)}`},[e,o])}export{f as u};

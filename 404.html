@@ -41,9 +41,18 @@
     </div>
     
     <script>
-        // Redirect to the main application
-        // This allows React Router to handle the routing
-        window.location.href = '/GH103/';
+        // Smart redirect: preserve the current path for React Router to handle
+        const currentPath = window.location.pathname;
+        const basePath = '/GH103';
+        
+        // If we're already on a valid path within our app, redirect to the same path
+        // This allows React Router to handle the routing properly
+        if (currentPath.startsWith(basePath)) {
+            window.location.href = currentPath;
+        } else {
+            // Fallback to home page for truly invalid paths
+            window.location.href = basePath + '/';
+        }
     </script>
 </body>
 </html> 

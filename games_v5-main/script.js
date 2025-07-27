@@ -3,7 +3,7 @@ const games = [
     { id: "nfl-player-guess", name: "Guess the NFL Player", description: "Guess the NFL player based on 2024 stats" },
     { id: "mlb-player-guess", name: "Guess the MLB Player", description: "Guess the MLB player based on 2025 stats" },
     { id: "nba-player-guess", name: "Guess the NBA Player", description: "Guess the NBA player based on 2024 stats" },
-    { id: "mlb-player-comparison", name: "MLB Player Comparison", description: "Head-to-head stat comparisons between MLB players" },
+    { id: "mlb-player-comparison", name: "Pitcher Data Quiz", description: "Head-to-head stat comparisons between MLB pitchers" },
     { id: "mlb-standings-challenge", name: "MLB Standings Challenge", description: "Guess which team belongs in each league ranking position" },
     { id: "mlb-division-challenge", name: "MLB Division Challenge", description: "Guess teams by their division rankings (AL/NL East, Central, West)" }
 ];

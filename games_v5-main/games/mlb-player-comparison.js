@@ -1,4 +1,4 @@
-// MLB Pitcher Comparison Game
+// Pitcher Data Quiz Game
 (function() {
     // Initialize the game when this script loads
     window.initializeGame = function() {
@@ -9,7 +9,7 @@
         document.getElementById('game-container').innerHTML = `
             <div style="text-align: center; max-width: 1200px; margin: 0 auto; padding-top: 5px; min-height: 600px;" id="mlb-comparison-container">
                 <div class="game-header">
-                    <div class="game-title">MLB Pitcher Comparison</div>
+                    <div class="game-title">Pitcher Data Quiz</div>
                 </div>
                 <p style="margin: 0 0 8px 0; color: #666; font-size: 0.85rem;">Compare pitchers • 10 questions • 2025 season data</p>
                 

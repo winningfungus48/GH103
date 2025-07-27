@@ -19,7 +19,7 @@ const gameIcons = [
   { Icon: PuzzleleIcon, label: 'Puzzlele', route: '/game/puzzlele' },
   { Icon: MemoryleIcon, label: 'Memoryle', route: '/game/memoryle' },
   { Icon: NFLPlayerGuessIcon, label: 'NFL Player Guess', route: '/game/nfl-player-guess' },
-  { Icon: MLBPlayerComparisonIcon, label: 'MLB Player Comparison', route: '/game/mlb-player-comparison' },
+      { Icon: MLBPlayerComparisonIcon, label: 'Pitcher Data Quiz', route: '/game/mlb-player-comparison' },
   { Icon: MLBPlayerGuessIcon, label: 'MLB Player Guess', route: '/game/mlb-player-guess' },
   { Icon: NBAPlayerGuessIcon, label: 'NBA Player Guess', route: '/game/nba-player-guess' },
 ];
@@ -87,7 +87,7 @@ const GAME_POSITIONS = [
   { x: 18, y: 2, gameIndex: 6 },  // Puzzlele
   { x: 18, y: 4, gameIndex: 7 },  // Memoryle
   { x: 18, y: 6, gameIndex: 8 },  // NFL Player Guess
-  { x: 18, y: 8, gameIndex: 9 },  // MLB Player Comparison
+      { x: 18, y: 8, gameIndex: 9 },  // Pitcher Data Quiz
   { x: 18, y: 10, gameIndex: 10 }, // MLB Player Guess
   { x: 18, y: 12, gameIndex: 11 }, // NBA Player Guess
 ];

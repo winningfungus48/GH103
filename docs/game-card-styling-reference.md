@@ -109,7 +109,7 @@ Each game has a unique gradient background applied via CSS classes:
   background: linear-gradient(135deg, #fff8f0 0%, #ffe6cc 100%);
 }
 
-/* MLB Player Comparison */
+/* Pitcher Data Quiz */
 .card.mlb-player-comparison {
   background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
 }

@@ -132,7 +132,7 @@ useEffect(() => {
 - ✅ MLB Player Guess
 - ✅ NBA Player Guess
 - ✅ NFL Player Guess
-- ✅ MLB Player Comparison
+- ✅ Pitcher Data Quiz
 
 #### **Games Without GamePageLayout (Already Consistent):**
 - ✅ Placeholder1

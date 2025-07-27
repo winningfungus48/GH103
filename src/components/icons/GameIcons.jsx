@@ -496,7 +496,7 @@ export const getGameIcon = (gameTitle, className = "", size = 48) => {
     "NFL Player Guess": <NFLPlayerGuessIcon className={className} size={size} />,
     "NBA Player Guess": <NBAPlayerGuessIcon className={className} size={size} />,
     "MLB Player Guess": <MLBPlayerGuessIcon className={className} size={size} />,
-    "MLB Player Comparison": <MLBPlayerComparisonIcon className={className} size={size} />,
+    "Pitcher Data Quiz": <MLBPlayerComparisonIcon className={className} size={size} />,
   };
 
   return iconMap[gameTitle] || <DefaultGameIcon className={className} size={size} />;

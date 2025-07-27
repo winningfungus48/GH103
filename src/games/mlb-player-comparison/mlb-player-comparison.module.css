@@ -200,7 +200,7 @@
 }
 
 .playerStat {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #007cba;
 }
@@ -239,6 +239,17 @@
 }
 
 .instructions p {
+  margin: 5px 0;
+}
+
+.glossary {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.2;
+}
+
+.glossary p {
   margin: 5px 0;
 }
 

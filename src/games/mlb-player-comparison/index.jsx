@@ -26,10 +26,10 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
   const { WelcomeModal } = useWelcomeModal("MLB Player Comparison", instructions);
 
   const availableStats = [
+    { key: 'war', name: 'WAR', question: 'Who has a higher WAR?', better: 'higher' },
     { key: 'era', name: 'ERA', question: 'Who has a lower ERA?', better: 'lower' },
-    { key: 'walks', name: 'Walks', question: 'Who has fewer walks allowed?', better: 'lower' },
     { key: 'strikeouts', name: 'Strikeouts', question: 'Who has more strikeouts?', better: 'higher' },
-    { key: 'soBbRatio', name: 'SO/BB Ratio', question: 'Who has a higher SO/BB ratio?', better: 'higher' }
+    { key: 'k9Ratio', name: 'K/9', question: 'Who has a higher K/9 ratio?', better: 'higher' }
   ];
 
   // Initialize game
@@ -126,10 +126,12 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
   }, [answeredCurrentQuestion, gameOver, currentPlayerA, currentPlayerB, currentStat, currentQuestionType, currentQuestion, maxQuestions, generateQuestion]);
 
   const formatStat = (value) => {
-    if (currentStat === 'era') {
+    if (currentStat === 'war') {
+      return value.toFixed(1);
+    } else if (currentStat === 'era') {
       return value.toFixed(2);
-    } else if (currentStat === 'soBbRatio') {
-      return value.toFixed(2);
+    } else if (currentStat === 'k9Ratio') {
+      return value.toFixed(1);
     } else {
       return value.toString();
     }
@@ -246,7 +248,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
               <div className={styles.playerTeam}>{currentPlayerA.team}</div>
               {answeredCurrentQuestion && (
                 <div className={styles.playerStat}>
-                  {currentStatName}: {formatStat(currentPlayerA[currentStat])}
+                  {formatStat(currentPlayerA[currentStat])}
                 </div>
               )}
             </div>
@@ -261,7 +263,7 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
               <div className={styles.playerTeam}>{currentPlayerB.team}</div>
               {answeredCurrentQuestion && (
                 <div className={styles.playerStat}>
-                  {currentStatName}: {formatStat(currentPlayerB[currentStat])}
+                  {formatStat(currentPlayerB[currentStat])}
                 </div>
               )}
             </div>
@@ -279,6 +281,13 @@ const MLBPlayerComparison = ({ mode, description, instructions }) => {
         <p><strong>How to play:</strong> Click on player to answer question.</p>
         <p>🟢 <strong>Green:</strong> Correct Answer | 🔴 <strong>Red:</strong> Incorrect Answer</p>
         <p>Uses real 2025 MLB pitcher data!</p>
+      </div>
+
+      <div className={styles.glossary}>
+        <p><strong>Glossary:</strong></p>
+        <p><strong>ERA:</strong> Runs allowed per 9 innings. Lower is better.</p>
+        <p><strong>K/9:</strong> Strikeouts per 9 innings. Higher is better.</p>
+        <p><strong>WAR:</strong> Wins added over a replacement player. Higher is better.</p>
       </div>
       </div>
     </GamePageLayout>

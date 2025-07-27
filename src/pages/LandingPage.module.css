@@ -1,8 +1,9 @@
 /* Landing Page Container */
 .landingContainer {
   padding: 2rem 0;
-  max-width: 1200px;
   margin: 0 auto;
+  margin-top: 60px;
+  max-width: 1200px;
 }
 
 /* Module Base Styles */

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hub - Font Mockup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .mockup-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .title-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .current-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .stylized-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 
+                3px 3px 0px rgba(0, 0, 0, 0.1),
+                6px 6px 0px rgba(0, 0, 0, 0.05);
+            letter-spacing: 0.1em;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .stylized-title::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            z-index: -1;
+            border-radius: 15px;
+            opacity: 0.1;
+            filter: blur(20px);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .comparison-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9fa;
+        }
+        
+        .comparison-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .font-example {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .current-font {
+            font-family: 'Rajdhani', sans-serif;
+            color: #333;
+        }
+        
+        .new-font {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+        
+        .font-info {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .features {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+        }
+        
+        .features h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features li {
+            padding: 0.5rem 0;
+            color: #555;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .features li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .stylized-title {
+                font-size: 2.5rem;
+            }
+            
+            .current-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <div class="title-section">
+            <h1 class="current-title">Current: Game Hub</h1>
+            <h1 class="stylized-title">GAME HUB</h1>
+            <p class="subtitle">Modern Gaming Experience</p>
+        </div>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h3 class="comparison-title">Current Font</h3>
+                <div class="font-example current-font">Game Hub</div>
+                <p class="font-info">
+                    <strong>Rajdhani</strong><br>
+                    Clean, modern sans-serif<br>
+                    Professional and readable<br>
+                    Good for UI elements
+                </p>
+            </div>
+            
+            <div class="comparison-item">
+                <h3 class="comparison-title">Proposed Font</h3>
+                <div class="font-example new-font">GAME HUB</div>
+                <p class="font-info">
+                    <strong>Orbitron</strong><br>
+                    Futuristic, geometric<br>
+                    Bold and distinctive<br>
+                    Perfect for gaming theme
+                </p>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h3>Font Features</h3>
+            <ul>
+                <li><strong>Geometric Design:</strong> Sharp, angular characters similar to the VENITE ADOR style</li>
+                <li><strong>Gaming Aesthetic:</strong> Futuristic appearance that fits the gaming theme</li>
+                <li><strong>High Contrast:</strong> Bold weight makes it stand out prominently</li>
+                <li><strong>Scalable:</strong> Looks great at various sizes from mobile to desktop</li>
+                <li><strong>Web Safe:</strong> Available on Google Fonts for easy implementation</li>
+                <li><strong>Accessible:</strong> Maintains good readability despite stylized appearance</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html> 

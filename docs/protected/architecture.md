@@ -1,3 +1,23 @@
+<!-- 
+PROTECTED FILE - DO NOT MODIFY
+This file is used as a reference for:
+- Game Hub layout and architecture guide
+- Layout philosophy and structure
+- CSS class specifications and usage
+- Best practices for layout implementation
+
+TO UPDATE THIS FILE:
+1. Create backup: cp architecture.md docs/backups/architecture.md.[date]
+2. Remove protection temporarily if needed
+3. Make changes and test thoroughly
+4. Update this header with change details
+5. Commit with clear message explaining the update
+
+Last Updated: 2024-01-15
+Last Updated By: Assistant
+Reason: Added protection disclaimer
+-->
+
 # Game Hub – Layout & Architecture Guide
 
 ## Layout Philosophy

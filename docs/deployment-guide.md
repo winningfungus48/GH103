@@ -261,9 +261,9 @@ git log --oneline -5          # Recent commits
 ## 📞 Support & Resources
 
 ### Documentation
-- **UI Guidelines**: `docs/ui-guidelines.md`
+- **UI Guidelines**: `docs/protected/ui-guidelines.md`
 - **Development Checklist**: `docs/development-checklist.md`
-- **Cursor Process**: `docs/cursor.md`
+- **Cursor Process**: `docs/protected/cursor.md`
 
 ### Tools
 - **GitHub Repository**: https://github.com/winningfungus48/GH103

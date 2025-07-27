@@ -8,7 +8,7 @@ This checklist ensures all games are properly integrated and prevents common iss
 - [ ] Review existing game patterns (Numberle, Wordle)
 - [ ] Check game catalog for requirements
 - [ ] Ensure game template is appropriate
-- [ ] Review UI guidelines (`docs/ui-guidelines.md`) for layout and responsive design
+- [ ] Review UI guidelines (`docs/protected/ui-guidelines.md`) for layout and responsive design
 - [ ] Review responsive container standards (900px breakpoint)
 
 ### During Implementation
@@ -115,7 +115,7 @@ All new components must follow the established responsive pattern:
 - Follow existing CSS patterns
 - Test on multiple screen sizes
 - Use CSS modules consistently
-- Reference `docs/ui-guidelines.md` for grid and card specifications
+- Reference `docs/protected/ui-guidelines.md` for grid and card specifications
 - Follow responsive container standards (900px breakpoint)
 - Use full width on small screens, constrained width on large screens
 

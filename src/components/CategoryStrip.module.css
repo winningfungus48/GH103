@@ -11,15 +11,25 @@
   right: 0;
   width: 100%;
   min-height: var(--category-strip-height);
+  background: var(--brand-yellow);
+  padding: 0.5rem 1rem;
   display: flex;
-  gap: 1rem;
   align-items: center;
   justify-content: center;
-  background: var(--brand-yellow);
+  gap: 1rem;
+  overflow: hidden;
   z-index: 900;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   border-bottom: none;
-  padding: 0 1rem;
+}
+
+.visibleTabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex: 0 1 auto;
+  overflow: hidden;
 }
 
 .tab {
@@ -33,9 +43,10 @@
   font-size: 1rem;
   transition: none;
   white-space: nowrap;
-  position: relative;
+  flex-shrink: 0;
   outline: none;
   box-shadow: none;
+  position: relative;
 }
 
 .tab:hover {
@@ -54,55 +65,145 @@
 }
 
 .tab:active {
-  border: none;
   outline: none;
 }
 
-/* 
- * DAILY GAMES SPECIAL STYLING - TEMPORARILY DISABLED
- * DO NOT UNCOMMENT WITHOUT EXPLICIT APPROVAL
- */
-/*
-.dailyTab {
-  background: linear-gradient(90deg, #ffe066 0%, #ffd700 100%);
-  color: #b8860b;
-  font-weight: bold;
-  border: 2px solid #ffd700;
-  box-shadow: 0 2px 12px rgba(255, 193, 7, 0.12);
+.hamburgerContainer {
   position: relative;
+  flex-shrink: 0;
+}
+
+.hamburgerButton {
+  background: #e3f0ff;
+  border: none;
+  color: #1857c9;
+  padding: 0.75rem;
+  cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 8px;
+  transition: none;
+  outline: none;
+  box-shadow: none;
 }
 
-.sunEmoji {
-  margin-right: 0.5em;
-  font-size: 1.3em;
-  display: inline-block;
-  vertical-align: middle;
-}
-*/
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.5);
-  }
-  50% {
-    transform: scale(1.08);
-    box-shadow: 0 0 12px 6px rgba(255, 193, 7, 0.25);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.5);
-  }
+.hamburgerButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes sun-rotate {
-  0% {
-    transform: rotate(0deg);
+.hamburgerButton.active {
+  background: var(--brand-blue);
+  color: var(--text-light);
+}
+
+.hamburgerIcon {
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: all 0.2s ease;
+}
+
+.dropdownOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.dropdown {
+  position: fixed;
+  top: calc(var(--header-height) + var(--category-strip-height) + 10px);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 0.75rem;
+  min-width: 220px;
+  z-index: 1001;
+  animation: slideIn 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdownItem {
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  outline: none;
+  margin-bottom: 0.25rem;
+}
+
+.dropdownItem:hover {
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+  transform: translateY(-1px);
+}
+
+.dropdownItem.active {
+  background: var(--brand-blue);
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  100% {
-    transform: rotate(360deg);
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .categoryStrip {
+    padding: 0.5rem;
+  }
+  
+  .visibleTabs {
+    gap: 0.5rem;
+  }
+  
+  .tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .hamburgerButton {
+    padding: 0.5rem;
+  }
+  
+  .dropdown {
+    min-width: 180px;
+    top: calc(var(--header-height) + var(--category-strip-height) + 8px);
+  }
+  
+  .dropdownItem {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.85rem;
   }
 }

@@ -1,3 +1,23 @@
+<!-- 
+PROTECTED FILE - DO NOT MODIFY
+This file is used as a reference for:
+- UI design system and component specifications
+- Responsive container standards (900px breakpoint)
+- Game card and grid layout specifications
+- Layout guidelines and best practices
+
+TO UPDATE THIS FILE:
+1. Create backup: cp ui-guidelines.md docs/backups/ui-guidelines.md.[date]
+2. Remove protection temporarily if needed
+3. Make changes and test thoroughly
+4. Update this header with change details
+5. Commit with clear message explaining the update
+
+Last Updated: 2024-01-15
+Last Updated By: Assistant
+Reason: Added protection disclaimer
+-->
+
 # UI Guidelines & Component Specifications
 
 This document outlines the design system, component specifications, and layout guidelines for Game Hub.

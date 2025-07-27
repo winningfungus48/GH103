@@ -1,3 +1,23 @@
+<!-- 
+PROTECTED FILE - DO NOT MODIFY
+This file is used as a reference for:
+- Cursor chat setup and process guidelines
+- Development workflow standards
+- Project onboarding procedures
+- Rapid development best practices
+
+TO UPDATE THIS FILE:
+1. Create backup: cp cursor.md docs/backups/cursor.md.[date]
+2. Remove protection temporarily if needed
+3. Make changes and test thoroughly
+4. Update this header with change details
+5. Commit with clear message explaining the update
+
+Last Updated: 2024-01-15
+Last Updated By: Assistant
+Reason: Added protection disclaimer
+-->
+
 # Cursor Project Onboarding & Process Guide
 
 This document provides high-level context and process guidelines for setting up new Cursor chats. Use this as a reference to ensure every session is consistent, efficient, and aligned with project standards.
@@ -50,7 +70,7 @@ This document provides high-level context and process guidelines for setting up 
 - Follow atomic design for component organization
 - Use standard ESLint/Prettier configs; remove conflicting formatting files
 - Centralize utilities and ensure robust error handling
-- Reference `docs/ui-guidelines.md` for game card and grid layout specifications
+- Reference `docs/protected/ui-guidelines.md` for game card and grid layout specifications
 
 ---
 

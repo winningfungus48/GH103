@@ -1,19 +1,28 @@
 import styles from "./Header.module.css";
 import React, { useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
 import SlidingPanel from "./navigation/SlidingPanel";
 import { setLastCategory } from "../utils/localStorage";
 
 // Use the same category structure as CategoryStrip
 const tabs = [
   { label: "A-Z Games", slug: "a-z games" },
-  { label: "Favorites", slug: "favorites" },
-  { label: "-le Games", slug: "-le games" },
-  { label: "Sports", slug: "Sports" },
   { label: "Daily Games", slug: "daily games" },
+  { label: "Featured", slug: "featured" },
+  { label: "Favorites", slug: "favorites" },
+  { label: "Logic", slug: "logic" },
+  { label: "Math", slug: "math" },
+  { label: "Memory", slug: "memory" },
+  { label: "New", slug: "new" },
+  { label: "Recently Played", slug: "recently played" },
+  { label: "Sports", slug: "Sports" },
+  { label: "Wordles", slug: "wordles" },
+  { label: "-le Games", slug: "-le games" },
 ];
 
 const Header = React.memo(({ activeCategory, onCategoryChange }) => {
   const [panelOpen, setPanelOpen] = useState(false);
+  const location = useLocation();
 
   const handlePanelToggle = useCallback(() => {
     setPanelOpen((open) => !open);
@@ -27,6 +36,11 @@ const Header = React.memo(({ activeCategory, onCategoryChange }) => {
     setLastCategory(slug);
     onCategoryChange(slug);
     setPanelOpen(false); // Close panel when category is selected
+  }, [onCategoryChange]);
+
+  const handleTitleClick = useCallback(() => {
+    // Reset category when title is clicked, even if already on landing page
+    onCategoryChange(null);
   }, [onCategoryChange]);
 
   const handleKeyDown = useCallback((e, slug) => {
@@ -61,7 +75,11 @@ const Header = React.memo(({ activeCategory, onCategoryChange }) => {
 
   return (
     <header className={styles.header} role="banner">
-      <h1>Game Hub</h1>
+      <h1>
+        <Link to="/" className={styles.logoLink} onClick={handleTitleClick}>
+          <span className={styles.stylizedTitle}>GAME HUB</span>
+        </Link>
+      </h1>
       <nav className={styles.desktopNav} aria-label="Desktop navigation">
         {/* Desktop category strip placeholder, will be hidden on mobile */}
       </nav>

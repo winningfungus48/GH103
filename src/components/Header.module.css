@@ -26,6 +26,50 @@
   text-align: center;
 }
 
+.logoLink {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logoLink:hover {
+  opacity: 0.8;
+}
+
+.stylizedTitle {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 1.6rem;
+  background: linear-gradient(45deg, #a78bfa, #c084fc, #f0abfc);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 
+    2px 2px 0px rgba(0, 0, 0, 0.2),
+    4px 4px 0px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.1em;
+  animation: titleGlow 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes titleGlow {
+  0%, 100% { 
+    background-position: 0% 50%; 
+    text-shadow: 
+      2px 2px 0px rgba(0, 0, 0, 0.2),
+      4px 4px 0px rgba(0, 0, 0, 0.1);
+  }
+  50% { 
+    background-position: 100% 50%; 
+    text-shadow: 
+      2px 2px 0px rgba(0, 0, 0, 0.2),
+      4px 4px 0px rgba(0, 0, 0, 0.1),
+      0 0 15px rgba(167, 139, 250, 0.5),
+      0 0 30px rgba(192, 132, 252, 0.3);
+  }
+}
+
 .desktopNav {
   display: flex;
 }
@@ -148,6 +192,10 @@
     margin: 0;
     font-size: 1.2rem;
   }
+  
+  .stylizedTitle {
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -169,6 +217,10 @@
 
   .header h1 {
     font-size: 1.1rem;
+  }
+  
+  .stylizedTitle {
+    font-size: 1.2rem;
   }
 }
 
@@ -198,6 +250,10 @@
 
   .header h1 {
     font-size: 1.3rem;
+  }
+  
+  .stylizedTitle {
+    font-size: 1.4rem;
   }
 
   .hamburger {

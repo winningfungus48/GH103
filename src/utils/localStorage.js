@@ -61,6 +61,7 @@ const SCHEMA_VERSION_KEY = "gh_schemaVersion";
 const SCHEMA_VERSION = "1.0.0";
 const LAST_CATEGORY_KEY = "gh_lastCategory";
 const DAILY_PROGRESS_KEY = "gh_dailyProgress";
+const GAME_PLAY_COUNTS_KEY = "gh_gamePlayCounts";
 
 // Old keys for migration
 const OLD_FAVORITES_KEY = "favorites";
@@ -569,6 +570,37 @@ export function setMemoryleStats(newStats) {
     localStorage.setItem(MEMORYLE_STATS_KEY, JSON.stringify(newStats));
   } catch (_e) {
     // Silently fail
+  }
+}
+
+// --- Game Play Tracking ---
+export function getGamePlayCount(gameSlug) {
+  try {
+    const playData = safeLocalStorage.getItem(GAME_PLAY_COUNTS_KEY);
+    const counts = playData ? JSON.parse(playData) : {};
+    return counts[gameSlug] || 0;
+  } catch (_e) {
+    return 0;
+  }
+}
+
+export function incrementGamePlayCount(gameSlug) {
+  try {
+    const playData = safeLocalStorage.getItem(GAME_PLAY_COUNTS_KEY);
+    const counts = playData ? JSON.parse(playData) : {};
+    counts[gameSlug] = (counts[gameSlug] || 0) + 1;
+    safeLocalStorage.setItem(GAME_PLAY_COUNTS_KEY, JSON.stringify(counts));
+  } catch (_e) {
+    // Silently fail
+  }
+}
+
+export function getAllGamePlayCounts() {
+  try {
+    const playData = safeLocalStorage.getItem(GAME_PLAY_COUNTS_KEY);
+    return playData ? JSON.parse(playData) : {};
+  } catch (_e) {
+    return {};
   }
 }
 

@@ -1,0 +1,324 @@
+/* Landing Page Container */
+.landingContainer {
+  padding: 2rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Module Base Styles */
+.module {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+}
+
+.moduleTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
+
+/* Featured Games Module - Large */
+.featuredModule {
+  grid-column: 1 / -1;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+
+
+/* All Games Module - Medium */
+.allGamesModule {
+  grid-column: 1 / -1;
+}
+
+.moduleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.viewAllLink {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.allGamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+
+
+/* New Games Module - Medium */
+.newGamesModule {
+  grid-column: 1 / -1;
+}
+
+.newGamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+
+
+/* Recently Played Module - Small */
+.recentlyPlayedModule {
+  grid-column: 1 / 2;
+}
+
+.recentlyPlayedList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recentlyPlayedItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid #e9ecef;
+}
+
+.recentlyPlayedItem:hover {
+  background: #e9ecef;
+  transform: translateX(4px);
+}
+
+.recentlyPlayedTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.recentlyPlayedArrow {
+  color: #3498db;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.noRecentGames {
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Leaderboard Module - Small */
+.leaderboardModule {
+  grid-column: 2 / 3;
+}
+
+.leaderboardList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.leaderboardItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.rank {
+  font-weight: 600;
+  color: #3498db;
+  min-width: 30px;
+}
+
+.player {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.score {
+  font-weight: 600;
+  color: #28a745;
+  text-align: right;
+}
+
+.game {
+  color: #6c757d;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.leaderboardNote {
+  text-align: center;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+}
+
+.leaderboardNote p {
+  margin: 0;
+  color: #856404;
+  font-size: 0.85rem;
+}
+
+/* Responsive Grid Layout */
+@media (min-width: 768px) {
+  .landingContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .featuredModule,
+  .allGamesModule,
+  .newGamesModule {
+    grid-column: 1 / -1;
+  }
+
+  .recentlyPlayedModule,
+  .leaderboardModule {
+    grid-column: span 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landingContainer {
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+
+  .featuredModule,
+  .allGamesModule,
+  .newGamesModule {
+    grid-column: 1 / 2;
+  }
+
+  .recentlyPlayedModule,
+  .leaderboardModule {
+    grid-column: 2 / 3;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .landingContainer {
+    padding: 1rem;
+  }
+
+  .module {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+  }
+
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .allGamesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .newGamesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboardItem {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.5rem;
+  }
+
+  .game {
+    display: none; /* Hide game column on mobile */
+  }
+
+  .moduleTitle {
+    font-size: 1.25rem;
+  }
+}
+
+/* Filtered Games Section */
+.filteredGamesSection {
+  grid-column: 1 / -1;
+  padding: 2rem;
+}
+
+.filteredGamesTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 2rem 0;
+  text-align: center;
+}
+
+.filteredGamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+
+
+.noGamesFound {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Tablet Responsive */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .landingContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featuredModule,
+  .allGamesModule,
+  .newGamesModule,
+  .recentlyPlayedModule,
+  .leaderboardModule {
+    grid-column: 1 / -1;
+  }
+
+  .recentlyPlayedModule,
+  .leaderboardModule {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .filteredGamesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+} 

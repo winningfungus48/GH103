@@ -18,7 +18,7 @@ A modern, responsive web app for playing and discovering puzzle and logic games.
 - Only one Footer component exists (in `src/components/layout/Footer.jsx`).
 - Game pages do not display a top section (title, 'Now Playing', or back link) for a cleaner experience.
 
-See [`docs/architecture.md`](docs/architecture.md) for full details and best practices.
+See [`docs/protected/architecture.md`](docs/protected/architecture.md) for full details and best practices.
 
 ## Key Files
 - `src/components/layout/LayoutWrapper.jsx` – Main layout logic

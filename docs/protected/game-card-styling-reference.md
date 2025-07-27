@@ -1,3 +1,23 @@
+<!-- 
+PROTECTED FILE - DO NOT MODIFY
+This file is used as a reference for:
+- Game card styling system and specifications
+- Component structure and CSS classes
+- Responsive behavior and grid layout
+- Troubleshooting game card styling issues
+
+TO UPDATE THIS FILE:
+1. Create backup: cp game-card-styling-reference.md docs/backups/game-card-styling-reference.md.[date]
+2. Remove protection temporarily if needed
+3. Make changes and test thoroughly
+4. Update this header with change details
+5. Commit with clear message explaining the update
+
+Last Updated: 2024-01-15
+Last Updated By: Assistant
+Reason: Added protection disclaimer
+-->
+
 # Game Card Styling Reference
 
 This document provides a complete reference for the game card styling system on the Game Hub homescreen. Use this as a reference to revert or fix any styling issues.
